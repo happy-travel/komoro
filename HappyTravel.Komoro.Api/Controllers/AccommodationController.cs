@@ -41,15 +41,15 @@ public class AccommodationController : BaseController
 
 
     /// <summary>
-    /// Adds a new supplier 
+    /// Adds a new accommodation 
     /// </summary>
-    /// <param name="richSupplier">Supplier data</param>
+    /// <param name="richAccommodation">Accommodation data</param>
     /// <param name="cancellationToken">Сancellation token</param>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Add([FromBody] RichAccommodation richSupplier, CancellationToken cancellationToken)
-        => NoContentOrBadRequest(await _accommodationService.Add(richSupplier, cancellationToken));
+    public async Task<IActionResult> Add([FromBody] RichAccommodation richAccommodation, CancellationToken cancellationToken)
+        => NoContentOrBadRequest(await _accommodationService.Add(richAccommodation, cancellationToken));
 
 
     /// <summary>
