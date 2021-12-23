@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HappyTravel.Komoro.Api</name>
+    </assembly>
+    <members>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Get(System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of all accommodations
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of slim accommodations</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Get(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a accommodation by id
+            </summary>
+            <param name="accommodationId">Accommodation id</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <returns>The accommodation data</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Add(HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new supplier 
+            </summary>
+            <param name="richSupplier">Supplier data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing accommodation
+            </summary>
+            <param name="richSupplier">New data for the accommodation</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="accommodationId">Accommodation id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Delete(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a accommodation
+            </summary>
+            <param name="accommodationId">Accommodation id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
+    </members>
+</doc>
