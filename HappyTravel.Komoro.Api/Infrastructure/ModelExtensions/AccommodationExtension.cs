@@ -5,7 +5,7 @@ namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 
 public static class AccommodationExtension
 {
-    public static SlimAccommodation ToSlimAccommodation(this Accommodation accommodation)
+    public static SlimAccommodation ToSlimAccommodation(this Property accommodation)
     {
         return new SlimAccommodation
         {
@@ -15,7 +15,7 @@ public static class AccommodationExtension
     }
 
 
-    public static RichAccommodation ToRichAccommodation(this Accommodation accommodation)
+    public static RichAccommodation ToRichAccommodation(this Property accommodation)
     {
         return new RichAccommodation
         {

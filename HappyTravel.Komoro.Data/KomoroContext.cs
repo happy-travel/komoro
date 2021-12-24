@@ -11,7 +11,7 @@ public class KomoroContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<Accommodation>(e =>
+        builder.Entity<Property>(e =>
         {
             e.ToTable("Accommodations");
             e.HasKey(s => s.Id);
@@ -22,5 +22,5 @@ public class KomoroContext : DbContext
     }
 
 
-    public DbSet<Accommodation> Suppliers { get; set; } = null!;
+    public DbSet<Property> Suppliers { get; set; } = null!;
 }
