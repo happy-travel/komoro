@@ -11,6 +11,27 @@ public class KomoroContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<CancellationPolicy>(e =>
+        {
+            e.ToTable("CancellationPolicies");
+            e.HasKey(p => p.Id);
+            e.HasIndex(p => p.PropertyId);
+            e.Property(p => p.FromDate).IsRequired();
+            e.Property(p => p.ToDate).IsRequired();
+            e.Property(p => p.SeasonalityOrEvent);
+            e.Property(p => p.Deadline).IsRequired();
+            e.Property(p => p.NoShow).IsRequired();
+            e.Property(p => p.Created).IsRequired();
+            e.Property(p => p.Modified);
+        });
+
+        builder.Entity<MealPlan>(e =>
+        {
+            e.ToTable("MealPlans");
+            e.HasKey(p => p.Id);
+            e.Property(p => p.Name).IsRequired();
+        });
+
         builder.Entity<Property>(e =>
         {
             e.ToTable("Properties");
@@ -47,18 +68,11 @@ public class KomoroContext : DbContext
             e.Property(r => r.Modified);
         });
 
-        builder.Entity<CancellationPolicy>(e =>
+        builder.Entity<RoomType>(e =>
         {
-            e.ToTable("CancellationPolicies");
+            e.ToTable("RoomTypes");
             e.HasKey(p => p.Id);
-            e.HasIndex(p => p.PropertyId);
-            e.Property(p => p.FromDate).IsRequired();
-            e.Property(p => p.ToDate).IsRequired();
-            e.Property(p => p.SeasonalityOrEvent);
-            e.Property(p => p.Deadline).IsRequired();
-            e.Property(p => p.NoShow).IsRequired();
-            e.Property(p => p.Created).IsRequired();
-            e.Property(p => p.Modified);
+            e.Property(p => p.Name).IsRequired();
         });
     }
 
