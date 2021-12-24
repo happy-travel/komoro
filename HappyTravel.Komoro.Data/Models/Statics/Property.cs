@@ -10,7 +10,7 @@ public class Property
     public Address Address { get; set; } = null!;
     public Point Coordinates { get; set; } = null!;
     public string Phone { get; set; } = string.Empty;
-    public string StarRating { get; set; } = string.Empty;
+    public int StarRating { get; set; }
     public Contact PrimaryContact { get; set; } = null!;
     public string ReservationEmail { get; set; } = string.Empty;
     public TimeSpan CheckInTime { get; set; }
