@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.Data.Models;
+using HappyTravel.Komoro.Data.Models.Statics;
 using Microsoft.EntityFrameworkCore;
 
 namespace HappyTravel.Komoro.Data;

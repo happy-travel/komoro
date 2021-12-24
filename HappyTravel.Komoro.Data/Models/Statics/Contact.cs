@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.Data.Models;
+﻿namespace HappyTravel.Komoro.Data.Models.Statics;
 
 public class Contact
 {

@@ -1,4 +1,6 @@
-﻿namespace HappyTravel.Komoro.Data.Models;
+﻿using NetTopologySuite.Geometries;
+
+namespace HappyTravel.Komoro.Data.Models.Statics;
 
 public class Property
 {
@@ -6,7 +8,7 @@ public class Property
     public int SupplierId { get; set; }
     public string Name { get; set; } = string.Empty;
     public Address Address { get; set; } = null!;
-    public object Coordinates { get; set; } = null!; // GeoPoint
+    public Point Coordinates { get; set; } = null!;
     public string Phone { get; set; } = string.Empty;
     public string StarRating { get; set; } = string.Empty;
     public Contact PrimaryContact { get; set; } = null!;

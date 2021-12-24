@@ -1,5 +1,5 @@
 ﻿using HappyTravel.Komoro.Api.Models;
-using HappyTravel.Komoro.Data.Models;
+using HappyTravel.Komoro.Data.Models.Statics;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 
