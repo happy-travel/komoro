@@ -16,7 +16,7 @@ public static class ConfigureAppConfigurationExtension
         builder.Configuration.AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddEnvironmentVariables();
         builder.Configuration.AddConsulKeyValueClient(url: System.Environment.GetEnvironmentVariable("CONSUL_HTTP_ADDR")!,
-            key: "sunpu",
+            key: "komoro",
             token: System.Environment.GetEnvironmentVariable("CONSUL_HTTP_TOKEN")!,
             bucketName: environment.EnvironmentName,
             optional: environment.IsLocal());

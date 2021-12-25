@@ -1,12 +1,12 @@
 {
   "Database": {
-    "ConnectionString": "Server={0};Port={1};Database=sunpu;Userid={2};Password={3};",
-    "Options": "sunpu/connection-string"
+    "ConnectionString": "Server={0};Port={1};Database=komoro;Userid={2};Password={3};",
+    "Options": "komoro/connection-string"
   },
   "Vault": {
     "Endpoint": "HTDC_VAULT_ENDPOINT",
     "Engine": "secrets",
-    "Role": "sunpu",
+    "Role": "komoro",
     "Token": "HTDC_VAULT_TOKEN"
   }
 }
