@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Komoro": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local",
+        "HTDC_KOMORO_SENTRY_ENDPOINT": "https:/e1ba8eefd841445c99d67dde42c64ccf@sentry1.happytravel.com/61"
+      },
+      "applicationUrl": "http://localhost:5991"
+    }
+  }
+}
