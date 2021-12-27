@@ -35,6 +35,19 @@ namespace HappyTravel.Komoro.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MealPlans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MealPlans", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Properties",
                 columns: table => new
                 {
@@ -82,6 +95,19 @@ namespace HappyTravel.Komoro.Data.Migrations
                     table.PrimaryKey("PK_Rooms", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RoomTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomTypes", x => x.Id);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CancellationPolicies_PropertyId",
                 table: "CancellationPolicies",
@@ -104,10 +130,16 @@ namespace HappyTravel.Komoro.Data.Migrations
                 name: "CancellationPolicies");
 
             migrationBuilder.DropTable(
+                name: "MealPlans");
+
+            migrationBuilder.DropTable(
                 name: "Properties");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
+
+            migrationBuilder.DropTable(
+                name: "RoomTypes");
         }
     }
 }

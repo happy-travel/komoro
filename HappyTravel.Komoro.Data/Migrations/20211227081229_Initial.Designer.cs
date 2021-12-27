@@ -16,7 +16,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20211224182303_Initial")]
+    [Migration("20211227081229_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,23 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.HasIndex("PropertyId");
 
                     b.ToTable("CancellationPolicies", (string)null);
+                });
+
+            modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.MealPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MealPlans", (string)null);
                 });
 
             modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.Property", b =>
@@ -176,6 +193,23 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.HasIndex("PropertyId");
 
                     b.ToTable("Rooms", (string)null);
+                });
+
+            modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.RoomType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomTypes", (string)null);
                 });
 #pragma warning restore 612, 618
         }
