@@ -1,0 +1,90 @@
+replicaCount: 1
+
+jaeger:
+  sidecar: jaeger-dev
+  collector_host: dns:///jaeger-dev-collector-headless.observability:14250
+
+image:
+  repository: registry.happytravel.com/komoro
+  tag: latest
+  pullPolicy: Always
+imagePullSecrets:
+  - name: travel-registry
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '60'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '60'
+  hosts:
+    - host: komoro-dev.happytravel.com
+      paths:
+        - /
+  tls:
+   - secretName: happytravel-tls
+     hosts:
+       - komoro-dev.happytravel.com
+
+resources:
+  limits:
+    cpu: 200
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+  podMonitor:
+    enabled: false
+  podport: http
+  podpath: /metrics
+
+
+env:
+  ASPNETCORE_URLS: http://*:80
+  ASPNETCORE_ENVIRONMENT: "Development"
+  HTDC_VAULT_ENDPOINT: "https://vault.dev.happytravel.com/v1/"
+  HTDC_KOMORO_SENTRY_ENDPOINT: "https://e1ba8eefd841445c99d67dde42c64ccf@sentry1.happytravel.com/61"
+  JAEGER_AGENT_HOST: "localhost"
+  JAEGER_AGENT_PORT: "6831"
+  CONSUL_HTTP_ADDR: "https://consul-dev.happytravel.com/"
