@@ -21,9 +21,9 @@
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Add(HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">
             <summary>
-            Adds a new supplier 
+            Adds a new accommodation 
             </summary>
-            <param name="richSupplier">Supplier data</param>
+            <param name="richAccommodation">Accommodation data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">

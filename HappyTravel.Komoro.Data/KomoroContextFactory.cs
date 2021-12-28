@@ -18,7 +18,7 @@ public class KomoroContextFactory : IDesignTimeDbContextFactory<KomoroContext>
         var dbOptions = GetDbOptions(configuration);
 
         var dbContextOptions = new DbContextOptionsBuilder<KomoroContext>();
-        ((DbContextOptionsBuilder)dbContextOptions).UseNpgsql(GetConnectionString(dbOptions));
+        ((DbContextOptionsBuilder)dbContextOptions).UseNpgsql(GetConnectionString(dbOptions), builder => builder.UseNetTopologySuite());
         var context = new KomoroContext(dbContextOptions.Options);
         context.Database.SetCommandTimeout(int.Parse(dbOptions["migrationCommandTimeout"]));
 
