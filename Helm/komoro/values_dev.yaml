@@ -84,7 +84,7 @@ env:
   ASPNETCORE_URLS: http://*:80
   ASPNETCORE_ENVIRONMENT: "Development"
   HTDC_VAULT_ENDPOINT: "https://vault.dev.happytravel.com/v1/"
-  HTDC_KOMORO_SENTRY_ENDPOINT: "https://e1ba8eefd841445c99d67dde42c64ccf@sentry1.happytravel.com/61"
+  HTDC_KOMORO_SENTRY_ENDPOINT: "https://b419fd24d56a4b7e85a117c3864a697a@sentry1.happytravel.com/62"
   JAEGER_AGENT_HOST: "localhost"
   JAEGER_AGENT_PORT: "6831"
   CONSUL_HTTP_ADDR: "https://consul-dev.happytravel.com/"
