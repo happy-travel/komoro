@@ -11,9 +11,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Data", "HappyTravel.Komoro.Data\HappyTravel.Komoro.Data.csproj", "{807E2A78-CC1D-4508-92F5-1219F0D55A0E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.UnitTests", "HappyTravel.Komoro.UnitTests\HappyTravel.Komoro.UnitTests.csproj", "{47814FD7-137D-4EC7-8256-FA944E9AB03F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EEBFF2E-BD47-4DA6-BDC4-057EA1475B3B} = {0EEBFF2E-BD47-4DA6-BDC4-057EA1475B3B}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
