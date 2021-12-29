@@ -31,7 +31,9 @@ public static class ConfigureDatabaseExtension
             options.UseNpgsql(string.Format(connectionString, host, port, userId, password), builder =>
             {
                 builder.EnableRetryOnFailure();
+                builder.UseNetTopologySuite();
             });
+
             options.UseInternalServiceProvider(null);
             options.EnableSensitiveDataLogging(false);
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

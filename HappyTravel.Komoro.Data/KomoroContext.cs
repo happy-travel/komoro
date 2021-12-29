@@ -77,5 +77,9 @@ public class KomoroContext : DbContext
     }
 
 
-    public DbSet<Property> Suppliers { get; set; } = null!;
+    public DbSet<CancellationPolicy> CancellationPolicies { get; set; } = null!;
+    public DbSet<MealPlan> MealPlans { get; set; } = null!;
+    public DbSet<Property> Properties { get; set; } = null!;
+    public DbSet<Room> Rooms { get; set; } = null!;
+    public DbSet<RoomType> RoomTypes { get; set; } = null!;
 }
