@@ -1,2 +1,2 @@
-# komoro
+# komoro.
 Mini PMS for OpenTravel Connector.
