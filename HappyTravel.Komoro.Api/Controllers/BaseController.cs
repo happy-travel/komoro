@@ -1,9 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using HappyTravel.Komoro.Api.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HappyTravel.Komoro.Api.Controllers;
 
+[Authorize]
 public class BaseController : ControllerBase
 {
     protected IActionResult NoContentOrBadRequest(Result model)
