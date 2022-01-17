@@ -20,7 +20,13 @@ public static class ConfigureServicesExtension
         builder.Services.ConfigureTracing(builder.Environment, builder.Configuration);
         builder.Services.ConfigureFlowOptions();
         builder.Services.ConfigureSwagger();
-        builder.Services.AddTransient<IAccommodationService, AccommodationService>();
+
+        builder.Services.AddTransient<ICancellationPolicyService, CancellationPolicyService>();
+        builder.Services.AddTransient<IMealPlanService, MealPlanService>();
+        builder.Services.AddTransient<IPropertyService, PropertyService>();
+        builder.Services.AddTransient<IRoomService, RoomService>();
+        builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
+
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
     }
 }

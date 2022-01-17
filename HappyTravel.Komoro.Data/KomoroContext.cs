@@ -30,6 +30,8 @@ public class KomoroContext : DbContext
             e.ToTable("MealPlans");
             e.HasKey(p => p.Id);
             e.Property(p => p.Name).IsRequired();
+            e.Property(r => r.Created).IsRequired();
+            e.Property(r => r.Modified);
         });
 
         builder.Entity<Property>(e =>
@@ -73,6 +75,8 @@ public class KomoroContext : DbContext
             e.ToTable("RoomTypes");
             e.HasKey(p => p.Id);
             e.Property(p => p.Name).IsRequired();
+            e.Property(r => r.Created).IsRequired();
+            e.Property(r => r.Modified);
         });
     }
 

@@ -6,11 +6,11 @@ namespace HappyTravel.Komoro.Api.Controllers;
 
 [ApiController]
 [ApiVersion("1.0")]
-[Route("api/{v:apiVersion}/accommodations")]
+[Route("api/{v:apiVersion}/properties")]
 [Produces("application/json")]
-public class AccommodationController : BaseController
+public class PropertyController : BaseController
 {
-    public AccommodationController(IAccommodationService accommodationService)
+    public PropertyController(IPropertyService accommodationService)
     {
         _accommodationService = accommodationService;
     }
@@ -22,7 +22,7 @@ public class AccommodationController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>List of slim accommodations</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(List<SlimAccommodation>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<SlimProperty>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken cancellationToken)
         => Ok(await _accommodationService.Get(cancellationToken));
 
@@ -34,7 +34,7 @@ public class AccommodationController : BaseController
     /// <param name="cancellationToken">Сancellation token</param>
     /// <returns>The accommodation data</returns>
     [HttpGet("{accommodationId:int}")]
-    [ProducesResponseType(typeof(RichAccommodation), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Property), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Get([FromRoute] int accommodationId, CancellationToken cancellationToken)
         => OkOrBadRequest(await _accommodationService.Get(accommodationId, cancellationToken));
@@ -48,7 +48,7 @@ public class AccommodationController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Add([FromBody] RichAccommodation richAccommodation, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add([FromBody] Property richAccommodation, CancellationToken cancellationToken)
         => NoContentOrBadRequest(await _accommodationService.Add(richAccommodation, cancellationToken));
 
 
@@ -61,21 +61,21 @@ public class AccommodationController : BaseController
     [HttpPut("{accommodationId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Modify([FromRoute] int accommodationId, [FromBody] RichAccommodation richSupplier, CancellationToken cancellationToken)
+    public async Task<IActionResult> Modify([FromRoute] int accommodationId, [FromBody] Property richSupplier, CancellationToken cancellationToken)
         => NoContentOrBadRequest(await _accommodationService.Modify(accommodationId, richSupplier, cancellationToken));
 
 
     /// <summary>
-    /// Deletes a accommodation
+    /// Removes a accommodation
     /// </summary>
     /// <param name="accommodationId">Accommodation id</param>
     /// <param name="cancellationToken">Cancellation token</param>
     [HttpDelete("{accommodationId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Delete([FromRoute] int accommodationId, CancellationToken cancellationToken)
-        => NoContentOrBadRequest(await _accommodationService.Delete(accommodationId, cancellationToken));
+    public async Task<IActionResult> Remove([FromRoute] int accommodationId, CancellationToken cancellationToken)
+        => NoContentOrBadRequest(await _accommodationService.Remove(accommodationId, cancellationToken));
 
 
-    private readonly IAccommodationService _accommodationService;
+    private readonly IPropertyService _accommodationService;
 }

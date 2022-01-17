@@ -14,6 +14,6 @@ public class Room
     public MoneyAmount? ChildSupplement { get; set; }
     public MoneyAmount? InfantSupplement { get; set; }
     public RatePlans RatePlans { get; set; }
-    public DateTime Created { get; set; } = DateTime.Now;
-    public DateTime? Modified { get; set; }
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? Modified { get; set; }
 }

@@ -16,6 +16,6 @@ public class Property
     public TimeSpan CheckInTime { get; set; }
     public TimeSpan CheckOutTime { get; set; }
     public PassengerAge PassengerAge { get; set; } = null!;
-    public DateTime Created { get; set; } = DateTime.Now;
-    public DateTime? Modified { get; set; }
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? Modified { get; set; }
 }
