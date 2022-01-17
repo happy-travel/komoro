@@ -68,39 +68,39 @@
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Threading.CancellationToken)">
             <summary>
-            Gets a list of all accommodations
+            Gets a list of all properties
             </summary>
             <param name="cancellationToken">Cancellation token</param>
-            <returns>List of slim accommodations</returns>
+            <returns>List of slim properties</returns>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Gets a accommodation by id
+            Gets a property by id
             </summary>
-            <param name="accommodationId">Accommodation id</param>
+            <param name="propertyId">Property id</param>
             <param name="cancellationToken">Сancellation token</param>
-            <returns>The accommodation data</returns>
+            <returns>The property data</returns>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Add(HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
             <summary>
-            Adds a new accommodation 
+            Adds a new property 
             </summary>
-            <param name="richAccommodation">Accommodation data</param>
+            <param name="property">Property data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
             <summary>
-            Modifies an existing accommodation
+            Modifies an existing property
             </summary>
-            <param name="richSupplier">New data for the accommodation</param>
+            <param name="property">New data for the property</param>
             <param name="cancellationToken">Сancellation token</param>
-            <param name="accommodationId">Accommodation id</param>
+            <param name="propertyId">Property id</param>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Remove(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Removes a accommodation
+            Removes a property
             </summary>
-            <param name="accommodationId">Accommodation id</param>
+            <param name="propertyId">Property id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Get(System.Int32,System.Threading.CancellationToken)">

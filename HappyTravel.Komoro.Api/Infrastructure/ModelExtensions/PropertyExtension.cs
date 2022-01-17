@@ -5,7 +5,7 @@ namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 
 public static class PropertyExtension
 {
-    public static ApiModels.SlimProperty ToSlimProperty(this Data.Models.Statics.Property property)
+    public static ApiModels.SlimProperty ToSlimProperty(this DataModels.Property property)
     {
         return new ApiModels.SlimProperty
         {
