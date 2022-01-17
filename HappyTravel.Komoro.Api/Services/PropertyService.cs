@@ -1,5 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
+using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 using ApiModels = HappyTravel.Komoro.Api.Models;
@@ -17,44 +19,107 @@ public class PropertyService : IPropertyService
 
     public async Task<List<ApiModels.SlimProperty>> Get(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _komoroContext.Properties.Select(p => p.ToSlimProperty())
+            .ToListAsync();
     }
+
 
     public async Task<Result<ApiModels.Property>> Get(int propertyId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
+
+        return property is not null
+            ? property.ToApiProperty()
+            : Result.Failure<ApiModels.Property>($"Property with id {propertyId} not found");
     }
 
 
-    public Task<Result> Add(ApiModels.Property richProperty, CancellationToken cancellationToken)
+    public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await Validate(apiProperty)
+            .Tap(Add);
+
+
+        async Task Add()
+        {
+            var utcNow = DateTimeOffset.UtcNow;
+            var property = new DataModels.Property
+            {
+                SupplierId = apiProperty.SupplierId,
+                Name = apiProperty.Name,
+                Address = apiProperty.Address,
+                Coordinates = apiProperty.Coordinates,
+                Phone = apiProperty.Phone,
+                StarRating = apiProperty.StarRating,
+                PrimaryContact = apiProperty.PrimaryContact,
+                ReservationEmail = apiProperty.ReservationEmail,
+                CheckInTime = apiProperty.CheckInTime,
+                CheckOutTime = apiProperty.CheckOutTime,
+                PassengerAge = apiProperty.PassengerAge,
+                Created = utcNow,
+                Modified = utcNow
+            };
+
+            _komoroContext.Properties.Add(property);
+            await _komoroContext.SaveChangesAsync(cancellationToken);
+        }
     }
 
 
-    public Task<Result> Modify(int propertyId, ApiModels.Property property, CancellationToken cancellationToken)
+    public async Task<Result> Modify(int propertyId, ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await Validate(apiProperty)
+            .Bind(() => GetProperty(propertyId, cancellationToken))
+            .Tap(Update);
+
+        async Task Update(DataModels.Property property)
+        {
+            property.SupplierId = apiProperty.SupplierId;
+            property.Name = apiProperty.Name;
+            property.Address = apiProperty.Address;
+            property.Coordinates = apiProperty.Coordinates;
+            property.Phone = apiProperty.Phone;
+            property.StarRating = apiProperty.StarRating;
+            property.PrimaryContact = apiProperty.PrimaryContact;
+            property.ReservationEmail = apiProperty.ReservationEmail;
+            property.CheckInTime = apiProperty.CheckInTime;
+            property.CheckOutTime = apiProperty.CheckOutTime;
+            property.PassengerAge = apiProperty.PassengerAge;
+            property.Modified = DateTimeOffset.UtcNow;
+
+            _komoroContext.Properties.Update(property);
+            await _komoroContext.SaveChangesAsync(cancellationToken);
+        }
     }
 
 
-    public Task<Result> Remove(int propertyId, CancellationToken cancellationToken)
+    public async Task<Result> Remove(int propertyId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await GetProperty(propertyId, cancellationToken)
+            .Tap(Delete);
+
+
+        async Task Delete(DataModels.Property property)
+        {
+            _komoroContext.Properties.Remove(property);
+            await _komoroContext.SaveChangesAsync(cancellationToken);
+        }
     }
+
 
     private static Result Validate(ApiModels.Property property)
         => GenericValidator<ApiModels.Property>.Validate(v =>
         {
-            /*v.RuleFor(r => r.PropertyId).NotEmpty();
-            v.RuleFor(r => r.RoomType).NotEmpty();
-            v.RuleFor(r => r.StandardMealPlan).NotEmpty();
-            v.RuleFor(r => r.StandardOccupancy).NotEmpty();
-            v.RuleFor(r => r.MaximumOccupancy).NotEmpty();
-            v.RuleFor(r => r.ExtraAdultSupplement).NotEmpty();
-            v.RuleFor(r => r.ChildSupplement).NotEmpty();
-            v.RuleFor(r => r.InfantSupplement).NotEmpty();
-            v.RuleFor(r => r.RatePlans).NotEmpty();*/
+            v.RuleFor(p => p.SupplierId).NotEmpty();
+            v.RuleFor(p => p.Name).NotEmpty();
+            v.RuleFor(p => p.Address).NotEmpty();
+            v.RuleFor(p => p.Coordinates).NotEmpty();
+            v.RuleFor(p => p.Phone).NotEmpty();
+            v.RuleFor(p => p.PrimaryContact).NotEmpty();
+            v.RuleFor(p => p.ReservationEmail).NotEmpty();
+            v.RuleFor(p => p.CheckInTime).NotEmpty();
+            v.RuleFor(p => p.CheckOutTime).NotEmpty();
+            v.RuleFor(p => p.PassengerAge).NotEmpty();
         },
         property);
 
