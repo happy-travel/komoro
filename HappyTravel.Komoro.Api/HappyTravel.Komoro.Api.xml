@@ -4,14 +4,76 @@
         <name>HappyTravel.Komoro.Api</name>
     </assembly>
     <members>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Get(System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Get(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of cancellation policies for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of cancellation policies</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Add(System.Int32,HappyTravel.Komoro.Api.Models.CancellationPolicy,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new cancellation policy for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="cancellationPolicy">Cancellation policy data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Modify(System.Int32,System.Int32,HappyTravel.Komoro.Api.Models.CancellationPolicy,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing cancellation policy for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="cancellationPolicy">New data for the cancellation policy</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="cancellationPolicyId">Cancellation policy id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Remove(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a cancellation policy for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="cancellationPolicyId">Cancellation policy id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Get(System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of all meal plans
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of meal plans</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Add(HappyTravel.Komoro.Api.Models.MealPlan,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new meal plan
+            </summary>
+            <param name="mealPlan">Meal plan data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.MealPlan,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing meal plan
+            </summary>
+            <param name="mealPlan">New data for the meal plan</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="mealPlanId">Meal plan id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Remove(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a meal plan
+            </summary>
+            <param name="mealPlanId">Meal plan id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all accommodations
             </summary>
             <param name="cancellationToken">Cancellation token</param>
             <returns>List of slim accommodations</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Get(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets a accommodation by id
             </summary>
@@ -19,14 +81,14 @@
             <param name="cancellationToken">Сancellation token</param>
             <returns>The accommodation data</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Add(HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Add(HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
             <summary>
             Adds a new accommodation 
             </summary>
             <param name="richAccommodation">Accommodation data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.RichAccommodation,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing accommodation
             </summary>
@@ -34,11 +96,73 @@
             <param name="cancellationToken">Сancellation token</param>
             <param name="accommodationId">Accommodation id</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.AccommodationController.Delete(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Remove(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Deletes a accommodation
+            Removes a accommodation
             </summary>
             <param name="accommodationId">Accommodation id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Get(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of rooms for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of rooms</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Add(System.Int32,HappyTravel.Komoro.Api.Models.Room,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new room for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="room">Room data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Modify(System.Int32,System.Int32,HappyTravel.Komoro.Api.Models.Room,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing room for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="room">New data for the room</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="roomId">Room id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Remove(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a room for the specified property
+            </summary>
+            <param name="propertyId">Property id</param>
+            <param name="roomId">Room id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Get(System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of all room types
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of room types</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Add(HappyTravel.Komoro.Api.Models.RoomType,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new room type
+            </summary>
+            <param name="roomType">Room type data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.RoomType,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing room type
+            </summary>
+            <param name="roomType">New data for the room type</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="roomTypeId">Room type id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Remove(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a room type
+            </summary>
+            <param name="roomTypeId">Room type id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
     </members>
