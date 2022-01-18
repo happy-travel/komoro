@@ -16,4 +16,8 @@ public class Room
     public RatePlans RatePlans { get; set; }
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? Modified { get; set; }
+
+    public Property Property {get; set;} = null!;
+    public RoomType RoomType { get; set; } = null!;
+    public MealPlan MealPlan { get; set; } = null!;
 }

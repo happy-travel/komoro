@@ -18,4 +18,5 @@ public class Property
     public PassengerAge PassengerAge { get; set; } = null!;
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? Modified { get; set; }
+    public List<Room> Rooms { get; set; } = new();
 }
