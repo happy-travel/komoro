@@ -52,6 +52,8 @@ public class KomoroContext : DbContext
             e.Property(p => p.PassengerAge).IsRequired().HasColumnType("jsonb");
             e.Property(p => p.Created).IsRequired();
             e.Property(p => p.Modified);
+            e.Navigation(p => p.Rooms);
+            e.Navigation(p => p.CancellationPolicies);
         });
 
         builder.Entity<Room>(e =>

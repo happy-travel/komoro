@@ -16,7 +16,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220119101402_AddRelationToTables")]
+    [Migration("20220119115303_AddRelationToTables")]
     partial class AddRelationToTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
