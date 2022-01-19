@@ -23,6 +23,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.NoShow).IsRequired();
             e.Property(p => p.Created).IsRequired();
             e.Property(p => p.Modified);
+            e.HasOne(p => p.Property).WithMany(p => p.CancellationPolicies).OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<MealPlan>(e =>
@@ -58,8 +59,8 @@ public class KomoroContext : DbContext
             e.ToTable("Rooms");
             e.HasKey(r => r.Id);
             e.HasIndex(r => r.PropertyId);
-            e.Property(r => r.RoomTypeId).IsRequired();
-            e.Property(r => r.StandardMealPlanId).IsRequired();
+            e.HasIndex(r => r.RoomTypeId);
+            e.HasIndex(r => r.StandardMealPlanId);
             e.Property(r => r.StandardOccupancy).IsRequired().HasColumnType("jsonb");
             e.Property(r => r.MaximumOccupancy).IsRequired().HasColumnType("jsonb");
             e.Property(r => r.ExtraAdultSupplement).HasColumnType("jsonb"); ;
@@ -68,6 +69,9 @@ public class KomoroContext : DbContext
             e.Property(r => r.RatePlans).IsRequired();
             e.Property(r => r.Created).IsRequired();
             e.Property(r => r.Modified);
+            e.HasOne(r => r.Property).WithMany(p => p.Rooms).OnDelete(DeleteBehavior.Cascade).HasForeignKey(p => p.StandardMealPlanId);
+            e.HasOne(r => r.MealPlan).WithMany().OnDelete(DeleteBehavior.SetNull);
+            e.HasOne(r => r.RoomType).WithMany().OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<RoomType>(e =>

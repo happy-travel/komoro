@@ -16,7 +16,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220118094529_AddRelationToTables")]
+    [Migration("20220119101402_AddRelationToTables")]
     partial class AddRelationToTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,6 +205,8 @@ namespace HappyTravel.Komoro.Data.Migrations
 
                     b.HasIndex("RoomTypeId");
 
+                    b.HasIndex("StandardMealPlanId");
+
                     b.ToTable("Rooms", (string)null);
                 });
 
@@ -231,23 +233,34 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.ToTable("RoomTypes", (string)null);
                 });
 
+            modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.CancellationPolicy", b =>
+                {
+                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.Property", "Property")
+                        .WithMany("CancellationPolicies")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Property");
+                });
+
             modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.Room", b =>
                 {
                     b.HasOne("HappyTravel.Komoro.Data.Models.Statics.MealPlan", "MealPlan")
                         .WithMany()
                         .HasForeignKey("MealPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.Property", "Property")
-                        .WithMany("Rooms")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("HappyTravel.Komoro.Data.Models.Statics.RoomType", "RoomType")
                         .WithMany()
                         .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.Property", "Property")
+                        .WithMany("Rooms")
+                        .HasForeignKey("StandardMealPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -260,6 +273,8 @@ namespace HappyTravel.Komoro.Data.Migrations
 
             modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.Property", b =>
                 {
+                    b.Navigation("CancellationPolicies");
+
                     b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618

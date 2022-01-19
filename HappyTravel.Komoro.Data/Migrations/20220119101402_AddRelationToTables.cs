@@ -52,18 +52,31 @@ namespace HappyTravel.Komoro.Data.Migrations
                 table: "Rooms",
                 column: "RoomTypeId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_StandardMealPlanId",
+                table: "Rooms",
+                column: "StandardMealPlanId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CancellationPolicies_Properties_PropertyId",
+                table: "CancellationPolicies",
+                column: "PropertyId",
+                principalTable: "Properties",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Rooms_MealPlans_MealPlanId",
                 table: "Rooms",
                 column: "MealPlanId",
                 principalTable: "MealPlans",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.SetNull);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Rooms_Properties_PropertyId",
+                name: "FK_Rooms_Properties_StandardMealPlanId",
                 table: "Rooms",
-                column: "PropertyId",
+                column: "StandardMealPlanId",
                 principalTable: "Properties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -74,17 +87,21 @@ namespace HappyTravel.Komoro.Data.Migrations
                 column: "RoomTypeId",
                 principalTable: "RoomTypes",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.SetNull);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_CancellationPolicies_Properties_PropertyId",
+                table: "CancellationPolicies");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Rooms_MealPlans_MealPlanId",
                 table: "Rooms");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Rooms_Properties_PropertyId",
+                name: "FK_Rooms_Properties_StandardMealPlanId",
                 table: "Rooms");
 
             migrationBuilder.DropForeignKey(
@@ -97,6 +114,10 @@ namespace HappyTravel.Komoro.Data.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_Rooms_RoomTypeId",
+                table: "Rooms");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Rooms_StandardMealPlanId",
                 table: "Rooms");
 
             migrationBuilder.DropColumn(

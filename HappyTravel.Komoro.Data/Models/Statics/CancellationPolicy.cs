@@ -11,5 +11,7 @@
         public NoShowPolicies NoShow { get; set; }
         public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? Modified { get; set; }
+
+        public Property Property { get; set; } = null!;
     }
 }
