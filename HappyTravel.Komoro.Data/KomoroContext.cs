@@ -23,7 +23,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.NoShow).IsRequired();
             e.Property(p => p.Created).IsRequired();
             e.Property(p => p.Modified);
-            e.HasOne(p => p.Property).WithMany(p => p.CancellationPolicies).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(p => p.Property).WithMany(p => p.CancellationPolicies).IsRequired().OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<MealPlan>(e =>
@@ -71,9 +71,9 @@ public class KomoroContext : DbContext
             e.Property(r => r.RatePlans).IsRequired();
             e.Property(r => r.Created).IsRequired();
             e.Property(r => r.Modified);
-            e.HasOne(r => r.Property).WithMany(p => p.Rooms).OnDelete(DeleteBehavior.Cascade).HasForeignKey(p => p.StandardMealPlanId);
-            e.HasOne(r => r.MealPlan).WithMany().OnDelete(DeleteBehavior.SetNull);
-            e.HasOne(r => r.RoomType).WithMany().OnDelete(DeleteBehavior.SetNull);
+            e.HasOne(r => r.Property).WithMany(p => p.Rooms).IsRequired().OnDelete(DeleteBehavior.Cascade).HasForeignKey(p => p.StandardMealPlanId);
+            e.HasOne(r => r.MealPlan).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+            e.HasOne(r => r.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<RoomType>(e =>
