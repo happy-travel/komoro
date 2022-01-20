@@ -71,8 +71,8 @@ public class KomoroContext : DbContext
             e.Property(r => r.RatePlans).IsRequired();
             e.Property(r => r.Created).IsRequired();
             e.Property(r => r.Modified);
-            e.HasOne(r => r.Property).WithMany(p => p.Rooms).IsRequired().OnDelete(DeleteBehavior.Cascade).HasForeignKey(p => p.StandardMealPlanId);
-            e.HasOne(r => r.MealPlan).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+            e.HasOne(r => r.Property).WithMany(p => p.Rooms).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(r => r.MealPlan).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull).HasForeignKey(r => r.StandardMealPlanId);
             e.HasOne(r => r.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 

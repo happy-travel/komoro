@@ -16,7 +16,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220119115303_AddRelationToTables")]
+    [Migration("20220120184254_AddRelationToTables")]
     partial class AddRelationToTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,9 +175,6 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.Property<int>("MealPlanId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTimeOffset?>("Modified")
                         .HasColumnType("timestamp with time zone");
 
@@ -198,8 +195,6 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .HasColumnType("jsonb");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MealPlanId");
 
                     b.HasIndex("PropertyId");
 
@@ -246,10 +241,10 @@ namespace HappyTravel.Komoro.Data.Migrations
 
             modelBuilder.Entity("HappyTravel.Komoro.Data.Models.Statics.Room", b =>
                 {
-                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.MealPlan", "MealPlan")
-                        .WithMany()
-                        .HasForeignKey("MealPlanId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.Property", "Property")
+                        .WithMany("Rooms")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HappyTravel.Komoro.Data.Models.Statics.RoomType", "RoomType")
@@ -258,10 +253,10 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.Property", "Property")
-                        .WithMany("Rooms")
+                    b.HasOne("HappyTravel.Komoro.Data.Models.Statics.MealPlan", "MealPlan")
+                        .WithMany()
                         .HasForeignKey("StandardMealPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("MealPlan");
