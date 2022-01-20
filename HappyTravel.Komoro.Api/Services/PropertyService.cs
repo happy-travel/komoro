@@ -26,8 +26,8 @@ public class PropertyService : IPropertyService
 
     public async Task<Result<ApiModels.Property>> Get(int propertyId, CancellationToken cancellationToken)
     {
-        var roomsQuery = _komoroContext.Rooms.Include(r => r.RoomType).Include(r => r.MealPlan);
-        var property = await _komoroContext.Properties.Include(p => roomsQuery)
+        var property = await _komoroContext.Properties.Include(p => p.Rooms).ThenInclude(r => r.RoomType)
+            .Include(p => p.Rooms).ThenInclude(r => r.MealPlan)
             .Include(p => p.CancellationPolicies)
             .SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
 
