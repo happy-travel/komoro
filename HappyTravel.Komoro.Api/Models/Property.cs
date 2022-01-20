@@ -17,4 +17,6 @@ public record Property
     public TimeSpan CheckInTime { get; init; }
     public TimeSpan CheckOutTime { get; init; }
     public PassengerAge PassengerAge { get; init; } = null!;
+    public List<Room>? Rooms { get; init; }
+    public List<CancellationPolicy>? CancellationPolicies { get; init; }
 }

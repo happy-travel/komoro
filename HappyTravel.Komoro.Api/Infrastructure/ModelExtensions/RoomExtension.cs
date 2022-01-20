@@ -5,14 +5,14 @@ namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 
 public static class RoomExtension
 {
-    public static ApiModels.Room ToApiRoom(this DataModels.Room room, DataModels.MealPlan mealPlan, DataModels.RoomType roomType)
+    public static ApiModels.Room ToApiRoom(this DataModels.Room room)
     {
         return new ApiModels.Room
         {
             Id = room.Id,
             PropertyId = room.PropertyId,
-            RoomType = roomType.ToApiRoomType(),
-            StandardMealPlan = mealPlan.ToApiMealPlan(),
+            RoomType = room.RoomType.ToApiRoomType(),
+            StandardMealPlan = room.MealPlan.ToApiMealPlan(),
             StandardOccupancy = room.StandardOccupancy,
             MaximumOccupancy = room.MaximumOccupancy,
             ExtraAdultSupplement = room.ExtraAdultSupplement,

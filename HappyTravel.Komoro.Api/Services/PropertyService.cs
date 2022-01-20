@@ -20,13 +20,16 @@ public class PropertyService : IPropertyService
     public async Task<List<ApiModels.SlimProperty>> Get(CancellationToken cancellationToken)
     {
         return await _komoroContext.Properties.Select(p => p.ToSlimProperty())
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
 
     public async Task<Result<ApiModels.Property>> Get(int propertyId, CancellationToken cancellationToken)
     {
-        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
+        var roomsQuery = _komoroContext.Rooms.Include(r => r.RoomType).Include(r => r.MealPlan);
+        var property = await _komoroContext.Properties.Include(p => roomsQuery)
+            .Include(p => p.CancellationPolicies)
+            .SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
 
         return property is not null
             ? property.ToApiProperty()

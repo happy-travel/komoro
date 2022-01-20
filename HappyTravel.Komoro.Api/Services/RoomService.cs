@@ -19,11 +19,10 @@ public class RoomService : IRoomService
 
     public async Task<List<ApiModels.Room>> Get(int propertyId, CancellationToken cancellationToken)
     {
-        var mealPlans = await _komoroContext.MealPlans.ToListAsync(cancellationToken);
-        var roomTypes = await _komoroContext.RoomTypes.ToListAsync(cancellationToken);
-
-        return await _komoroContext.Rooms.Where(r => r.PropertyId == propertyId) //.Include(r => r.StandardMealPlanId)
-            .Select(r => r.ToApiRoom(mealPlans.SingleOrDefault(mp => mp.Id == r.StandardMealPlanId), roomTypes.SingleOrDefault(rt => rt.Id == r.RoomTypeId)))
+        return await _komoroContext.Rooms.Where(r => r.PropertyId == propertyId)
+            .Include(r => r.MealPlan)
+            .Include(r => r.RoomType)
+            .Select(r => r.ToApiRoom())
             .ToListAsync(cancellationToken);
     }
 
