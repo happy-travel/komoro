@@ -101,10 +101,10 @@ public class PropertyService : IPropertyService
     public async Task<Result> Remove(int propertyId, CancellationToken cancellationToken)
     {
         return await GetProperty(propertyId, cancellationToken)
-            .Tap(Delete);
+            .Tap(Remove);
 
 
-        async Task Delete(DataModels.Property property)
+        async Task Remove(DataModels.Property property)
         {
             _komoroContext.Properties.Remove(property);
             await _komoroContext.SaveChangesAsync(cancellationToken);

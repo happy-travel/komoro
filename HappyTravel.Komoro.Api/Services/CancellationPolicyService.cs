@@ -76,10 +76,10 @@ public class CancellationPolicyService : ICancellationPolicyService
     public async Task<Result> Remove(int propertyId, int cancellationPolicyId, CancellationToken cancellationToken)
     {
         return await Get(propertyId, cancellationPolicyId, cancellationToken)
-            .Tap(Delete);
+            .Tap(Remove);
 
 
-        async Task Delete(DataModels.CancellationPolicy cancellationPolicy)
+        async Task Remove(DataModels.CancellationPolicy cancellationPolicy)
         {
             _komoroContext.CancellationPolicies.Remove(cancellationPolicy);
             await _komoroContext.SaveChangesAsync(cancellationToken);

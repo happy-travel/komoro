@@ -65,10 +65,10 @@ public class MealPlanService : IMealPlanService
     public async Task<Result> Remove(int mealPlanId, CancellationToken cancellationToken)
     {
         return await Get(mealPlanId, cancellationToken)
-            .Tap(Delete);
+            .Tap(Remove);
 
 
-        async Task Delete(DataModels.MealPlan mealPlan)
+        async Task Remove(DataModels.MealPlan mealPlan)
         {
             _komoroContext.MealPlans.Remove(mealPlan);
             await _komoroContext.SaveChangesAsync(cancellationToken);

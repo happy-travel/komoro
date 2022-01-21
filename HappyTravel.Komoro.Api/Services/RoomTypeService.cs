@@ -65,10 +65,10 @@ public class RoomTypeService : IRoomTypeService
     public async Task<Result> Remove(int roomTypeId, CancellationToken cancellationToken)
     {
         return await Get(roomTypeId, cancellationToken)
-            .Tap(Delete);
+            .Tap(Remove);
 
 
-        async Task Delete(DataModels.RoomType roomType)
+        async Task Remove(DataModels.RoomType roomType)
         {
             _komoroContext.RoomTypes.Remove(roomType);
             await _komoroContext.SaveChangesAsync(cancellationToken);
