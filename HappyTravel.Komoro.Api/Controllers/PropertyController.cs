@@ -70,7 +70,7 @@ public class PropertyController : BaseController
     /// </summary>
     /// <param name="propertyId">Property id</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    [HttpDelete("{accommodationId:int}")]
+    [HttpDelete("{propertyId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Remove([FromRoute] int propertyId, CancellationToken cancellationToken)
