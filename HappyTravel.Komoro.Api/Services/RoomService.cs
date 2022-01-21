@@ -82,10 +82,10 @@ public class RoomService : IRoomService
     public async Task<Result> Remove(int propertyId, int roomId, CancellationToken cancellationToken)
     {
         return await Get(propertyId, roomId, cancellationToken)
-            .Tap(Delete);
+            .Tap(Remove);
 
 
-        async Task Delete(DataModels.Room room)
+        async Task Remove(DataModels.Room room)
         {
             _komoroContext.Rooms.Remove(room);
             await _komoroContext.SaveChangesAsync(cancellationToken);
