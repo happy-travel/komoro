@@ -1,9 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
+using CsvHelper;
+using CsvHelper.Configuration;
 using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
@@ -106,6 +109,72 @@ public class PropertyService : IPropertyService
         {
             _komoroContext.Properties.Remove(property);
             await _komoroContext.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+
+    public Task<Result<string>> UploadTravelClickProperty(IFormFile uploadedFile, CancellationToken cancellationToken)
+    {
+        return UploadProperty()
+            .Check(Validate)
+            .Map(AddOrModifyProperty);
+
+
+        Result<ApiModels.Property> UploadProperty()
+        {
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";"
+            };
+            using var reader = new StreamReader(uploadedFile.OpenReadStream());
+            using var csv = new CsvReader(reader, configuration);
+            return csv.GetRecords<ApiModels.Property>()
+                .First();
+        }
+
+
+        async Task<string> AddOrModifyProperty(ApiModels.Property apiProperty)
+        {
+            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == apiProperty.Id);
+            if (property is null)
+            {
+                property = new DataModels.Property
+                {
+                    Id = apiProperty.Id,
+                    SupplierId = apiProperty.SupplierId,
+                    Name = apiProperty.Name,
+                    Address = apiProperty.Address,
+                    Coordinates = apiProperty.Coordinates,
+                    Phone = apiProperty.Phone,
+                    StarRating = apiProperty.StarRating,
+                    PrimaryContact = apiProperty.PrimaryContact,
+                    ReservationEmail = apiProperty.ReservationEmail,
+                    CheckInTime = apiProperty.CheckInTime,
+                    CheckOutTime = apiProperty.CheckOutTime,
+                    PassengerAge = apiProperty.PassengerAge,
+                    Created = DateTimeOffset.UtcNow
+                };
+                _komoroContext.Properties.Add(property);
+            }
+            else
+            {
+                property.SupplierId = apiProperty.SupplierId;
+                property.Name = apiProperty.Name;
+                property.Address = apiProperty.Address;
+                property.Coordinates = apiProperty.Coordinates;
+                property.Phone = apiProperty.Phone;
+                property.StarRating = apiProperty.StarRating;
+                property.PrimaryContact = apiProperty.PrimaryContact;
+                property.ReservationEmail = apiProperty.ReservationEmail;
+                property.CheckInTime = apiProperty.CheckInTime;
+                property.CheckOutTime = apiProperty.CheckOutTime;
+                property.PassengerAge = apiProperty.PassengerAge;
+                property.Modified = DateTimeOffset.UtcNow;
+                _komoroContext.Properties.Update(property);
+            }
+            await _komoroContext.SaveChangesAsync(cancellationToken);
+
+            return $"Property {property.Name} successfully upoaded from CSV file";
         }
     }
 

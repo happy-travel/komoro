@@ -70,7 +70,7 @@ public class PropertyController : BaseController
     /// </summary>
     /// <param name="propertyId">Property id</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    [HttpDelete("{accommodationId:int}")]
+    [HttpDelete("{propertyId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Remove([FromRoute] int propertyId, CancellationToken cancellationToken)
@@ -83,17 +83,11 @@ public class PropertyController : BaseController
     /// <param name="uploadedFile">CSV file to loading</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns></returns>
-    [HttpPost("upload-available")]
+    [HttpPost("{propertyId:int}/travel-click/upload")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> LoadAvailableHotelIds([FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
-    {
-        var (_, isFailure, response, error) = await _accommodationManagementService.LoadAvailableHotelIds(uploadedFile, cancellationToken);
-        if (isFailure)
-            return BadRequestWithProblemDetails(error);
-
-        return Ok(response);
-    }
+    public async Task<IActionResult> UploadTravelClickProperty([FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
+        => OkOrBadRequest(await _propertyService.UploadTravelClickProperty(uploadedFile, cancellationToken));
 
 
     private readonly IPropertyService _propertyService;

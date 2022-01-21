@@ -103,6 +103,14 @@
             <param name="propertyId">Property id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.UploadTravelClickProperty(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Uploading hotel data from a CSV file for a TravelClick supplier
+            </summary>
+            <param name="uploadedFile">CSV file to loading</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns></returns>
+        </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Get(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets a list of rooms for the specified property
