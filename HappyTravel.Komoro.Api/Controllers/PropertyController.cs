@@ -77,5 +77,24 @@ public class PropertyController : BaseController
         => NoContentOrBadRequest(await _propertyService.Remove(propertyId, cancellationToken));
 
 
+    /// <summary>
+    /// Uploading hotel data from a CSV file for a TravelClick supplier
+    /// </summary>
+    /// <param name="uploadedFile">CSV file to loading</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns></returns>
+    [HttpPost("upload-available")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> LoadAvailableHotelIds([FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
+    {
+        var (_, isFailure, response, error) = await _accommodationManagementService.LoadAvailableHotelIds(uploadedFile, cancellationToken);
+        if (isFailure)
+            return BadRequestWithProblemDetails(error);
+
+        return Ok(response);
+    }
+
+
     private readonly IPropertyService _propertyService;
 }
