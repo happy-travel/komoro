@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
+using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 
 namespace HappyTravel.Komoro.Api.Services;
 
@@ -114,26 +115,106 @@ public class PropertyService : IPropertyService
     public Task<Result<string>> UploadTravelClickProperty(IFormFile uploadedFile, CancellationToken cancellationToken)
     {
         return UploadProperty()
+            .Bind(Convert)
             .Check(Validate)
             .Map(AddOrModifyProperty);
 
 
-        Result<ApiModels.Property> UploadProperty()
+        Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadProperty()
         {
             var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                Delimiter = ";"
+                Delimiter = ";",
+                HasHeaderRecord = false
             };
             using var reader = new StreamReader(uploadedFile.OpenReadStream());
             using var csv = new CsvReader(reader, configuration);
-            return csv.GetRecords<ApiModels.Property>()
-                .First();
+
+            csv.Context.RegisterClassMap<CsvModels.RoomMap>();
+            csv.Context.RegisterClassMap<CsvModels.PropertyItemMap>();
+            var roomRecords = new List<CsvModels.Room>();
+            var propertyItemRecords = new List<CsvModels.PropertyItem>();
+            var rowNumber = 0;
+            var isRoomData = true;
+            while (csv.Read())
+            {
+                rowNumber++;
+                if (rowNumber <= 3)
+                    continue;
+
+                if (isRoomData)
+                {
+                    var roomRecord = csv.GetRecord<CsvModels.Room>();
+                    if (string.IsNullOrEmpty(roomRecord.RoomType))
+                    {
+                        isRoomData = false;
+                        continue;
+                    }
+                    roomRecords.Add(roomRecord);
+                }
+                else
+                {
+                    var propertyItemRecord = csv.GetRecord<CsvModels.PropertyItem>();
+                    if (string.IsNullOrEmpty(propertyItemRecord.Key))
+                        continue;
+                }
+            }
+
+            if (propertyItemRecords.Count < 18)
+                return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("Property data loaded from CSV file is incomplete");
+
+            if (roomRecords.Count == 0)
+                return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("No rooms were found in the hotel when loading the CSV file");
+
+            return (propertyItemRecords, roomRecords);
+        }
+
+
+        Result<ApiModels.Property> Convert((List<CsvModels.PropertyItem> propertyItems, List<CsvModels.Room> rooms) data)
+        {
+            var property = new DataModels.Property();
+
+            foreach (var propertyItem in data.propertyItems)
+            {
+                var latitude = 0.0;
+                var longitude = 0.0;
+                switch (propertyItem.Key)
+                {
+                    case "Property Name":
+                        property.Name = propertyItem.Value;
+                        break;
+                    case "Street Address":
+                        property.Address.Street = propertyItem.Value;
+                        break;
+                    case "City":
+                        property.Address.City = propertyItem.Value;
+                        break;
+                    case "Postal Code":
+                        property.Address.PostalCode = propertyItem.Value;
+                        break;
+                    case "Country":
+                        property.Address.Country = propertyItem.Value;
+                        break;
+                    case "Latitude":
+                        _ = double.TryParse(propertyItem.Value, out latitude);
+                        break;
+                    case "Longitude":
+                        _ = double.TryParse(propertyItem.Value, out longitude);
+                        break;
+                    case "Property Phone":
+                        property.Phone = propertyItem.Value;
+                        break;
+
+                }
+            }
+
+            return Result.Success(new ApiModels.Property());
         }
 
 
         async Task<string> AddOrModifyProperty(ApiModels.Property apiProperty)
         {
-            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == apiProperty.Id);
+            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == apiProperty.Id, cancellationToken);
             if (property is null)
             {
                 property = new DataModels.Property
