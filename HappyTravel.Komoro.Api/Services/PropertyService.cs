@@ -176,8 +176,6 @@ public class PropertyService : IPropertyService
 
             foreach (var propertyItem in data.propertyItems)
             {
-                var latitude = 0.0;
-                var longitude = 0.0;
                 switch (propertyItem.Key)
                 {
                     case "Property Name":
@@ -196,14 +194,48 @@ public class PropertyService : IPropertyService
                         property.Address.Country = propertyItem.Value;
                         break;
                     case "Latitude":
-                        _ = double.TryParse(propertyItem.Value, out latitude);
+                        _ = double.TryParse(propertyItem.Value, out double latitude);
                         break;
                     case "Longitude":
-                        _ = double.TryParse(propertyItem.Value, out longitude);
+                        _ = double.TryParse(propertyItem.Value, out double longitude);
                         break;
                     case "Property Phone":
                         property.Phone = propertyItem.Value;
                         break;
+                    case "Star Rating":
+                        _ = int.TryParse(propertyItem.Value, out int starRating);
+                        break;
+                    case "Contact Name":
+                        property.PrimaryContact.Name = propertyItem.Value;
+                        break;
+                    case "Contact Title":
+                        property.PrimaryContact.Title = propertyItem.Value;
+                        break;
+                    case "Contact Email":
+                        property.PrimaryContact.Email = propertyItem.Value;
+                        break;
+                    case "Reservation Email":
+                        property.ReservationEmail = propertyItem.Value;
+                        break;
+                    case "Check-In Time":
+                        if (!TimeSpan.TryParse(propertyItem.Value.Substring(0, 5), out var checkInTime))
+                            return Result.Failure<ApiModels.Property>("Check-in time is in the wrong format");
+                        break;
+                    case "Check-Out Time":
+                        if (!TimeSpan.TryParse(propertyItem.Value.Substring(0, 5), out var checkOutTime))
+                            return Result.Failure<ApiModels.Property>("Check-out time is in the wrong format");
+                        break;
+                    case "Infant":
+                        property.PrimaryContact.Email = propertyItem.Value;
+                        break;
+                    case "Child":
+                        property.PrimaryContact.Email = propertyItem.Value;
+                        break;
+                    case "Adult":
+                        property.PrimaryContact.Email = propertyItem.Value;
+                        break;
+                    default:
+                        return Result.Failure<ApiModels.Property>("Property data in CSV file contains an unspecified key");
 
                 }
             }

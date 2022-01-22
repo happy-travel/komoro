@@ -1,6 +1,7 @@
 ﻿using FloxDc.CacheFlow.Extensions;
 using HappyTravel.ErrorHandling.Extensions;
 using HappyTravel.Komoro.Api.Services;
+using HappyTravel.Komoro.Api.Services.Converters;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
 
@@ -24,8 +25,11 @@ public static class ConfigureServicesExtension
         builder.Services.AddTransient<ICancellationPolicyService, CancellationPolicyService>();
         builder.Services.AddTransient<IMealPlanService, MealPlanService>();
         builder.Services.AddTransient<IPropertyService, PropertyService>();
+        builder.Services.AddTransient<TravelClickConverter>();
         builder.Services.AddTransient<IRoomService, RoomService>();
         builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
+
+        builder.Services.AddTransient<TravelClickConverter>();
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
     }
