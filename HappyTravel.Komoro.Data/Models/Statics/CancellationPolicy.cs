@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HappyTravel.Komoro.Data.Models.Statics
+﻿namespace HappyTravel.Komoro.Data.Models.Statics
 {
     public class CancellationPolicy
     {
@@ -15,7 +9,9 @@ namespace HappyTravel.Komoro.Data.Models.Statics
         public string? SeasonalityOrEvent { get; set; }
         public int Deadline { get; set; }
         public NoShowPolicies NoShow { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime? Modified { get; set; }
+        public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset? Modified { get; set; }
+
+        public Property Property { get; set; } = null!;
     }
 }
