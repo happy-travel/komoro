@@ -114,13 +114,14 @@ public class PropertyService : IPropertyService
     }
 
 
-    public Task<Result<string>> UploadTravelClickProperty(int propertyId, IFormFile uploadedFile, CancellationToken cancellationToken)
+    public async Task<Result> UploadTravelClickProperty(int propertyId, IFormFile uploadedFile, CancellationToken cancellationToken)
     {
-        return UploadData()
+        return await UploadData()
             .Map(Convert)
             .Check(ValidateProperty)
             .Map(AddOrModifyProperty)
-            .Map(AddOrModifyRooms);
+            .Bind(AddOrUpdateRooms)
+            .Bind(RemoveRooms);
 
 
         Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadData()
@@ -235,16 +236,43 @@ public class PropertyService : IPropertyService
         }
 
 
-        async Task<Result> AddOrModifyRooms((int propertyId, List<ApiModels.Room> rooms) data)
+        async Task<Result<(int, List<int>)>> AddOrUpdateRooms((int propertyId, List<ApiModels.Room> rooms) data)
         {
+            var existingRooms = await _roomService.Get(propertyId, cancellationToken);
+
             foreach (var room in data.rooms)
             {
-                
+                var existingRoom = existingRooms.SingleOrDefault(r => r.RoomType.Id == room.RoomType.Id);
+                if (existingRoom is null)
+                {
+                    var (_, isFailure, error) = await _roomService.Add(propertyId, room, cancellationToken);
+                    if (isFailure)
+                        return Result.Failure<(int, List<int>)>(error);
+                }
+                else
+                {
+                    var (_, isFailure, error) = await _roomService.Modify(propertyId, existingRoom.Id, room, cancellationToken);
+                    if (!isFailure)
+                        return Result.Failure<(int, List<int>)>(error);
 
-                var (_, isFailure, error) = await _roomService.Add(propertyId, room, cancellationToken);
-                if (isFailure)
+                    existingRooms.Remove(existingRoom);
+                }
+            }
+
+            return (propertyId, existingRooms.Select(r => r.Id).ToList());
+        }
+
+
+        async Task<Result> RemoveRooms(int propertyId, List<int> roomIds)
+        {
+            foreach(var roomId in roomIds)
+            {
+                var (_, isFailure, error) = await _roomService.Remove(propertyId, roomId, cancellationToken);
+                if (!isFailure)
                     return Result.Failure(error);
             }
+
+            return Result.Success();
         }
     }
 
