@@ -263,11 +263,11 @@ public class PropertyService : IPropertyService
         }
 
 
-        async Task<Result> RemoveRooms(int propertyId, List<int> roomIds)
+        async Task<Result> RemoveRooms((int propertyId, List<int> roomIds) data)
         {
-            foreach(var roomId in roomIds)
+            foreach(var roomId in data.roomIds)
             {
-                var (_, isFailure, error) = await _roomService.Remove(propertyId, roomId, cancellationToken);
+                var (_, isFailure, error) = await _roomService.Remove(data.propertyId, roomId, cancellationToken);
                 if (!isFailure)
                     return Result.Failure(error);
             }

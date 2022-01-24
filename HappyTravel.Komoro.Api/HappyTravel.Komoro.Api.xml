@@ -107,6 +107,7 @@
             <summary>
             Uploading hotel data from a CSV file for a TravelClick supplier
             </summary>
+            <param name="propertyId">Property id to update an existing property or 0 to add a new one</param>
             <param name="uploadedFile">CSV file to loading</param>
             <param name="cancellationToken">Cancellation token</param>
             <returns></returns>

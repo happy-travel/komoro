@@ -80,14 +80,15 @@ public class PropertyController : BaseController
     /// <summary>
     /// Uploading hotel data from a CSV file for a TravelClick supplier
     /// </summary>
+    /// <param name="propertyId">Property id to update an existing property or 0 to add a new one</param>
     /// <param name="uploadedFile">CSV file to loading</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns></returns>
     [HttpPost("{propertyId:int}/travel-click/upload")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UploadTravelClickProperty([FromRoute] int propertyId, [FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
-        => OkOrBadRequest(await _propertyService.UploadTravelClickProperty(propertyId, uploadedFile, cancellationToken));
+        => NoContentOrBadRequest(await _propertyService.UploadTravelClickProperty(propertyId, uploadedFile, cancellationToken));
 
 
     private readonly IPropertyService _propertyService;
