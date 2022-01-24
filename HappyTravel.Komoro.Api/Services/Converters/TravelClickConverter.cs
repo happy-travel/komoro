@@ -1,98 +1,56 @@
 ﻿using CSharpFunctionalExtensions;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
+using HappyTravel.Komoro.Data.Models.Statics;
+using HappyTravel.Money.Enums;
 using HappyTravel.Money.Models;
 using NetTopologySuite.Geometries;
+using System.Text.RegularExpressions;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
-using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
 namespace HappyTravel.Komoro.Api.Services.Converters;
 
 public class TravelClickConverter
 {
-    internal static Result<DataModels.Property> Convert(List<CsvModels.PropertyItem> propertyItems)
+    internal static ApiModels.Property Convert(int propertyId, List<CsvModels.PropertyItem> propertyItems)
     {
-        var property = new DataModels.Property();
-        var latitude = 0.0;
-        var longitude = 0.0;
-        foreach (var propertyItem in propertyItems)
+        var property = new ApiModels.Property
         {
-            switch (propertyItem.Key)
+            Id = propertyId,
+            SupplierId = TravelClickId,
+            Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value ?? string.Empty,
+            Address = new Address
             {
-                case "Property Name":
-                    property.Name = propertyItem.Value;
-                    break;
-                case "Street Address":
-                    property.Address.Street = propertyItem.Value;
-                    break;
-                case "City":
-                    property.Address.City = propertyItem.Value;
-                    break;
-                case "Postal Code":
-                    property.Address.PostalCode = propertyItem.Value;
-                    break;
-                case "Country":
-                    property.Address.Country = propertyItem.Value;
-                    break;
-                case "Latitude":
-                    if (!double.TryParse(propertyItem.Value, out latitude))
-                        return Result.Failure<DataModels.Property>("Latitude is in the wrong format");
-                    break;
-                case "Longitude":
-                    if (!double.TryParse(propertyItem.Value, out longitude))
-                        return Result.Failure<DataModels.Property>("Longitude is in the wrong format");
-                    break;
-                case "Property Phone":
-                    property.Phone = propertyItem.Value;
-                    break;
-                case "Star Rating":
-                    if (!int.TryParse(propertyItem.Value, out int starRating))
-                        return Result.Failure<DataModels.Property>("Star rating is in the wrong format");
-                    property.StarRating = starRating;
-                    break;
-                case "Contact Name":
-                    property.PrimaryContact.Name = propertyItem.Value;
-                    break;
-                case "Contact Title":
-                    property.PrimaryContact.Title = propertyItem.Value;
-                    break;
-                case "Contact Email":
-                    property.PrimaryContact.Email = propertyItem.Value;
-                    break;
-                case "Reservation Email":
-                    property.ReservationEmail = propertyItem.Value;
-                    break;
-                case "Check-In Time":
-                    if (!TimeSpan.TryParse(propertyItem.Value.AsSpan(0, 5), out var checkInTime))
-                        return Result.Failure<DataModels.Property>("Check-in time is in the wrong format");
-                    property.CheckInTime = checkInTime;
-                    break;
-                case "Check-Out Time":
-                    if (!TimeSpan.TryParse(propertyItem.Value.AsSpan(0, 5), out var checkOutTime))
-                        return Result.Failure<DataModels.Property>("Check-out time is in the wrong format");
-                    property.CheckOutTime = checkOutTime;
-                    break;
-                case "Infant":
-                    property.PrimaryContact.Email = propertyItem.Value;
-                    break;
-                case "Child":
-                    property.PrimaryContact.Email = propertyItem.Value;
-                    break;
-                case "Adult":
-                    property.PrimaryContact.Email = propertyItem.Value;
-                    break;
-                default:
-                    return Result.Failure<DataModels.Property>("Property data in CSV file contains an unspecified key");
+                Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value ?? string.Empty,
+                City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value ?? string.Empty,
+                PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value ?? string.Empty,
+                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value ?? string.Empty
+            },
+            Coordinates = GetCoordinates(propertyItems),
+            Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value ?? string.Empty,
+            StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value ?? string.Empty),
+            PrimaryContact = new Contact
+            {
+                Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value ?? string.Empty,
+                Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value ?? string.Empty,
+                Email = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Email")?.Value ?? string.Empty
+            },
+            ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value ?? string.Empty,
+            CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value ?? string.Empty),
+            CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value ?? string.Empty),
+            PassengerAge = new PassengerAge
+            {
+                InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value ?? string.Empty),
+                ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value ?? string.Empty),
+                AdultFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Adult")?.Value ?? string.Empty)
             }
-        }
-        property.SupplierId = TravelClickId;
-        property.Coordinates = new Point(latitude, longitude);
+        };
 
         return property;
     }
 
 
-    internal Result<List<ApiModels.Room>> Convert(List<CsvModels.Room> roomRecords, List<DataModels.RoomType> roomTypes, List<DataModels.MealPlan> mealPlans)
+    internal static List<ApiModels.Room> Convert(List<CsvModels.Room> roomRecords, List<RoomType> roomTypes, List<MealPlan> mealPlans)
     {
         var rooms = new List<ApiModels.Room>();
         foreach (var roomRecord in roomRecords)
@@ -103,7 +61,7 @@ public class TravelClickConverter
                 StandardMealPlan = mealPlans.SingleOrDefault(mp => mp.Name == roomRecord.StandardMealPlan)?.ToApiMealPlan() ?? new(),
                 StandardOccupancy = GetStandardOccupancy(roomRecord.StandardOccupancy),
                 MaximumOccupancy = GetMaximumOccupancy(roomRecord.MaximumOccupancy),
-                ExtraAdultSupplement = GetAdultSupplement(roomRecord.ExtraAdultSupplement),
+                ExtraAdultSupplement = GetSupplement(roomRecord.ExtraAdultSupplement),
                 ChildSupplement = GetSupplement(roomRecord.ChildSupplement),
                 InfantSupplement = GetSupplement(roomRecord.InfantSupplement),
                 RatePlans = GetRatePlans(roomRecord)
@@ -115,9 +73,53 @@ public class TravelClickConverter
     }
 
 
-    private static DataModels.Occupancy GetStandardOccupancy(string occupancy)
+    private static Point GetCoordinates(List<CsvModels.PropertyItem> propertyItems)
     {
-        return occupancy switch
+        var latitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Latitude")?.Value;
+        var longitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Longitude")?.Value;
+
+        if (!double.TryParse(latitudeString, out double latitude) || !double.TryParse(longitudeString, out double longitude))
+            return new Point(0.0, 0.0);
+
+        return new Point(latitude, longitude);
+    }
+
+
+    private static int GetStarRating(string starRatingString)
+    {
+        _ = int.TryParse(starRatingString, out int starRating);
+
+        return starRating;
+    }
+
+
+    private static TimeSpan GetTime(string timeString)
+    {
+        if (!TimeSpan.TryParse(timeString.AsSpan(0, 5), out var time))
+            return TimeSpan.Zero;
+
+        return time;
+    }
+
+
+    private static int GetAgeFrom(string ageString)
+    {
+        var numberDigits = 0;
+        for (int i = 0; i < ageString.Length; i++)
+        {
+            if (!char.IsDigit(ageString[i]))
+                break;
+            numberDigits++;
+        }
+        _ = int.TryParse(ageString.AsSpan(0, numberDigits), out int age);
+
+        return age;
+    }
+
+
+    private static Occupancy GetStandardOccupancy(string occupancy)
+    {
+        return occupancy.ToLowerInvariant() switch
         {
             "2 adults" => new() { Adults = 2, Children = 0 },
             _ => new()
@@ -125,35 +127,73 @@ public class TravelClickConverter
     }
 
 
-    private static List<DataModels.Occupancy> GetMaximumOccupancy(string occupancy)
+    private static List<Occupancy> GetMaximumOccupancy(string occupancy)
     {
-        return occupancy switch
+        return occupancy.ToLowerInvariant() switch
         {
+            "2 adults" => new() { new() { Adults = 2, Children = 0 } },
             "2 adults + 1 child under 12 y.o." => new() { new() { Adults = 2, Children = 1 } },
+            "2 adults and 2 child" => new() { new() { Adults = 2, Children = 2 } },
+            "2 adults + 2 child under 12 y.o." => new() { new() { Adults = 2, Children = 2 } },
+            "3 adults or / 2 adults + 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
             "3 adults / or 2 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
-            "3 adults + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults /or 2 adults + 2 children under 12 y.o" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 2 } },
             "3 adults / or 3 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
-
+            "3 adults or / 3 adults and 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
+            "3 adults + 1 child" => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
+            "4 adults + 1 child" => new() { new() { Adults = 4, Children = 1 } },
+            "4 adults + 1 child under 12 y.o." => new() { new() { Adults = 4, Children = 1 } },
+            "6 adults + 1 child under 12 y.o." => new() { new() { Adults = 6, Children = 1 } },
             _ => new()
         };
     }
 
 
-    private static MoneyAmount GetAdultSupplement(string supplement)
+    private static MoneyAmount? GetSupplement(string supplement)
     {
-        return new();
+        if (supplement == "NA")
+            return null;
+        
+        if (supplement == "Free")
+            return new MoneyAmount(0m, Currencies.USD);
+
+        supplement = Regex.Replace(supplement, @"[^\d]", "", RegexOptions.Compiled);
+        _ = decimal.TryParse(supplement, out decimal amount);
+
+        return new(amount, Currencies.USD);
     }
 
 
-    private static MoneyAmount GetSupplement(string supplement)
+    private static RatePlans GetRatePlans(CsvModels.Room roomRecord)
     {
-        return new();
-    }
+        var ratePlans = RatePlans.None;
 
+        if (roomRecord.StandardRO == "YES")
+            ratePlans |= RatePlans.StandardRO;
 
-    private static DataModels.RatePlans GetRatePlans(CsvModels.Room room)
-    {
-        return DataModels.RatePlans.None;
+        if (roomRecord.StandardBB == "YES")
+            ratePlans |= RatePlans.StandardBB;
+
+        if (roomRecord.StaySaveRO == "YES")
+            ratePlans |= RatePlans.StaySaveRO;
+
+        if (roomRecord.StaySaveBB == "YES")
+            ratePlans |= RatePlans.StaySaveBB;
+
+        if (roomRecord.EarlyBirdRO == "YES")
+            ratePlans |= RatePlans.EarlyBirdRO;
+
+        if (roomRecord.EarlyBirdBB == "YES")
+            ratePlans |= RatePlans.EarlyBirdBB;
+
+        if (roomRecord.SpecialDealRO == "YES")
+            ratePlans |= RatePlans.SpecialDealRO;
+
+        if (roomRecord.SpecialDealBB == "YES")
+            ratePlans |= RatePlans.SpecialDealBB;
+
+        return ratePlans;
     }
 
 

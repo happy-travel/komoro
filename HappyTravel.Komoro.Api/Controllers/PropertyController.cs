@@ -86,8 +86,8 @@ public class PropertyController : BaseController
     [HttpPost("{propertyId:int}/travel-click/upload")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UploadTravelClickProperty([FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
-        => OkOrBadRequest(await _propertyService.UploadTravelClickProperty(uploadedFile, cancellationToken));
+    public async Task<IActionResult> UploadTravelClickProperty([FromRoute] int propertyId, [FromForm] IFormFile uploadedFile, CancellationToken cancellationToken)
+        => OkOrBadRequest(await _propertyService.UploadTravelClickProperty(propertyId, uploadedFile, cancellationToken));
 
 
     private readonly IPropertyService _propertyService;

@@ -10,14 +10,16 @@ using System.Globalization;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
+using HappyTravel.Komoro.Api.Services.Converters;
 
 namespace HappyTravel.Komoro.Api.Services;
 
 public class PropertyService : IPropertyService
 {
-    public PropertyService(KomoroContext komoroContext)
+    public PropertyService(KomoroContext komoroContext, IRoomService roomService)
     {
         _komoroContext = komoroContext;
+        _roomService = roomService;
     }
 
 
@@ -112,15 +114,16 @@ public class PropertyService : IPropertyService
     }
 
 
-    public Task<Result<string>> UploadTravelClickProperty(IFormFile uploadedFile, CancellationToken cancellationToken)
+    public Task<Result<string>> UploadTravelClickProperty(int propertyId, IFormFile uploadedFile, CancellationToken cancellationToken)
     {
-        return UploadProperty()
-            .Bind(Convert)
-            .Check(Validate)
-            .Map(AddOrModifyProperty);
+        return UploadData()
+            .Map(Convert)
+            .Check(ValidateProperty)
+            .Map(AddOrModifyProperty)
+            .Map(AddOrModifyRooms);
 
 
-        Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadProperty()
+        Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadData()
         {
             var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -170,82 +173,25 @@ public class PropertyService : IPropertyService
         }
 
 
-        Result<ApiModels.Property> Convert((List<CsvModels.PropertyItem> propertyItems, List<CsvModels.Room> rooms) data)
+        async Task<(ApiModels.Property, List<ApiModels.Room>)> Convert((List<CsvModels.PropertyItem> propertyItems, List<CsvModels.Room> rooms) data)
         {
-            var property = new DataModels.Property();
+            var roomTypes = await _komoroContext.RoomTypes.ToListAsync(cancellationToken);
+            var mealPlans = await _komoroContext.MealPlans.ToListAsync(cancellationToken);
 
-            foreach (var propertyItem in data.propertyItems)
-            {
-                switch (propertyItem.Key)
-                {
-                    case "Property Name":
-                        property.Name = propertyItem.Value;
-                        break;
-                    case "Street Address":
-                        property.Address.Street = propertyItem.Value;
-                        break;
-                    case "City":
-                        property.Address.City = propertyItem.Value;
-                        break;
-                    case "Postal Code":
-                        property.Address.PostalCode = propertyItem.Value;
-                        break;
-                    case "Country":
-                        property.Address.Country = propertyItem.Value;
-                        break;
-                    case "Latitude":
-                        _ = double.TryParse(propertyItem.Value, out double latitude);
-                        break;
-                    case "Longitude":
-                        _ = double.TryParse(propertyItem.Value, out double longitude);
-                        break;
-                    case "Property Phone":
-                        property.Phone = propertyItem.Value;
-                        break;
-                    case "Star Rating":
-                        _ = int.TryParse(propertyItem.Value, out int starRating);
-                        break;
-                    case "Contact Name":
-                        property.PrimaryContact.Name = propertyItem.Value;
-                        break;
-                    case "Contact Title":
-                        property.PrimaryContact.Title = propertyItem.Value;
-                        break;
-                    case "Contact Email":
-                        property.PrimaryContact.Email = propertyItem.Value;
-                        break;
-                    case "Reservation Email":
-                        property.ReservationEmail = propertyItem.Value;
-                        break;
-                    case "Check-In Time":
-                        if (!TimeSpan.TryParse(propertyItem.Value.Substring(0, 5), out var checkInTime))
-                            return Result.Failure<ApiModels.Property>("Check-in time is in the wrong format");
-                        break;
-                    case "Check-Out Time":
-                        if (!TimeSpan.TryParse(propertyItem.Value.Substring(0, 5), out var checkOutTime))
-                            return Result.Failure<ApiModels.Property>("Check-out time is in the wrong format");
-                        break;
-                    case "Infant":
-                        property.PrimaryContact.Email = propertyItem.Value;
-                        break;
-                    case "Child":
-                        property.PrimaryContact.Email = propertyItem.Value;
-                        break;
-                    case "Adult":
-                        property.PrimaryContact.Email = propertyItem.Value;
-                        break;
-                    default:
-                        return Result.Failure<ApiModels.Property>("Property data in CSV file contains an unspecified key");
-
-                }
-            }
-
-            return Result.Success(new ApiModels.Property());
+            var property = TravelClickConverter.Convert(propertyId, data.propertyItems);
+            var rooms = TravelClickConverter.Convert(data.rooms, roomTypes, mealPlans);
+            
+            return (property, rooms);
         }
 
 
-        async Task<string> AddOrModifyProperty(ApiModels.Property apiProperty)
+        static Result ValidateProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+            => Validate(data.property);
+
+
+        async Task<(int porpertyId, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
         {
+            var apiProperty = data.property;
             var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == apiProperty.Id, cancellationToken);
             if (property is null)
             {
@@ -285,7 +231,20 @@ public class PropertyService : IPropertyService
             }
             await _komoroContext.SaveChangesAsync(cancellationToken);
 
-            return $"Property {property.Name} successfully upoaded from CSV file";
+            return (property.Id, data.rooms);
+        }
+
+
+        async Task<Result> AddOrModifyRooms((int propertyId, List<ApiModels.Room> rooms) data)
+        {
+            foreach (var room in data.rooms)
+            {
+                
+
+                var (_, isFailure, error) = await _roomService.Add(propertyId, room, cancellationToken);
+                if (isFailure)
+                    return Result.Failure(error);
+            }
         }
     }
 
@@ -318,4 +277,5 @@ public class PropertyService : IPropertyService
 
 
     private readonly KomoroContext _komoroContext;
+    private readonly IRoomService _roomService;
 }

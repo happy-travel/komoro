@@ -10,5 +10,5 @@ public interface IPropertyService
     Task<Result> Add(Property property, CancellationToken cancellationToken);
     Task<Result> Modify(int propertyId, Property property, CancellationToken cancellationToken);
     Task<Result> Remove(int propertyId, CancellationToken cancellationToken);
-    Task<Result<string>> UploadTravelClickProperty(IFormFile uploadedFile, CancellationToken cancellationToken);
+    Task<Result<string>> UploadTravelClickProperty(int propertyId, IFormFile uploadedFile, CancellationToken cancellationToken);
 }
