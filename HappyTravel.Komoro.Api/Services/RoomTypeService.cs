@@ -35,6 +35,7 @@ public class RoomTypeService : IRoomTypeService
             var roomType = new DataModels.RoomType
             {
                 Name = apiRoomType.Name,
+                Category = apiRoomType.Category,
                 Created = DateTimeOffset.UtcNow
             };
 
@@ -54,6 +55,7 @@ public class RoomTypeService : IRoomTypeService
         async Task Update(DataModels.RoomType roomType)
         {
             roomType.Name = apiRoomType.Name;
+            roomType.Category = apiRoomType.Category;
             roomType.Modified = DateTimeOffset.UtcNow;
 
             _komoroContext.RoomTypes.Update(roomType);

@@ -81,6 +81,7 @@ public class KomoroContext : DbContext
             e.ToTable("RoomTypes");
             e.HasKey(p => p.Id);
             e.Property(p => p.Name).IsRequired();
+            e.Property(p => p.Category).IsRequired();
             e.Property(r => r.Created).IsRequired();
             e.Property(r => r.Modified);
         });
