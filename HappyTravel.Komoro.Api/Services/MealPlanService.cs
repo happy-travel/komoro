@@ -32,10 +32,12 @@ public class MealPlanService : IMealPlanService
 
         async Task Add()
         {
+            var utcNow = DateTimeOffset.UtcNow;
             var mealPlan = new DataModels.MealPlan
             {
                 Name = apiMealPlan.Name,
-                Created = DateTimeOffset.UtcNow
+                Created = utcNow,
+                Modified = utcNow
             };
 
             _komoroContext.MealPlans.Add(mealPlan);

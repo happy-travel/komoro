@@ -10,7 +10,8 @@ public static class RoomTypeExtension
         return new ApiModels.RoomType
         {
             Id = roomType.Id,
-            Name = roomType.Name
+            Name = roomType.Name,
+            Category = roomType.Category
         };
     }
 }
