@@ -35,6 +35,7 @@ public class RoomService : IRoomService
 
         async Task Add()
         {
+            var utcNow = DateTimeOffset.UtcNow;
             var room = new DataModels.Room
             {
                 PropertyId = apiRoom.PropertyId,
@@ -46,7 +47,8 @@ public class RoomService : IRoomService
                 ChildSupplement = apiRoom.ChildSupplement,
                 InfantSupplement = apiRoom.InfantSupplement,
                 RatePlans = apiRoom.RatePlans,
-                Created = DateTimeOffset.UtcNow
+                Created = utcNow,
+                Modified = utcNow
             };
 
             _komoroContext.Rooms.Add(room);

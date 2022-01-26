@@ -32,10 +32,13 @@ public class RoomTypeService : IRoomTypeService
 
         async Task Add()
         {
+            var utcNow = DateTimeOffset.UtcNow;
             var roomType = new DataModels.RoomType
             {
                 Name = apiRoomType.Name,
-                Created = DateTimeOffset.UtcNow
+                Category = apiRoomType.Category,
+                Created = utcNow,
+                Modified = utcNow
             };
 
             _komoroContext.RoomTypes.Add(roomType);
@@ -54,6 +57,7 @@ public class RoomTypeService : IRoomTypeService
         async Task Update(DataModels.RoomType roomType)
         {
             roomType.Name = apiRoomType.Name;
+            roomType.Category = apiRoomType.Category;
             roomType.Modified = DateTimeOffset.UtcNow;
 
             _komoroContext.RoomTypes.Update(roomType);
