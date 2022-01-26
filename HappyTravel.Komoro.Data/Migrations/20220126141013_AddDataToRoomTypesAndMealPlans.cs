@@ -1,4 +1,5 @@
-﻿using HappyTravel.Komoro.Data.Models.Statics;
+﻿using System;
+using HappyTravel.Komoro.Data.Models.Statics;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -9,12 +10,62 @@ namespace HappyTravel.Komoro.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "RoomTypes",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone",
+                oldNullable: true);
+
             migrationBuilder.AddColumn<int>(
                 name: "Category",
                 table: "RoomTypes",
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "Rooms",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "Properties",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "MealPlans",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "CancellationPolicies",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone",
+                oldNullable: true);
 
             var mealPlans = "MealPlans";
             migrationBuilder.InsertData(mealPlans, new string[] { "Id", "Name", "Created" }, new object[,]
@@ -100,6 +151,46 @@ namespace HappyTravel.Komoro.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "Category",
                 table: "RoomTypes");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "RoomTypes",
+                type: "timestamp with time zone",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "Rooms",
+                type: "timestamp with time zone",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "Properties",
+                type: "timestamp with time zone",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "MealPlans",
+                type: "timestamp with time zone",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "Modified",
+                table: "CancellationPolicies",
+                type: "timestamp with time zone",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "timestamp with time zone");
         }
     }
 }

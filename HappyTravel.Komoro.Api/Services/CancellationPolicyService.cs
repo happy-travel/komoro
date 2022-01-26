@@ -33,6 +33,7 @@ public class CancellationPolicyService : ICancellationPolicyService
 
         async Task Add()
         {
+            var utcNow = DateTimeOffset.UtcNow;
             var cancellationPolicy = new DataModels.CancellationPolicy
             {
                 PropertyId = apiCancellationPolicy.PropertyId,
@@ -41,7 +42,8 @@ public class CancellationPolicyService : ICancellationPolicyService
                 SeasonalityOrEvent = apiCancellationPolicy.SeasonalityOrEvent,
                 Deadline = apiCancellationPolicy.Deadline,
                 NoShow = apiCancellationPolicy.NoShow,
-                Created = DateTimeOffset.UtcNow
+                Created = utcNow,
+                Modified = utcNow
             };
 
             _komoroContext.CancellationPolicies.Add(cancellationPolicy);

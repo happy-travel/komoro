@@ -17,7 +17,7 @@ public class Property
     public TimeSpan CheckOutTime { get; set; }
     public PassengerAge PassengerAge { get; set; } = null!;
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? Modified { get; set; }
+    public DateTimeOffset Modified { get; set; }
     public List<Room> Rooms { get; set; } = new();
     public List<CancellationPolicy> CancellationPolicies { get; set; } = new();
 }

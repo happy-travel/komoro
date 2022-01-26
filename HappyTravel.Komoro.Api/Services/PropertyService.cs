@@ -45,6 +45,7 @@ public class PropertyService : IPropertyService
 
         async Task Add()
         {
+            var utcNow = DateTimeOffset.UtcNow;
             var property = new DataModels.Property
             {
                 SupplierId = apiProperty.SupplierId,
@@ -58,7 +59,8 @@ public class PropertyService : IPropertyService
                 CheckInTime = apiProperty.CheckInTime,
                 CheckOutTime = apiProperty.CheckOutTime,
                 PassengerAge = apiProperty.PassengerAge,
-                Created = DateTimeOffset.UtcNow
+                Created = utcNow,
+                Modified = utcNow
             };
 
             _komoroContext.Properties.Add(property);

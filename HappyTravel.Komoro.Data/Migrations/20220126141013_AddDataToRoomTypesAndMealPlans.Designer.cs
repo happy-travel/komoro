@@ -16,7 +16,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220125174256_AddDataToRoomTypesAndMealPlans")]
+    [Migration("20220126141013_AddDataToRoomTypesAndMealPlans")]
     partial class AddDataToRoomTypesAndMealPlans
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("NoShow")
@@ -78,7 +78,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -115,7 +115,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -175,7 +175,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PropertyId")
@@ -219,7 +219,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")

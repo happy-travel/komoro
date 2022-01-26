@@ -22,7 +22,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.Deadline).IsRequired();
             e.Property(p => p.NoShow).IsRequired();
             e.Property(p => p.Created).IsRequired();
-            e.Property(p => p.Modified);
+            e.Property(p => p.Modified).IsRequired();
             e.HasOne(p => p.Property).WithMany(p => p.CancellationPolicies).IsRequired().OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -32,7 +32,7 @@ public class KomoroContext : DbContext
             e.HasKey(p => p.Id);
             e.Property(p => p.Name).IsRequired();
             e.Property(r => r.Created).IsRequired();
-            e.Property(r => r.Modified);
+            e.Property(r => r.Modified).IsRequired();
         });
 
         builder.Entity<Property>(e =>
@@ -51,7 +51,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.CheckOutTime).IsRequired();
             e.Property(p => p.PassengerAge).IsRequired().HasColumnType("jsonb");
             e.Property(p => p.Created).IsRequired();
-            e.Property(p => p.Modified);
+            e.Property(p => p.Modified).IsRequired();
             e.Navigation(p => p.Rooms);
             e.Navigation(p => p.CancellationPolicies);
         });
@@ -70,7 +70,7 @@ public class KomoroContext : DbContext
             e.Property(r => r.InfantSupplement).HasColumnType("jsonb"); ;
             e.Property(r => r.RatePlans).IsRequired();
             e.Property(r => r.Created).IsRequired();
-            e.Property(r => r.Modified);
+            e.Property(r => r.Modified).IsRequired();
             e.HasOne(r => r.Property).WithMany(p => p.Rooms).IsRequired().OnDelete(DeleteBehavior.Cascade);
             e.HasOne(r => r.MealPlan).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull).HasForeignKey(r => r.StandardMealPlanId);
             e.HasOne(r => r.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
@@ -83,7 +83,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.Name).IsRequired();
             e.Property(p => p.Category).IsRequired();
             e.Property(r => r.Created).IsRequired();
-            e.Property(r => r.Modified);
+            e.Property(r => r.Modified).IsRequired();
         });
     }
 

@@ -6,5 +6,5 @@ public class RoomType
     public string Name { get; set; } = string.Empty;
     public RoomCategories Category { get; set; }
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? Modified { get; set; }
+    public DateTimeOffset Modified { get; set; }
 }

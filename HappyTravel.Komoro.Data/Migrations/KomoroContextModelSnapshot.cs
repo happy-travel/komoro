@@ -43,7 +43,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("NoShow")
@@ -76,7 +76,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -113,7 +113,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -173,7 +173,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PropertyId")
@@ -217,7 +217,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
