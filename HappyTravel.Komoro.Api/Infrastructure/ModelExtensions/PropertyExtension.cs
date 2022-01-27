@@ -40,7 +40,9 @@ public static class PropertyExtension
             ReservationEmail = property.ReservationEmail,
             CheckInTime = property.CheckInTime,
             CheckOutTime = property.CheckOutTime,
-            PassengerAge = property.PassengerAge
+            PassengerAge = property.PassengerAge,
+            Rooms = property.Rooms.Select(r => r.ToApiRoom()).ToList(),
+            CancellationPolicies = property.CancellationPolicies.Select(cp => cp.ToApiCancellationPolicy()).ToList()
         };
     }
 }

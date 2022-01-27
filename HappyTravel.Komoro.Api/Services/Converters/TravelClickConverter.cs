@@ -59,7 +59,7 @@ public class TravelClickConverter
             var room = new ApiModels.Room
             {
                 RoomType = roomTypes.SingleOrDefault(rt => rt.Name == roomRecord.RoomType.Trim())?.ToApiRoomType() ?? new(),
-                StandardMealPlan = mealPlans.SingleOrDefault(mp => mp.Name == roomRecord.StandardMealPlan.Trim())?.ToApiMealPlan() ?? new(),
+                StandardMealPlan = GetMealPlan(roomRecord.StandardMealPlan, mealPlans),
                 StandardOccupancy = GetStandardOccupancy(roomRecord.StandardOccupancy),
                 MaximumOccupancy = GetMaximumOccupancy(roomRecord.MaximumOccupancy),
                 ExtraAdultSupplement = GetSupplement(roomRecord.ExtraAdultSupplement),
@@ -71,6 +71,16 @@ public class TravelClickConverter
         }
 
         return rooms;
+    }
+
+
+    private static ApiModels.MealPlan GetMealPlan(string mealPlanString, List<MealPlan> mealPlans)
+    {
+        var mealPlan = mealPlanString.Trim();
+        if (mealPlan == "Breakfast")
+            mealPlan = "Bed & Breakfast";
+
+        return mealPlans.SingleOrDefault(mp => mp.Name == mealPlan)?.ToApiMealPlan() ?? new();
     }
 
 
@@ -130,21 +140,27 @@ public class TravelClickConverter
 
     private static List<Occupancy> GetMaximumOccupancy(string occupancy)
     {
-        return occupancy.ToLowerInvariant() switch
+        return occupancy.Trim().Replace("  ", " ").ToLowerInvariant() switch
         {
             "2 adults" => new() { new() { Adults = 2, Children = 0 } },
+            "2 adults and 1 child" => new() { new() { Adults = 2, Children = 1 } },
             "2 adults + 1 child under 12 y.o." => new() { new() { Adults = 2, Children = 1 } },
             "2 adults and 2 child" => new() { new() { Adults = 2, Children = 2 } },
             "2 adults + 2 child under 12 y.o." => new() { new() { Adults = 2, Children = 2 } },
+            "3 adults or / 2 adults and 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
+            "3 adults /or 2 adults + 1 child under 12 y.o" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
             "3 adults or / 2 adults + 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
-            "3 adults / or 2 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
+            "3 adults / or 2 + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
             "3 adults /or 2 adults + 2 children under 12 y.o" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 2 } },
-            "3 adults / or 3 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
+            "3 adults / or 3 + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
             "3 adults or / 3 adults and 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
             "3 adults + 1 child" => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults and 1 child" => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults and 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
             "3 adults + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
             "4 adults + 1 child" => new() { new() { Adults = 4, Children = 1 } },
             "4 adults + 1 child under 12 y.o." => new() { new() { Adults = 4, Children = 1 } },
+            "6 adults + 1 child" => new() { new() { Adults = 6, Children = 1 } },
             "6 adults + 1 child under 12 y.o." => new() { new() { Adults = 6, Children = 1 } },
             _ => new()
         };
