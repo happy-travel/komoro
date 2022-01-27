@@ -9,9 +9,10 @@ public static class ConfigureServicesExtension
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters())
+            .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(o => o.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetailsErrorHandling();
         builder.Services.AddResponseCompression();

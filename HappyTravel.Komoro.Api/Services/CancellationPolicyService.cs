@@ -43,7 +43,7 @@ public class CancellationPolicyService : ICancellationPolicyService
             var utcNow = DateTimeOffset.UtcNow;
             var cancellationPolicy = new DataModels.CancellationPolicy
             {
-                PropertyId = apiCancellationPolicy.PropertyId,
+                PropertyId = propertyId,
                 FromDate = apiCancellationPolicy.FromDate,
                 ToDate = apiCancellationPolicy.ToDate,
                 SeasonalityOrEvent = apiCancellationPolicy.SeasonalityOrEvent,

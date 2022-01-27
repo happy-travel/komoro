@@ -12,6 +12,7 @@ using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Api.Infrastructure.FunctionalExtensions;
+using NetTopologySuite.Geometries;
 
 namespace HappyTravel.Komoro.Api.Services;
 
@@ -64,7 +65,7 @@ public class PropertyService : IPropertyService
                 SupplierId = apiProperty.SupplierId,
                 Name = apiProperty.Name,
                 Address = apiProperty.Address,
-                Coordinates = apiProperty.Coordinates,
+                Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                 Phone = apiProperty.Phone,
                 StarRating = apiProperty.StarRating,
                 PrimaryContact = apiProperty.PrimaryContact,
@@ -93,7 +94,7 @@ public class PropertyService : IPropertyService
             property.SupplierId = apiProperty.SupplierId;
             property.Name = apiProperty.Name;
             property.Address = apiProperty.Address;
-            property.Coordinates = apiProperty.Coordinates;
+            property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
             property.Phone = apiProperty.Phone;
             property.StarRating = apiProperty.StarRating;
             property.PrimaryContact = apiProperty.PrimaryContact;
@@ -220,7 +221,7 @@ public class PropertyService : IPropertyService
                     SupplierId = apiProperty.SupplierId,
                     Name = apiProperty.Name,
                     Address = apiProperty.Address,
-                    Coordinates = apiProperty.Coordinates,
+                    Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                     Phone = apiProperty.Phone,
                     StarRating = apiProperty.StarRating,
                     PrimaryContact = apiProperty.PrimaryContact,
@@ -238,7 +239,7 @@ public class PropertyService : IPropertyService
                 property.SupplierId = apiProperty.SupplierId;
                 property.Name = apiProperty.Name;
                 property.Address = apiProperty.Address;
-                property.Coordinates = apiProperty.Coordinates;
+                property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
                 property.Phone = apiProperty.Phone;
                 property.StarRating = apiProperty.StarRating;
                 property.PrimaryContact = apiProperty.PrimaryContact;

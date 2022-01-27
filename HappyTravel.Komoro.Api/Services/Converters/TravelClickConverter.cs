@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using HappyTravel.Geography;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data.Models.Statics;
 using HappyTravel.Money.Enums;
@@ -18,31 +19,31 @@ public class TravelClickConverter
         {
             Id = propertyId,
             SupplierId = TravelClickId,
-            Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value ?? string.Empty,
+            Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value.Trim() ?? string.Empty,
             Address = new Address
             {
-                Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value ?? string.Empty,
-                City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value ?? string.Empty,
-                PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value ?? string.Empty,
-                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value ?? string.Empty
+                Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value.Trim() ?? string.Empty,
+                City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value.Trim() ?? string.Empty,
+                PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value.Trim() ?? string.Empty,
+                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value.Trim() ?? string.Empty
             },
             Coordinates = GetCoordinates(propertyItems),
-            Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value ?? string.Empty,
-            StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value ?? string.Empty),
+            Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value.Trim() ?? string.Empty,
+            StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value.Trim() ?? string.Empty),
             PrimaryContact = new Contact
             {
-                Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value ?? string.Empty,
-                Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value ?? string.Empty,
-                Email = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Email")?.Value ?? string.Empty
+                Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value.Trim() ?? string.Empty,
+                Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value.Trim() ?? string.Empty,
+                Email = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Email")?.Value.Trim() ?? string.Empty
             },
-            ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value ?? string.Empty,
-            CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value ?? string.Empty),
-            CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value ?? string.Empty),
+            ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value.Trim() ?? string.Empty,
+            CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value.Trim() ?? string.Empty),
+            CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value.Trim() ?? string.Empty),
             PassengerAge = new PassengerAge
             {
-                InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value ?? string.Empty),
-                ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value ?? string.Empty),
-                AdultFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Adult")?.Value ?? string.Empty)
+                InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value.Trim() ?? string.Empty),
+                ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value.Trim() ?? string.Empty),
+                AdultFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Adult")?.Value.Trim() ?? string.Empty)
             }
         };
 
@@ -73,15 +74,15 @@ public class TravelClickConverter
     }
 
 
-    private static Point GetCoordinates(List<CsvModels.PropertyItem> propertyItems)
+    private static GeoPoint GetCoordinates(List<CsvModels.PropertyItem> propertyItems)
     {
         var latitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Latitude")?.Value;
         var longitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Longitude")?.Value;
 
         if (!double.TryParse(latitudeString, out double latitude) || !double.TryParse(longitudeString, out double longitude))
-            return new Point(0.0, 0.0);
+            return new GeoPoint(0.0, 0.0);
 
-        return new Point(latitude, longitude);
+        return new GeoPoint(longitude, latitude);
     }
 
 
