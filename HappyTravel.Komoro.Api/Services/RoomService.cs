@@ -38,7 +38,7 @@ public class RoomService : IRoomService
             var utcNow = DateTimeOffset.UtcNow;
             var room = new DataModels.Room
             {
-                PropertyId = apiRoom.PropertyId,
+                PropertyId = propertyId,
                 RoomTypeId = apiRoom.RoomType.Id,
                 StandardMealPlanId = apiRoom.StandardMealPlan.Id,
                 StandardOccupancy = apiRoom.StandardOccupancy,
@@ -98,7 +98,7 @@ public class RoomService : IRoomService
     private static Result Validate(ApiModels.Room room)
         => GenericValidator<ApiModels.Room>.Validate(v =>
         {
-            v.RuleFor(r => r.PropertyId).NotEmpty();
+            //v.RuleFor(r => r.PropertyId).NotEmpty();
             v.RuleFor(r => r.RoomType).NotEmpty();
             v.RuleFor(r => r.StandardMealPlan).NotEmpty();
             v.RuleFor(r => r.StandardOccupancy).NotEmpty();

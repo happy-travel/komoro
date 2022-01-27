@@ -57,8 +57,8 @@ public class TravelClickConverter
         {
             var room = new ApiModels.Room
             {
-                RoomType = roomTypes.SingleOrDefault(rt => rt.Name == roomRecord.RoomType)?.ToApiRoomType() ?? new(),
-                StandardMealPlan = mealPlans.SingleOrDefault(mp => mp.Name == roomRecord.StandardMealPlan)?.ToApiMealPlan() ?? new(),
+                RoomType = roomTypes.SingleOrDefault(rt => rt.Name == roomRecord.RoomType.Trim())?.ToApiRoomType() ?? new(),
+                StandardMealPlan = mealPlans.SingleOrDefault(mp => mp.Name == roomRecord.StandardMealPlan.Trim())?.ToApiMealPlan() ?? new(),
                 StandardOccupancy = GetStandardOccupancy(roomRecord.StandardOccupancy),
                 MaximumOccupancy = GetMaximumOccupancy(roomRecord.MaximumOccupancy),
                 ExtraAdultSupplement = GetSupplement(roomRecord.ExtraAdultSupplement),

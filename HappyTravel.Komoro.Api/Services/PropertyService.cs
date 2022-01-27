@@ -163,6 +163,7 @@ public class PropertyService : IPropertyService
                     var propertyItemRecord = csv.GetRecord<CsvModels.PropertyItem>();
                     if (string.IsNullOrEmpty(propertyItemRecord.Key))
                         continue;
+                    propertyItemRecords.Add(propertyItemRecord);
                 }
             }
 
@@ -195,9 +196,10 @@ public class PropertyService : IPropertyService
         async Task<(int porpertyId, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
         {
             var apiProperty = data.property;
-            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == apiProperty.Id, cancellationToken);
+            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
             if (property is null)
             {
+                var utcNow = DateTimeOffset.UtcNow;
                 property = new DataModels.Property
                 {
                     Id = apiProperty.Id,
@@ -212,7 +214,8 @@ public class PropertyService : IPropertyService
                     CheckInTime = apiProperty.CheckInTime,
                     CheckOutTime = apiProperty.CheckOutTime,
                     PassengerAge = apiProperty.PassengerAge,
-                    Created = DateTimeOffset.UtcNow
+                    Created = utcNow,
+                    Modified = utcNow
                 };
                 _komoroContext.Properties.Add(property);
             }
@@ -240,20 +243,20 @@ public class PropertyService : IPropertyService
 
         async Task<Result<(int, List<int>)>> AddOrUpdateRooms((int propertyId, List<ApiModels.Room> rooms) data)
         {
-            var existingRooms = await _roomService.Get(propertyId, cancellationToken);
+            var existingRooms = await _roomService.Get(data.propertyId, cancellationToken);
 
             foreach (var room in data.rooms)
             {
                 var existingRoom = existingRooms.SingleOrDefault(r => r.RoomType.Id == room.RoomType.Id);
                 if (existingRoom is null)
                 {
-                    var (_, isFailure, error) = await _roomService.Add(propertyId, room, cancellationToken);
+                    var (_, isFailure, error) = await _roomService.Add(data.propertyId, room, cancellationToken);
                     if (isFailure)
                         return Result.Failure<(int, List<int>)>(error);
                 }
                 else
                 {
-                    var (_, isFailure, error) = await _roomService.Modify(propertyId, existingRoom.Id, room, cancellationToken);
+                    var (_, isFailure, error) = await _roomService.Modify(data.propertyId, existingRoom.Id, room, cancellationToken);
                     if (!isFailure)
                         return Result.Failure<(int, List<int>)>(error);
 
@@ -261,7 +264,7 @@ public class PropertyService : IPropertyService
                 }
             }
 
-            return (propertyId, existingRooms.Select(r => r.Id).ToList());
+            return (data.propertyId, existingRooms.Select(r => r.Id).ToList());
         }
 
 
