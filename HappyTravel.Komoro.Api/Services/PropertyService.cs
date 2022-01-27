@@ -11,6 +11,7 @@ using ApiModels = HappyTravel.Komoro.Api.Models;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 using HappyTravel.Komoro.Api.Services.Converters;
+using HappyTravel.Komoro.Api.Infrastructure.FunctionalExtensions;
 
 namespace HappyTravel.Komoro.Api.Services;
 
@@ -128,9 +129,10 @@ public class PropertyService : IPropertyService
             .Map(Convert)
             .Ensure(PropertyHasNoDuplicates, "Uploading property has duplicate")
             .Check(ValidateProperty)
-            .Map(AddOrModifyProperty)
-            .Bind(AddOrUpdateRooms)
-            .Bind(RemoveRooms);
+            .BindWithTransaction(_komoroContext, data => Result.Success(data)
+                .Map(AddOrModifyProperty)
+                .Bind(AddOrUpdateRooms)
+                .Bind(RemoveRooms));
 
 
         Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadData()
