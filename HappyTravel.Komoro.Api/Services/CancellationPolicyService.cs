@@ -28,7 +28,14 @@ public class CancellationPolicyService : ICancellationPolicyService
     public async Task<Result> Add(int propertyId, ApiModels.CancellationPolicy apiCancellationPolicy, CancellationToken cancellationToken)
     {
         return await Validate(apiCancellationPolicy)
+            .Ensure(() => CancellationPolicyHasNoDuplicates(apiCancellationPolicy), "Adding cancellation policy has duplicate")
             .Tap(Add);
+
+
+        async Task<bool> CancellationPolicyHasNoDuplicates(ApiModels.CancellationPolicy cancellationPolicy)
+            => !await _komoroContext.CancellationPolicies.Where(cp => cp.PropertyId == propertyId && cp.FromDate == apiCancellationPolicy.FromDate 
+                && cp.ToDate == apiCancellationPolicy.ToDate && cp.Deadline == apiCancellationPolicy.Deadline)  // TODO: Add Percentage in task AA-1103
+                .AnyAsync(cancellationToken);
 
 
         async Task Add()

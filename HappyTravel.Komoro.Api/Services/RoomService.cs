@@ -30,8 +30,13 @@ public class RoomService : IRoomService
     public async Task<Result> Add(int propertyId, ApiModels.Room apiRoom, CancellationToken cancellationToken)
     {
         return await Validate(apiRoom)
+            .Ensure(() => RoomHasNoDuplicates(apiRoom), "Adding room has duplicate")
             .Tap(Add);
 
+
+        async Task<bool> RoomHasNoDuplicates(ApiModels.Room room)
+            => !await _komoroContext.Rooms.Where(r => r.PropertyId == propertyId && r.RoomTypeId == apiRoom.RoomType.Id)
+                .AnyAsync(cancellationToken);
 
         async Task Add()
         {
@@ -98,14 +103,10 @@ public class RoomService : IRoomService
     private static Result Validate(ApiModels.Room room)
         => GenericValidator<ApiModels.Room>.Validate(v =>
         {
-            //v.RuleFor(r => r.PropertyId).NotEmpty();
             v.RuleFor(r => r.RoomType).NotEmpty();
             v.RuleFor(r => r.StandardMealPlan).NotEmpty();
             v.RuleFor(r => r.StandardOccupancy).NotEmpty();
             v.RuleFor(r => r.MaximumOccupancy).NotEmpty();
-            v.RuleFor(r => r.ExtraAdultSupplement).NotEmpty();
-            v.RuleFor(r => r.ChildSupplement).NotEmpty();
-            v.RuleFor(r => r.InfantSupplement).NotEmpty();
             v.RuleFor(r => r.RatePlans).NotEmpty();
         },
         room);

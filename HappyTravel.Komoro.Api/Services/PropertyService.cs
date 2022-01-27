@@ -46,7 +46,13 @@ public class PropertyService : IPropertyService
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
         return await Validate(apiProperty)
+            .Ensure(() => PropertyHasNoDuplicates(apiProperty), "Adding property has duplicate")
             .Tap(Add);
+
+
+        async Task<bool> PropertyHasNoDuplicates(ApiModels.Property property)
+            => !await _komoroContext.Properties.Where(p => p.Name == property.Name)
+                .AnyAsync(cancellationToken);
 
 
         async Task Add()
@@ -120,6 +126,7 @@ public class PropertyService : IPropertyService
     {
         return await UploadData()
             .Map(Convert)
+            .Ensure(PropertyHasNoDuplicates, "Uploading property has duplicate")
             .Check(ValidateProperty)
             .Map(AddOrModifyProperty)
             .Bind(AddOrUpdateRooms)
@@ -187,6 +194,11 @@ public class PropertyService : IPropertyService
             
             return (property, rooms);
         }
+
+
+        async Task<bool> PropertyHasNoDuplicates((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+            => !await _komoroContext.Properties.Where(p => p.Id != propertyId && p.Name == data.property.Name)
+                .AnyAsync(cancellationToken);
 
 
         static Result ValidateProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
@@ -257,7 +269,7 @@ public class PropertyService : IPropertyService
                 else
                 {
                     var (_, isFailure, error) = await _roomService.Modify(data.propertyId, existingRoom.Id, room, cancellationToken);
-                    if (!isFailure)
+                    if (isFailure)
                         return Result.Failure<(int, List<int>)>(error);
 
                     existingRooms.Remove(existingRoom);
