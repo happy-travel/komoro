@@ -34,7 +34,8 @@ public class CancellationPolicyService : ICancellationPolicyService
 
         async Task<bool> CancellationPolicyHasNoDuplicates(ApiModels.CancellationPolicy cancellationPolicy)
             => !await _komoroContext.CancellationPolicies.Where(cp => cp.PropertyId == propertyId && cp.FromDate == apiCancellationPolicy.FromDate 
-                && cp.ToDate == apiCancellationPolicy.ToDate && cp.Deadline == apiCancellationPolicy.Deadline)  // TODO: Add Percentage in task AA-1103
+                && cp.ToDate == apiCancellationPolicy.ToDate && cp.Deadline == apiCancellationPolicy.Deadline 
+                && cp.Percentage == apiCancellationPolicy.Percentage)
                 .AnyAsync(cancellationToken);
 
 
@@ -48,6 +49,7 @@ public class CancellationPolicyService : ICancellationPolicyService
                 ToDate = apiCancellationPolicy.ToDate,
                 SeasonalityOrEvent = apiCancellationPolicy.SeasonalityOrEvent,
                 Deadline = apiCancellationPolicy.Deadline,
+                Percentage = apiCancellationPolicy.Percentage,
                 NoShow = apiCancellationPolicy.NoShow,
                 Created = utcNow,
                 Modified = utcNow
@@ -73,6 +75,7 @@ public class CancellationPolicyService : ICancellationPolicyService
             cancellationPolicy.ToDate = apiCancellationPolicy.ToDate;
             cancellationPolicy.SeasonalityOrEvent = apiCancellationPolicy.SeasonalityOrEvent;
             cancellationPolicy.Deadline = apiCancellationPolicy.Deadline;
+            cancellationPolicy.Percentage = apiCancellationPolicy.Percentage;
             cancellationPolicy.NoShow = apiCancellationPolicy.NoShow;
             cancellationPolicy.Modified = DateTimeOffset.UtcNow;
 
@@ -103,6 +106,7 @@ public class CancellationPolicyService : ICancellationPolicyService
             v.RuleFor(cp => cp.FromDate).NotEmpty();
             v.RuleFor(cp => cp.ToDate).NotEmpty();
             v.RuleFor(cp => cp.Deadline).NotEmpty();
+            v.RuleFor(cp => cp.Percentage).NotEmpty();
             v.RuleFor(cp => cp.NoShow).NotEmpty();
         },
         cancellationPolicy);

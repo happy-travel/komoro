@@ -15,6 +15,7 @@ public static class CancellationPolicyExtension
             ToDate = cancellationPolicy.ToDate,
             SeasonalityOrEvent = cancellationPolicy.SeasonalityOrEvent,
             Deadline = cancellationPolicy.Deadline,
+            Percentage = cancellationPolicy.Percentage,
             NoShow = cancellationPolicy.NoShow
         };
     }

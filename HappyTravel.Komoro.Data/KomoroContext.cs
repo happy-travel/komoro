@@ -20,6 +20,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.ToDate).IsRequired();
             e.Property(p => p.SeasonalityOrEvent);
             e.Property(p => p.Deadline).IsRequired();
+            e.Property(p => p.Percentage).IsRequired();
             e.Property(p => p.NoShow).IsRequired();
             e.Property(p => p.Created).IsRequired();
             e.Property(p => p.Modified).IsRequired();

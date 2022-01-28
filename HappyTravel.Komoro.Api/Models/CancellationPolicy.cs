@@ -10,6 +10,7 @@ namespace HappyTravel.Komoro.Api.Models
         public DateOnly ToDate { get; init; }
         public string? SeasonalityOrEvent { get; init; }
         public int Deadline { get; init; }
+        public double Percentage { get; init; }
         public NoShowPolicies NoShow { get; init; }
     }
 }
