@@ -155,7 +155,7 @@ public class PropertyService : IPropertyService
             while (csv.Read())
             {
                 rowNumber++;
-                if (rowNumber <= 3)
+                if (rowNumber <= CountHeaderRows)
                     continue;
 
                 if (isRoomData)
@@ -177,7 +177,7 @@ public class PropertyService : IPropertyService
                 }
             }
 
-            if (propertyItemRecords.Count < 18)
+            if (propertyItemRecords.Count < CountPropertyItemRows)
                 return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("Property data loaded from CSV file is incomplete");
 
             if (roomRecords.Count == 0)
@@ -208,7 +208,7 @@ public class PropertyService : IPropertyService
             => Validate(data.property);
 
 
-        async Task<(int porpertyId, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+        async Task<(int, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
         {
             var apiProperty = data.property;
             var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
@@ -323,6 +323,9 @@ public class PropertyService : IPropertyService
             : Result.Failure<DataModels.Property>($"Property with id {propertyId} not found");
     }
 
+
+    private const int CountHeaderRows = 3;
+    private const int CountPropertyItemRows = 18;
 
     private readonly KomoroContext _komoroContext;
     private readonly IRoomService _roomService;
