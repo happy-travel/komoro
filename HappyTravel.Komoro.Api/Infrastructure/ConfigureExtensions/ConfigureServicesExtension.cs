@@ -29,7 +29,7 @@ public static class ConfigureServicesExtension
         builder.Services.AddTransient<IRoomService, RoomService>();
         builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
 
-        builder.Services.AddTransient<TravelClickConverter>();
+        builder.Services.AddTransient<TravelClickPropertyConverter>();
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
     }

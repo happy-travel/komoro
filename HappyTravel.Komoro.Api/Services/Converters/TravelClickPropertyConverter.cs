@@ -1,17 +1,15 @@
-﻿using CSharpFunctionalExtensions;
-using HappyTravel.Geography;
+﻿using HappyTravel.Geography;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data.Models.Statics;
 using HappyTravel.Money.Enums;
 using HappyTravel.Money.Models;
-using NetTopologySuite.Geometries;
 using System.Text.RegularExpressions;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 
 namespace HappyTravel.Komoro.Api.Services.Converters;
 
-public class TravelClickConverter
+public class TravelClickPropertyConverter
 {
     internal static ApiModels.Property Convert(int propertyId, List<CsvModels.PropertyItem> propertyItems)
     {
@@ -53,7 +51,7 @@ public class TravelClickConverter
 
     internal static List<ApiModels.Room> Convert(List<CsvModels.Room> roomRecords, List<RoomType> roomTypes, List<MealPlan> mealPlans)
     {
-        var rooms = new List<ApiModels.Room>();
+        var rooms = new List<ApiModels.Room>(roomRecords.Count);
         foreach (var roomRecord in roomRecords)
         {
             var room = new ApiModels.Room
