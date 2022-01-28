@@ -27,7 +27,13 @@ public class MealPlanService : IMealPlanService
     public async Task<Result> Add(ApiModels.MealPlan apiMealPlan, CancellationToken cancellationToken)
     {
         return await Validate(apiMealPlan)
+            .Ensure(() => MealPlanHasNoDuplicates(apiMealPlan), "Adding meal plan has duplicate")
             .Tap(Add);
+
+
+        async Task<bool> MealPlanHasNoDuplicates(ApiModels.MealPlan mealPlan)
+            => !await _komoroContext.MealPlans.Where(mp => mp.Name == mealPlan.Name)
+                .AnyAsync(cancellationToken);
 
 
         async Task Add()

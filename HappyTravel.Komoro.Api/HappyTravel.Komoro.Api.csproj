@@ -6,20 +6,24 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.27.0" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.27.2" />
+    <PackageReference Include="CsvHelper" Version="27.2.1" />
+    <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="1.0.2" />
+    <PackageReference Include="DateOnlyTimeOnly.AspNet.Swashbuckle" Version="1.0.2" />
     <PackageReference Include="FloxDc.CacheFlow" Version="1.10.0" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="HappyTravel.ConsulKeyValueClient.ConfigurationProvider" Version="1.6.1" />
     <PackageReference Include="HappyTravel.ErrorHandling" Version="1.2.3" />
+    <PackageReference Include="HappyTravel.Geography" Version="1.6.0" />
     <PackageReference Include="HappyTravel.StdOutLogger" Version="1.7.0" />
-    <PackageReference Include="HappyTravel.Telemetry" Version="0.15.2" />
+    <PackageReference Include="HappyTravel.Telemetry" Version="0.15.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="Sentry.AspNetCore" Version="3.12.3" />
+    <PackageReference Include="Sentry.AspNetCore" Version="3.13.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +35,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\JsonConverters\" />
     <Folder Include="Infrastructure\Logging\" />
   </ItemGroup>
   <PropertyGroup>

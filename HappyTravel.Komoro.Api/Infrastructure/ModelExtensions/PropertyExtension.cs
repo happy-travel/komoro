@@ -13,7 +13,7 @@ public static class PropertyExtension
             SupplierId = property.SupplierId,
             Name = property.Name,
             Address = property.Address,
-            Coordinates = property.Coordinates,
+            Coordinates = new Geography.GeoPoint(property.Coordinates),
             Phone = property.Phone,
             StarRating = property.StarRating,
             PrimaryContact = property.PrimaryContact,
@@ -33,14 +33,16 @@ public static class PropertyExtension
             SupplierId = property.SupplierId,
             Name = property.Name,
             Address = property.Address,
-            Coordinates = property.Coordinates,
+            Coordinates = new Geography.GeoPoint(property.Coordinates),
             Phone = property.Phone,
             StarRating = property.StarRating,
             PrimaryContact = property.PrimaryContact,
             ReservationEmail = property.ReservationEmail,
             CheckInTime = property.CheckInTime,
             CheckOutTime = property.CheckOutTime,
-            PassengerAge = property.PassengerAge
+            PassengerAge = property.PassengerAge,
+            Rooms = property.Rooms.Select(r => r.ToApiRoom()).ToList(),
+            CancellationPolicies = property.CancellationPolicies.Select(cp => cp.ToApiCancellationPolicy()).ToList()
         };
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FloxDc.CacheFlow.Extensions;
 using HappyTravel.ErrorHandling.Extensions;
 using HappyTravel.Komoro.Api.Services;
+using HappyTravel.Komoro.Api.Services.Converters;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
 
@@ -8,9 +9,10 @@ public static class ConfigureServicesExtension
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters())
+            .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(o => o.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetailsErrorHandling();
         builder.Services.AddResponseCompression();
@@ -26,6 +28,8 @@ public static class ConfigureServicesExtension
         builder.Services.AddTransient<IPropertyService, PropertyService>();
         builder.Services.AddTransient<IRoomService, RoomService>();
         builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
+
+        builder.Services.AddTransient<TravelClickPropertyConverter>();
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
     }

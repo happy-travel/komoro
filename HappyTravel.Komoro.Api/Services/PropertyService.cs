@@ -1,19 +1,27 @@
 ﻿using CSharpFunctionalExtensions;
+using CsvHelper;
+using CsvHelper.Configuration;
 using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
+using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
+using HappyTravel.Komoro.Api.Services.Converters;
+using HappyTravel.Komoro.Api.Infrastructure.FunctionalExtensions;
+using NetTopologySuite.Geometries;
 
 namespace HappyTravel.Komoro.Api.Services;
 
 public class PropertyService : IPropertyService
 {
-    public PropertyService(KomoroContext komoroContext)
+    public PropertyService(KomoroContext komoroContext, IRoomService roomService)
     {
         _komoroContext = komoroContext;
+        _roomService = roomService;
     }
 
 
@@ -40,7 +48,13 @@ public class PropertyService : IPropertyService
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
         return await Validate(apiProperty)
+            .Ensure(() => PropertyHasNoDuplicates(apiProperty), "Adding property has duplicate")
             .Tap(Add);
+
+
+        async Task<bool> PropertyHasNoDuplicates(ApiModels.Property property)
+            => !await _komoroContext.Properties.Where(p => p.Name == property.Name)
+                .AnyAsync(cancellationToken);
 
 
         async Task Add()
@@ -51,7 +65,7 @@ public class PropertyService : IPropertyService
                 SupplierId = apiProperty.SupplierId,
                 Name = apiProperty.Name,
                 Address = apiProperty.Address,
-                Coordinates = apiProperty.Coordinates,
+                Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                 Phone = apiProperty.Phone,
                 StarRating = apiProperty.StarRating,
                 PrimaryContact = apiProperty.PrimaryContact,
@@ -80,7 +94,7 @@ public class PropertyService : IPropertyService
             property.SupplierId = apiProperty.SupplierId;
             property.Name = apiProperty.Name;
             property.Address = apiProperty.Address;
-            property.Coordinates = apiProperty.Coordinates;
+            property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
             property.Phone = apiProperty.Phone;
             property.StarRating = apiProperty.StarRating;
             property.PrimaryContact = apiProperty.PrimaryContact;
@@ -106,6 +120,179 @@ public class PropertyService : IPropertyService
         {
             _komoroContext.Properties.Remove(property);
             await _komoroContext.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+
+    public async Task<Result> UploadTravelClickProperty(int propertyId, IFormFile uploadedFile, CancellationToken cancellationToken)
+    {
+        return await UploadData()
+            .Map(Convert)
+            .Ensure(PropertyHasNoDuplicates, "Uploading property has duplicate")
+            .Check(ValidateProperty)
+            .BindWithTransaction(_komoroContext, data => Result.Success(data)
+                .Map(AddOrModifyProperty)
+                .Bind(AddOrUpdateRooms)
+                .Bind(RemoveRooms));
+
+
+        Result<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)> UploadData()
+        {
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                HasHeaderRecord = false
+            };
+            using var reader = new StreamReader(uploadedFile.OpenReadStream());
+            using var csv = new CsvReader(reader, configuration);
+
+            csv.Context.RegisterClassMap<CsvModels.RoomMap>();
+            csv.Context.RegisterClassMap<CsvModels.PropertyItemMap>();
+            var roomRecords = new List<CsvModels.Room>();
+            var propertyItemRecords = new List<CsvModels.PropertyItem>();
+            var rowNumber = 0;
+            var isRoomData = true;
+            while (csv.Read())
+            {
+                rowNumber++;
+                if (rowNumber <= CountHeaderRows)
+                    continue;
+
+                if (isRoomData)
+                {
+                    var roomRecord = csv.GetRecord<CsvModels.Room>();
+                    if (string.IsNullOrEmpty(roomRecord.RoomType))
+                    {
+                        isRoomData = false;
+                        continue;
+                    }
+                    roomRecords.Add(roomRecord);
+                }
+                else
+                {
+                    var propertyItemRecord = csv.GetRecord<CsvModels.PropertyItem>();
+                    if (string.IsNullOrEmpty(propertyItemRecord.Key))
+                        continue;
+                    propertyItemRecords.Add(propertyItemRecord);
+                }
+            }
+
+            if (propertyItemRecords.Count < CountPropertyItemRows)
+                return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("Property data loaded from CSV file is incomplete");
+
+            if (roomRecords.Count == 0)
+                return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("No rooms were found in the hotel when loading the CSV file");
+
+            return (propertyItemRecords, roomRecords);
+        }
+
+
+        async Task<(ApiModels.Property, List<ApiModels.Room>)> Convert((List<CsvModels.PropertyItem> propertyItems, List<CsvModels.Room> rooms) data)
+        {
+            var roomTypes = await _komoroContext.RoomTypes.ToListAsync(cancellationToken);
+            var mealPlans = await _komoroContext.MealPlans.ToListAsync(cancellationToken);
+
+            var property = TravelClickPropertyConverter.Convert(propertyId, data.propertyItems);
+            var rooms = TravelClickPropertyConverter.Convert(data.rooms, roomTypes, mealPlans);
+            
+            return (property, rooms);
+        }
+
+
+        async Task<bool> PropertyHasNoDuplicates((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+            => !await _komoroContext.Properties.Where(p => p.Id != propertyId && p.Name == data.property.Name)
+                .AnyAsync(cancellationToken);
+
+
+        static Result ValidateProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+            => Validate(data.property);
+
+
+        async Task<(int, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+        {
+            var apiProperty = data.property;
+            var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
+            if (property is null)
+            {
+                var utcNow = DateTimeOffset.UtcNow;
+                property = new DataModels.Property
+                {
+                    Id = apiProperty.Id,
+                    SupplierId = apiProperty.SupplierId,
+                    Name = apiProperty.Name,
+                    Address = apiProperty.Address,
+                    Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
+                    Phone = apiProperty.Phone,
+                    StarRating = apiProperty.StarRating,
+                    PrimaryContact = apiProperty.PrimaryContact,
+                    ReservationEmail = apiProperty.ReservationEmail,
+                    CheckInTime = apiProperty.CheckInTime,
+                    CheckOutTime = apiProperty.CheckOutTime,
+                    PassengerAge = apiProperty.PassengerAge,
+                    Created = utcNow,
+                    Modified = utcNow
+                };
+                _komoroContext.Properties.Add(property);
+            }
+            else
+            {
+                property.SupplierId = apiProperty.SupplierId;
+                property.Name = apiProperty.Name;
+                property.Address = apiProperty.Address;
+                property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
+                property.Phone = apiProperty.Phone;
+                property.StarRating = apiProperty.StarRating;
+                property.PrimaryContact = apiProperty.PrimaryContact;
+                property.ReservationEmail = apiProperty.ReservationEmail;
+                property.CheckInTime = apiProperty.CheckInTime;
+                property.CheckOutTime = apiProperty.CheckOutTime;
+                property.PassengerAge = apiProperty.PassengerAge;
+                property.Modified = DateTimeOffset.UtcNow;
+                _komoroContext.Properties.Update(property);
+            }
+            await _komoroContext.SaveChangesAsync(cancellationToken);
+
+            return (property.Id, data.rooms);
+        }
+
+
+        async Task<Result<(int, List<int>)>> AddOrUpdateRooms((int propertyId, List<ApiModels.Room> rooms) data)
+        {
+            var existingRooms = await _roomService.Get(data.propertyId, cancellationToken);
+
+            foreach (var room in data.rooms)
+            {
+                var existingRoom = existingRooms.SingleOrDefault(r => r.RoomType.Id == room.RoomType.Id);
+                if (existingRoom is null)
+                {
+                    var (_, isFailure, error) = await _roomService.Add(data.propertyId, room, cancellationToken);
+                    if (isFailure)
+                        return Result.Failure<(int, List<int>)>(error);
+                }
+                else
+                {
+                    var (_, isFailure, error) = await _roomService.Modify(data.propertyId, existingRoom.Id, room, cancellationToken);
+                    if (isFailure)
+                        return Result.Failure<(int, List<int>)>(error);
+
+                    existingRooms.Remove(existingRoom);
+                }
+            }
+
+            return (data.propertyId, existingRooms.Select(r => r.Id).ToList());
+        }
+
+
+        async Task<Result> RemoveRooms((int propertyId, List<int> roomIds) data)
+        {
+            foreach(var roomId in data.roomIds)
+            {
+                var (_, isFailure, error) = await _roomService.Remove(data.propertyId, roomId, cancellationToken);
+                if (!isFailure)
+                    return Result.Failure(error);
+            }
+
+            return Result.Success();
         }
     }
 
@@ -137,5 +324,9 @@ public class PropertyService : IPropertyService
     }
 
 
+    private const int CountHeaderRows = 3;
+    private const int CountPropertyItemRows = 18;
+
     private readonly KomoroContext _komoroContext;
+    private readonly IRoomService _roomService;
 }
