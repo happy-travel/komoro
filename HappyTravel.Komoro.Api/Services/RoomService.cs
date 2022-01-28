@@ -103,8 +103,8 @@ public class RoomService : IRoomService
     private static Result Validate(ApiModels.Room room)
         => GenericValidator<ApiModels.Room>.Validate(v =>
         {
-            v.RuleFor(r => r.RoomType).NotEmpty();
-            v.RuleFor(r => r.StandardMealPlan).NotEmpty();
+            v.RuleFor(r => r.RoomType).NotEmpty().ChildRules(iv => iv.RuleFor(rt => rt.Id).NotEmpty());
+            v.RuleFor(r => r.StandardMealPlan).NotEmpty().ChildRules(iv => iv.RuleFor(rt => rt.Id).NotEmpty());
             v.RuleFor(r => r.StandardOccupancy).NotEmpty();
             v.RuleFor(r => r.MaximumOccupancy).NotEmpty();
             v.RuleFor(r => r.RatePlans).NotEmpty();

@@ -1,16 +1,15 @@
-﻿using CSharpFunctionalExtensions;
+﻿using HappyTravel.Geography;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data.Models.Statics;
 using HappyTravel.Money.Enums;
 using HappyTravel.Money.Models;
-using NetTopologySuite.Geometries;
 using System.Text.RegularExpressions;
 using ApiModels = HappyTravel.Komoro.Api.Models;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 
 namespace HappyTravel.Komoro.Api.Services.Converters;
 
-public class TravelClickConverter
+public class TravelClickPropertyConverter
 {
     internal static ApiModels.Property Convert(int propertyId, List<CsvModels.PropertyItem> propertyItems)
     {
@@ -18,31 +17,31 @@ public class TravelClickConverter
         {
             Id = propertyId,
             SupplierId = TravelClickId,
-            Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value ?? string.Empty,
+            Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value.Trim() ?? string.Empty,
             Address = new Address
             {
-                Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value ?? string.Empty,
-                City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value ?? string.Empty,
-                PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value ?? string.Empty,
-                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value ?? string.Empty
+                Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value.Trim() ?? string.Empty,
+                City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value.Trim() ?? string.Empty,
+                PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value.Trim() ?? string.Empty,
+                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value.Trim() ?? string.Empty
             },
             Coordinates = GetCoordinates(propertyItems),
-            Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value ?? string.Empty,
-            StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value ?? string.Empty),
+            Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value.Trim() ?? string.Empty,
+            StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value.Trim() ?? string.Empty),
             PrimaryContact = new Contact
             {
-                Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value ?? string.Empty,
-                Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value ?? string.Empty,
-                Email = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Email")?.Value ?? string.Empty
+                Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value.Trim() ?? string.Empty,
+                Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value.Trim() ?? string.Empty,
+                Email = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Email")?.Value.Trim() ?? string.Empty
             },
-            ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value ?? string.Empty,
-            CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value ?? string.Empty),
-            CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value ?? string.Empty),
+            ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value.Trim() ?? string.Empty,
+            CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value.Trim() ?? string.Empty),
+            CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value.Trim() ?? string.Empty),
             PassengerAge = new PassengerAge
             {
-                InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value ?? string.Empty),
-                ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value ?? string.Empty),
-                AdultFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Adult")?.Value ?? string.Empty)
+                InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value.Trim() ?? string.Empty),
+                ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value.Trim() ?? string.Empty),
+                AdultFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Adult")?.Value.Trim() ?? string.Empty)
             }
         };
 
@@ -52,13 +51,13 @@ public class TravelClickConverter
 
     internal static List<ApiModels.Room> Convert(List<CsvModels.Room> roomRecords, List<RoomType> roomTypes, List<MealPlan> mealPlans)
     {
-        var rooms = new List<ApiModels.Room>();
+        var rooms = new List<ApiModels.Room>(roomRecords.Count);
         foreach (var roomRecord in roomRecords)
         {
             var room = new ApiModels.Room
             {
                 RoomType = roomTypes.SingleOrDefault(rt => rt.Name == roomRecord.RoomType.Trim())?.ToApiRoomType() ?? new(),
-                StandardMealPlan = mealPlans.SingleOrDefault(mp => mp.Name == roomRecord.StandardMealPlan.Trim())?.ToApiMealPlan() ?? new(),
+                StandardMealPlan = GetMealPlan(roomRecord.StandardMealPlan, mealPlans),
                 StandardOccupancy = GetStandardOccupancy(roomRecord.StandardOccupancy),
                 MaximumOccupancy = GetMaximumOccupancy(roomRecord.MaximumOccupancy),
                 ExtraAdultSupplement = GetSupplement(roomRecord.ExtraAdultSupplement),
@@ -73,15 +72,25 @@ public class TravelClickConverter
     }
 
 
-    private static Point GetCoordinates(List<CsvModels.PropertyItem> propertyItems)
+    private static ApiModels.MealPlan GetMealPlan(string mealPlanString, List<MealPlan> mealPlans)
+    {
+        var mealPlan = mealPlanString.Trim();
+        if (mealPlan == "Breakfast")
+            mealPlan = "Bed & Breakfast";
+
+        return mealPlans.SingleOrDefault(mp => mp.Name == mealPlan)?.ToApiMealPlan() ?? new();
+    }
+
+
+    private static GeoPoint GetCoordinates(List<CsvModels.PropertyItem> propertyItems)
     {
         var latitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Latitude")?.Value;
         var longitudeString = propertyItems.SingleOrDefault(pi => pi.Key == "Longitude")?.Value;
 
         if (!double.TryParse(latitudeString, out double latitude) || !double.TryParse(longitudeString, out double longitude))
-            return new Point(0.0, 0.0);
+            return new GeoPoint(0.0, 0.0);
 
-        return new Point(latitude, longitude);
+        return new GeoPoint(longitude, latitude);
     }
 
 
@@ -129,21 +138,27 @@ public class TravelClickConverter
 
     private static List<Occupancy> GetMaximumOccupancy(string occupancy)
     {
-        return occupancy.ToLowerInvariant() switch
+        return occupancy.Trim().Replace("  ", " ").ToLowerInvariant() switch
         {
             "2 adults" => new() { new() { Adults = 2, Children = 0 } },
+            "2 adults and 1 child" => new() { new() { Adults = 2, Children = 1 } },
             "2 adults + 1 child under 12 y.o." => new() { new() { Adults = 2, Children = 1 } },
             "2 adults and 2 child" => new() { new() { Adults = 2, Children = 2 } },
             "2 adults + 2 child under 12 y.o." => new() { new() { Adults = 2, Children = 2 } },
+            "3 adults or / 2 adults and 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
+            "3 adults /or 2 adults + 1 child under 12 y.o" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
             "3 adults or / 2 adults + 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
-            "3 adults / or 2 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
+            "3 adults / or 2 + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 1 } },
             "3 adults /or 2 adults + 2 children under 12 y.o" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 2, Children = 2 } },
-            "3 adults / or 3 + 1  child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
+            "3 adults / or 3 + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
             "3 adults or / 3 adults and 1 child" => new() { new() { Adults = 3, Children = 0 }, new() { Adults = 3, Children = 1 } },
             "3 adults + 1 child" => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults and 1 child" => new() { new() { Adults = 3, Children = 1 } },
+            "3 adults and 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
             "3 adults + 1 child under 12 y.o." => new() { new() { Adults = 3, Children = 1 } },
             "4 adults + 1 child" => new() { new() { Adults = 4, Children = 1 } },
             "4 adults + 1 child under 12 y.o." => new() { new() { Adults = 4, Children = 1 } },
+            "6 adults + 1 child" => new() { new() { Adults = 6, Children = 1 } },
             "6 adults + 1 child under 12 y.o." => new() { new() { Adults = 6, Children = 1 } },
             _ => new()
         };

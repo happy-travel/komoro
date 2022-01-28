@@ -12,6 +12,7 @@ using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Api.Infrastructure.FunctionalExtensions;
+using NetTopologySuite.Geometries;
 
 namespace HappyTravel.Komoro.Api.Services;
 
@@ -64,7 +65,7 @@ public class PropertyService : IPropertyService
                 SupplierId = apiProperty.SupplierId,
                 Name = apiProperty.Name,
                 Address = apiProperty.Address,
-                Coordinates = apiProperty.Coordinates,
+                Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                 Phone = apiProperty.Phone,
                 StarRating = apiProperty.StarRating,
                 PrimaryContact = apiProperty.PrimaryContact,
@@ -93,7 +94,7 @@ public class PropertyService : IPropertyService
             property.SupplierId = apiProperty.SupplierId;
             property.Name = apiProperty.Name;
             property.Address = apiProperty.Address;
-            property.Coordinates = apiProperty.Coordinates;
+            property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
             property.Phone = apiProperty.Phone;
             property.StarRating = apiProperty.StarRating;
             property.PrimaryContact = apiProperty.PrimaryContact;
@@ -154,7 +155,7 @@ public class PropertyService : IPropertyService
             while (csv.Read())
             {
                 rowNumber++;
-                if (rowNumber <= 3)
+                if (rowNumber <= CountHeaderRows)
                     continue;
 
                 if (isRoomData)
@@ -176,7 +177,7 @@ public class PropertyService : IPropertyService
                 }
             }
 
-            if (propertyItemRecords.Count < 18)
+            if (propertyItemRecords.Count < CountPropertyItemRows)
                 return Result.Failure<(List<CsvModels.PropertyItem>, List<CsvModels.Room>)>("Property data loaded from CSV file is incomplete");
 
             if (roomRecords.Count == 0)
@@ -191,8 +192,8 @@ public class PropertyService : IPropertyService
             var roomTypes = await _komoroContext.RoomTypes.ToListAsync(cancellationToken);
             var mealPlans = await _komoroContext.MealPlans.ToListAsync(cancellationToken);
 
-            var property = TravelClickConverter.Convert(propertyId, data.propertyItems);
-            var rooms = TravelClickConverter.Convert(data.rooms, roomTypes, mealPlans);
+            var property = TravelClickPropertyConverter.Convert(propertyId, data.propertyItems);
+            var rooms = TravelClickPropertyConverter.Convert(data.rooms, roomTypes, mealPlans);
             
             return (property, rooms);
         }
@@ -207,7 +208,7 @@ public class PropertyService : IPropertyService
             => Validate(data.property);
 
 
-        async Task<(int porpertyId, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
+        async Task<(int, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
         {
             var apiProperty = data.property;
             var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
@@ -220,7 +221,7 @@ public class PropertyService : IPropertyService
                     SupplierId = apiProperty.SupplierId,
                     Name = apiProperty.Name,
                     Address = apiProperty.Address,
-                    Coordinates = apiProperty.Coordinates,
+                    Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                     Phone = apiProperty.Phone,
                     StarRating = apiProperty.StarRating,
                     PrimaryContact = apiProperty.PrimaryContact,
@@ -238,7 +239,7 @@ public class PropertyService : IPropertyService
                 property.SupplierId = apiProperty.SupplierId;
                 property.Name = apiProperty.Name;
                 property.Address = apiProperty.Address;
-                property.Coordinates = apiProperty.Coordinates;
+                property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
                 property.Phone = apiProperty.Phone;
                 property.StarRating = apiProperty.StarRating;
                 property.PrimaryContact = apiProperty.PrimaryContact;
@@ -322,6 +323,9 @@ public class PropertyService : IPropertyService
             : Result.Failure<DataModels.Property>($"Property with id {propertyId} not found");
     }
 
+
+    private const int CountHeaderRows = 3;
+    private const int CountPropertyItemRows = 18;
 
     private readonly KomoroContext _komoroContext;
     private readonly IRoomService _roomService;
