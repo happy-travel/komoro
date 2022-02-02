@@ -12,7 +12,7 @@
             <param name="cancellationToken">Cancellation token</param>
             <returns>List of cancellation policies</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Add(System.Int32,HappyTravel.Komoro.Api.Models.CancellationPolicy,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Add(System.Int32,HappyTravel.KomoroContracts.Statics.CancellationPolicy,System.Threading.CancellationToken)">
             <summary>
             Adds a new cancellation policy for the specified property
             </summary>
@@ -20,7 +20,7 @@
             <param name="cancellationPolicy">Cancellation policy data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Modify(System.Int32,System.Int32,HappyTravel.Komoro.Api.Models.CancellationPolicy,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Modify(System.Int32,System.Int32,HappyTravel.KomoroContracts.Statics.CancellationPolicy,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing cancellation policy for the specified property
             </summary>
@@ -44,14 +44,14 @@
             <param name="cancellationToken">Cancellation token</param>
             <returns>List of meal plans</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Add(HappyTravel.Komoro.Api.Models.MealPlan,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Add(HappyTravel.KomoroContracts.Statics.MealPlan,System.Threading.CancellationToken)">
             <summary>
             Adds a new meal plan
             </summary>
             <param name="mealPlan">Meal plan data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.MealPlan,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Modify(System.Int32,HappyTravel.KomoroContracts.Statics.MealPlan,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing meal plan
             </summary>
@@ -81,14 +81,14 @@
             <param name="cancellationToken">Сancellation token</param>
             <returns>The property data</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Add(HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Add(HappyTravel.KomoroContracts.Statics.Property,System.Threading.CancellationToken)">
             <summary>
             Adds a new property 
             </summary>
             <param name="property">Property data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.Property,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Modify(System.Int32,HappyTravel.KomoroContracts.Statics.Property,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing property
             </summary>
@@ -120,7 +120,7 @@
             <param name="cancellationToken">Cancellation token</param>
             <returns>List of rooms</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Add(System.Int32,HappyTravel.Komoro.Api.Models.Room,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Add(System.Int32,HappyTravel.KomoroContracts.Statics.Room,System.Threading.CancellationToken)">
             <summary>
             Adds a new room for the specified property
             </summary>
@@ -128,7 +128,7 @@
             <param name="room">Room data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Modify(System.Int32,System.Int32,HappyTravel.Komoro.Api.Models.Room,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Modify(System.Int32,System.Int32,HappyTravel.KomoroContracts.Statics.Room,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing room for the specified property
             </summary>
@@ -152,14 +152,14 @@
             <param name="cancellationToken">Cancellation token</param>
             <returns>List of room types</returns>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Add(HappyTravel.Komoro.Api.Models.RoomType,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Add(HappyTravel.KomoroContracts.Statics.RoomType,System.Threading.CancellationToken)">
             <summary>
             Adds a new room type
             </summary>
             <param name="roomType">Room type data</param>
             <param name="cancellationToken">Сancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Modify(System.Int32,HappyTravel.Komoro.Api.Models.RoomType,System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomTypeController.Modify(System.Int32,HappyTravel.KomoroContracts.Statics.RoomType,System.Threading.CancellationToken)">
             <summary>
             Modifies an existing room type
             </summary>

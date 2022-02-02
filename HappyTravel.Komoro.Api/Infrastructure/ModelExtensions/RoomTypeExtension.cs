@@ -1,4 +1,4 @@
-﻿using ApiModels = HappyTravel.Komoro.Api.Models;
+﻿using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;

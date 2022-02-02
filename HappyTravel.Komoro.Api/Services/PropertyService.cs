@@ -7,7 +7,7 @@ using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using ApiModels = HappyTravel.Komoro.Api.Models;
+using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
 using HappyTravel.Komoro.Api.Services.Converters;

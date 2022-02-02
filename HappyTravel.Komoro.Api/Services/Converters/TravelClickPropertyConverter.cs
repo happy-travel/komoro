@@ -1,11 +1,13 @@
 ﻿using HappyTravel.Geography;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
-using HappyTravel.Komoro.Data.Models.Statics;
+using HappyTravel.KomoroContracts.Enums;
+using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Enums;
 using HappyTravel.Money.Models;
 using System.Text.RegularExpressions;
-using ApiModels = HappyTravel.Komoro.Api.Models;
+using ApiModels = HappyTravel.KomoroContracts.Statics;
 using CsvModels = HappyTravel.Komoro.Api.Models.TravelClickCsv;
+using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
 namespace HappyTravel.Komoro.Api.Services.Converters;
 
@@ -28,7 +30,7 @@ public class TravelClickPropertyConverter
             Coordinates = GetCoordinates(propertyItems),
             Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value.Trim() ?? string.Empty,
             StarRating = GetStarRating(propertyItems.SingleOrDefault(pi => pi.Key == "Star Rating")?.Value.Trim() ?? string.Empty),
-            PrimaryContact = new Contact
+            PrimaryContact = new ApiModels.Contact
             {
                 Name = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Name")?.Value.Trim() ?? string.Empty,
                 Title = propertyItems.SingleOrDefault(pi => pi.Key == "Contact Title")?.Value.Trim() ?? string.Empty,
@@ -37,7 +39,7 @@ public class TravelClickPropertyConverter
             ReservationEmail = propertyItems.SingleOrDefault(pi => pi.Key == "Reservation Email")?.Value.Trim() ?? string.Empty,
             CheckInTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-In Time")?.Value.Trim() ?? string.Empty),
             CheckOutTime = GetTime(propertyItems.SingleOrDefault(pi => pi.Key == "Check-Out Time")?.Value.Trim() ?? string.Empty),
-            PassengerAge = new PassengerAge
+            PassengerAge = new ApiModels.PassengerAge
             {
                 InfantFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Infant")?.Value.Trim() ?? string.Empty),
                 ChildFrom = GetAgeFrom(propertyItems.SingleOrDefault(pi => pi.Key == "Child")?.Value.Trim() ?? string.Empty),
@@ -49,7 +51,7 @@ public class TravelClickPropertyConverter
     }
 
 
-    internal static List<ApiModels.Room> Convert(List<CsvModels.Room> roomRecords, List<RoomType> roomTypes, List<MealPlan> mealPlans)
+    internal static List<ApiModels.Room> Convert(List<CsvModels.Room> roomRecords, List<DataModels.RoomType> roomTypes, List<DataModels.MealPlan> mealPlans)
     {
         var rooms = new List<ApiModels.Room>(roomRecords.Count);
         foreach (var roomRecord in roomRecords)
@@ -72,7 +74,7 @@ public class TravelClickPropertyConverter
     }
 
 
-    private static ApiModels.MealPlan GetMealPlan(string mealPlanString, List<MealPlan> mealPlans)
+    private static ApiModels.MealPlan GetMealPlan(string mealPlanString, List<DataModels.MealPlan> mealPlans)
     {
         var mealPlan = mealPlanString.Trim();
         if (mealPlan == "Breakfast")

@@ -1,4 +1,6 @@
-﻿using HappyTravel.Money.Models;
+﻿using HappyTravel.KomoroContracts.Enums;
+using HappyTravel.KomoroContracts.Statics;
+using HappyTravel.Money.Models;
 
 namespace HappyTravel.Komoro.Data.Models.Statics;
 

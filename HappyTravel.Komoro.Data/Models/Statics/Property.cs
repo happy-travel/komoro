@@ -1,4 +1,5 @@
-﻿using NetTopologySuite.Geometries;
+﻿using HappyTravel.KomoroContracts.Statics;
+using NetTopologySuite.Geometries;
 
 namespace HappyTravel.Komoro.Data.Models.Statics;
 

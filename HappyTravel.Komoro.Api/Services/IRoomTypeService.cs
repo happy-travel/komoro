@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using HappyTravel.Komoro.Api.Models;
+using HappyTravel.KomoroContracts.Statics;
 
 namespace HappyTravel.Komoro.Api.Services;
 
