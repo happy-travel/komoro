@@ -72,7 +72,7 @@ public class RoomService : IRoomService
 
         async Task<bool> RoomHasNoDuplicates(ApiModels.Room room)
             => !await _komoroContext.Rooms.Where(r => r.PropertyId == propertyId && r.RoomTypeId == apiRoom.RoomType.Id && r.Id != roomId)
-            .AnyAsync(cancellationToken);
+                .AnyAsync(cancellationToken);
 
 
         async Task Update(DataModels.Room room)
