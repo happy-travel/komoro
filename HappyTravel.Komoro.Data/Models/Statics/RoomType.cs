@@ -1,4 +1,6 @@
-﻿namespace HappyTravel.Komoro.Data.Models.Statics;
+﻿using HappyTravel.KomoroContracts.Enums;
+
+namespace HappyTravel.Komoro.Data.Models.Statics;
 
 public class RoomType
 {

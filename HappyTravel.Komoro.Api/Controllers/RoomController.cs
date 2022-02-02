@@ -1,4 +1,4 @@
-﻿using HappyTravel.Komoro.Api.Models;
+﻿using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Komoro.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 

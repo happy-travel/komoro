@@ -1,5 +1,4 @@
-﻿using System;
-using HappyTravel.Komoro.Data.Models.Statics;
+﻿using HappyTravel.KomoroContracts.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable

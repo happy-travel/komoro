@@ -4,7 +4,7 @@ using HappyTravel.Komoro.Api.Infrastructure;
 using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
-using ApiModels = HappyTravel.Komoro.Api.Models;
+using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
 namespace HappyTravel.Komoro.Api.Services;
