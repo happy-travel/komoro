@@ -86,8 +86,15 @@ public class PropertyService : IPropertyService
     public async Task<Result> Modify(int propertyId, ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
         return await Validate(apiProperty)
+            .Ensure(() => PropertyHasNoDuplicates(apiProperty), "Modifiable property has duplicate")
             .Bind(() => GetProperty(propertyId, cancellationToken))
             .Tap(Update);
+
+
+        async Task<bool> PropertyHasNoDuplicates(ApiModels.Property property)
+            => !await _komoroContext.Properties.Where(p => p.Name == property.Name && p.Id != propertyId)
+                .AnyAsync(cancellationToken);
+
 
         async Task Update(DataModels.Property property)
         {
