@@ -56,8 +56,14 @@ public class RoomTypeService : IRoomTypeService
     public async Task<Result> Modify(int roomTypeId, ApiModels.RoomType apiRoomType, CancellationToken cancellationToken)
     {
         return await Validate(apiRoomType)
+            .Ensure(() => RoomTypeHasNoDuplicates(apiRoomType), "Modifiable room type has duplicate")
             .Bind(() => Get(roomTypeId, cancellationToken))
             .Tap(Update);
+
+
+        async Task<bool> RoomTypeHasNoDuplicates(ApiModels.RoomType roomType)
+            => !await _komoroContext.RoomTypes.Where(rt => rt.Name == roomType.Name && rt.Id != roomTypeId)
+                .AnyAsync(cancellationToken);
 
 
         async Task Update(DataModels.RoomType roomType)

@@ -65,8 +65,16 @@ public class CancellationPolicyService : ICancellationPolicyService
         CancellationToken cancellationToken)
     {
         return await Validate(apiCancellationPolicy)
+            .Ensure(() => CancellationPolicyHasNoDuplicates(apiCancellationPolicy), "Modifiable cancellation policy has duplicate")
             .Bind(() => Get(propertyId, cancellationPolicyId, cancellationToken))
             .Tap(Update);
+
+
+        async Task<bool> CancellationPolicyHasNoDuplicates(ApiModels.CancellationPolicy cancellationPolicy)
+            => !await _komoroContext.CancellationPolicies.Where(cp => cp.PropertyId == propertyId && cp.FromDate == apiCancellationPolicy.FromDate
+                && cp.ToDate == apiCancellationPolicy.ToDate && cp.Deadline == apiCancellationPolicy.Deadline
+                && cp.Percentage == apiCancellationPolicy.Percentage && cp.Id != cancellationPolicyId)
+                .AnyAsync(cancellationToken);
 
 
         async Task Update(DataModels.CancellationPolicy cancellationPolicy)
