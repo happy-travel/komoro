@@ -24,6 +24,7 @@ public static class ConfigureServicesExtension
         builder.Services.ConfigureSwagger();
 
         builder.Services.AddTransient<ICancellationPolicyService, CancellationPolicyService>();
+        builder.Services.AddTransient<ICountryService, CountryService>();
         builder.Services.AddTransient<IMealPlanService, MealPlanService>();
         builder.Services.AddTransient<IPropertyService, PropertyService>();
         builder.Services.AddTransient<IRoomService, RoomService>();

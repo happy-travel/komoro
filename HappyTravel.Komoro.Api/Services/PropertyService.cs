@@ -205,8 +205,9 @@ public class PropertyService : IPropertyService
         {
             var roomTypes = await _komoroContext.RoomTypes.ToListAsync(cancellationToken);
             var mealPlans = await _komoroContext.MealPlans.ToListAsync(cancellationToken);
+            var countries = await _komoroContext.Countries.ToListAsync(cancellationToken);
 
-            var property = TravelClickPropertyConverter.Convert(propertyId, data.propertyItems);
+            var property = TravelClickPropertyConverter.Convert(propertyId, data.propertyItems, countries);
             var rooms = TravelClickPropertyConverter.Convert(data.rooms, roomTypes, mealPlans);
             
             return (property, rooms);

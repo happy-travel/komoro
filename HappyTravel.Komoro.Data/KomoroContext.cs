@@ -27,6 +27,16 @@ public class KomoroContext : DbContext
             e.HasOne(p => p.Property).WithMany(p => p.CancellationPolicies).IsRequired().OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<Country>(e =>
+        {
+            e.ToTable("Countries");
+            e.HasKey(p => p.Id);
+            e.Property(p => p.Alpha2Code).IsRequired();
+            e.Property(p => p.Name).IsRequired();
+            e.Property(r => r.Created).IsRequired();
+            e.Property(r => r.Modified).IsRequired();
+        });
+
         builder.Entity<MealPlan>(e =>
         {
             e.ToTable("MealPlans");
@@ -90,6 +100,7 @@ public class KomoroContext : DbContext
 
 
     public DbSet<CancellationPolicy> CancellationPolicies { get; set; } = null!;
+    public DbSet<Country> Countries { get; set; } = null!;
     public DbSet<MealPlan> MealPlans { get; set; } = null!;
     public DbSet<Property> Properties { get; set; } = null!;
     public DbSet<Room> Rooms { get; set; } = null!;
