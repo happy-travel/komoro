@@ -65,6 +65,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.Modified).IsRequired();
             e.Navigation(p => p.Rooms);
             e.Navigation(p => p.CancellationPolicies);
+            e.HasOne(p => p.Country).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<Room>(e =>

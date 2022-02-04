@@ -26,7 +26,8 @@ public class PropertyService : IPropertyService
 
 
     public async Task<List<ApiModels.SlimProperty>> Get(int supplierId, int skip, int top, DateTime? modificationDate, CancellationToken cancellationToken)
-        => await _komoroContext.Properties.Where(p => p.SupplierId == supplierId && p.Modified >= (modificationDate ?? DateTime.MinValue))
+        => await _komoroContext.Properties.Include(p => p.Country)
+            .Where(p => p.SupplierId == supplierId && p.Modified >= (modificationDate ?? DateTime.MinValue))
             .OrderBy(p => p.Id)
             .Skip(skip)
             .Take(top)
@@ -35,7 +36,8 @@ public class PropertyService : IPropertyService
 
 
     public async Task<List<ApiModels.SlimProperty>> Get(CancellationToken cancellationToken)
-        => await _komoroContext.Properties.Select(p => p.ToSlimProperty())
+        => await _komoroContext.Properties.Include(p => p.Country)
+            .Select(p => p.ToSlimProperty())
             .ToListAsync(cancellationToken);
 
 
@@ -70,8 +72,15 @@ public class PropertyService : IPropertyService
             var property = new DataModels.Property
             {
                 SupplierId = apiProperty.SupplierId,
+                CountryId = apiProperty.Address.Country.Id,
                 Name = apiProperty.Name,
-                Address = apiProperty.Address,
+                Address = new DataModels.Address 
+                { 
+                    Street = apiProperty.Address.Street,
+                    City = apiProperty.Address.City,
+                    PostalCode = apiProperty.Address.PostalCode,
+                    Country = apiProperty.Address.Country.Name,
+                },
                 Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                 Phone = apiProperty.Phone,
                 StarRating = apiProperty.StarRating,
@@ -106,8 +115,15 @@ public class PropertyService : IPropertyService
         async Task Update(DataModels.Property property)
         {
             property.SupplierId = apiProperty.SupplierId;
+            property.CountryId = apiProperty.Address.Country.Id;
             property.Name = apiProperty.Name;
-            property.Address = apiProperty.Address;
+            property.Address = new DataModels.Address
+            {
+                Street = apiProperty.Address.Street,
+                City = apiProperty.Address.City,
+                PostalCode = apiProperty.Address.PostalCode,
+                Country = apiProperty.Address.Country.Name,
+            };
             property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
             property.Phone = apiProperty.Phone;
             property.StarRating = apiProperty.StarRating;
@@ -234,8 +250,15 @@ public class PropertyService : IPropertyService
                 {
                     Id = apiProperty.Id,
                     SupplierId = apiProperty.SupplierId,
+                    CountryId = apiProperty.Address.Country.Id,
                     Name = apiProperty.Name,
-                    Address = apiProperty.Address,
+                    Address = new DataModels.Address
+                    {
+                        Street = apiProperty.Address.Street,
+                        City = apiProperty.Address.City,
+                        PostalCode = apiProperty.Address.PostalCode,
+                        Country = apiProperty.Address.Country.Name,
+                    },
                     Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude),
                     Phone = apiProperty.Phone,
                     StarRating = apiProperty.StarRating,
@@ -252,8 +275,15 @@ public class PropertyService : IPropertyService
             else
             {
                 property.SupplierId = apiProperty.SupplierId;
+                property.CountryId = apiProperty.Address.Country.Id;
                 property.Name = apiProperty.Name;
-                property.Address = apiProperty.Address;
+                property.Address = new DataModels.Address
+                {
+                    Street = apiProperty.Address.Street,
+                    City = apiProperty.Address.City,
+                    PostalCode = apiProperty.Address.PostalCode,
+                    Country = apiProperty.Address.Country.Name,
+                };
                 property.Coordinates = new Point(apiProperty.Coordinates.Longitude, apiProperty.Coordinates.Latitude);
                 property.Phone = apiProperty.Phone;
                 property.StarRating = apiProperty.StarRating;
@@ -317,7 +347,12 @@ public class PropertyService : IPropertyService
         {
             v.RuleFor(p => p.SupplierId).NotEmpty();
             v.RuleFor(p => p.Name).NotEmpty();
-            v.RuleFor(p => p.Address).NotEmpty();
+            v.RuleFor(p => p.Address).NotEmpty()
+                .ChildRules(iv => iv.RuleFor(a => a.Street).NotEmpty())
+                .ChildRules(iv => iv.RuleFor(a => a.City).NotEmpty())
+                .ChildRules(iv => iv.RuleFor(a => a.PostalCode).NotEmpty())
+                .ChildRules(iv => iv.RuleFor(a => a.Country).NotEmpty()
+                    .ChildRules(iv => iv.RuleFor(c => c.Id).NotEmpty()));
             v.RuleFor(p => p.Coordinates).NotEmpty();
             v.RuleFor(p => p.Phone).NotEmpty();
             v.RuleFor(p => p.PrimaryContact).NotEmpty();
