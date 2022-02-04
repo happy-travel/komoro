@@ -25,11 +25,18 @@ public class PropertyService : IPropertyService
     }
 
 
-    public async Task<List<ApiModels.SlimProperty>> Get(CancellationToken cancellationToken)
-    {
-        return await _komoroContext.Properties.Select(p => p.ToSlimProperty())
+    public async Task<List<ApiModels.SlimProperty>> Get(int supplierId, int skip, int top, DateTime? modificationDate, CancellationToken cancellationToken)
+        => await _komoroContext.Properties.Where(p => p.SupplierId == supplierId && p.Modified >= (modificationDate ?? DateTime.MinValue))
+            .OrderBy(p => p.Id)
+            .Skip(skip)
+            .Take(top)
+            .Select(p => p.ToSlimProperty())
             .ToListAsync(cancellationToken);
-    }
+
+
+    public async Task<List<ApiModels.SlimProperty>> Get(CancellationToken cancellationToken)
+        => await _komoroContext.Properties.Select(p => p.ToSlimProperty())
+            .ToListAsync(cancellationToken);
 
 
     public async Task<Result<ApiModels.Property>> Get(int propertyId, CancellationToken cancellationToken)
