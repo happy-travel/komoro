@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using HappyTravel.Komoro.Data;
+using HappyTravel.Komoro.Data.Models.Statics;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Models;
 using Microsoft.EntityFrameworkCore;

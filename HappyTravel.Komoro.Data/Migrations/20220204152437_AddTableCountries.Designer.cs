@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using HappyTravel.Komoro.Data;
+using HappyTravel.Komoro.Data.Models.Statics;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220204144052_AddTableCountries")]
+    [Migration("20220204152437_AddTableCountries")]
     partial class AddTableCountries
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
