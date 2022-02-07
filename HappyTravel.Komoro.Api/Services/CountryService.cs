@@ -68,7 +68,7 @@ public class CountryService : ICountryService
 
         async Task Update(DataModels.Country country)
         {
-            country.Alpha2Code = apiCountry.Alpha2Code;
+            country.Alpha2Code = apiCountry.Alpha2Code.ToUpperInvariant();
             country.Name = apiCountry.Name;
             country.Modified = DateTimeOffset.UtcNow;
 
@@ -107,7 +107,7 @@ public class CountryService : ICountryService
         
         return country is not null
             ? country
-            : Result.Failure<DataModels.Country>($"Meal plan with id {countryId} not found");
+            : Result.Failure<DataModels.Country>($"Country with id {countryId} not found");
     }
 
 
