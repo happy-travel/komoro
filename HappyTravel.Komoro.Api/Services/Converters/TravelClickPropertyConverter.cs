@@ -13,7 +13,7 @@ namespace HappyTravel.Komoro.Api.Services.Converters;
 
 public class TravelClickPropertyConverter
 {
-    internal static ApiModels.Property Convert(int propertyId, List<CsvModels.PropertyItem> propertyItems)
+    internal static ApiModels.Property Convert(int propertyId, List<CsvModels.PropertyItem> propertyItems, List<DataModels.Country> countries)
     {
         var property = new ApiModels.Property
         {
@@ -25,7 +25,7 @@ public class TravelClickPropertyConverter
                 Street = propertyItems.SingleOrDefault(pi => pi.Key == "Street Address")?.Value.Trim() ?? string.Empty,
                 City = propertyItems.SingleOrDefault(pi => pi.Key == "City")?.Value.Trim() ?? string.Empty,
                 PostalCode = propertyItems.SingleOrDefault(pi => pi.Key == "Postal Code")?.Value.Trim() ?? string.Empty,
-                Country = propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value.Trim() ?? string.Empty
+                Country = GetCountry(propertyItems.SingleOrDefault(pi => pi.Key == "Country")?.Value ?? string.Empty, countries)
             },
             Coordinates = GetCoordinates(propertyItems),
             Phone = propertyItems.SingleOrDefault(pi => pi.Key == "Property Phone")?.Value.Trim() ?? string.Empty,
@@ -71,6 +71,14 @@ public class TravelClickPropertyConverter
         }
 
         return rooms;
+    }
+
+
+    private static ApiModels.Country GetCountry(string countryString, List<DataModels.Country> countries)
+    {
+        var country = countryString.Trim();
+
+        return countries.SingleOrDefault(c => c.Name == country)?.ToApiCountry() ?? new();
     }
 
 

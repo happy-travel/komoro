@@ -37,6 +37,35 @@
             <param name="cancellationPolicyId">Cancellation policy id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CountryController.Get(System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of all countries
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of countries</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CountryController.Add(HappyTravel.KomoroContracts.Statics.Country,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new country
+            </summary>
+            <param name="country">Country data</param>
+            <param name="cancellationToken">Сancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CountryController.Modify(System.Int32,HappyTravel.KomoroContracts.Statics.Country,System.Threading.CancellationToken)">
+            <summary>
+            Modifies an existing country
+            </summary>
+            <param name="country">New data for the country</param>
+            <param name="cancellationToken">Сancellation token</param>
+            <param name="countryId">Country id</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.CountryController.Remove(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a country
+            </summary>
+            <param name="countryId">Country id</param>
+            <param name="cancellationToken">Cancellation token</param>
+        </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.MealPlanController.Get(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all meal plans
@@ -65,6 +94,17 @@
             </summary>
             <param name="mealPlanId">Meal plan id</param>
             <param name="cancellationToken">Cancellation token</param>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Int32,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of properties by supplier id
+            </summary>
+            <param name="supplierId">Supplier id</param>
+            <param name="skip">Skip</param>
+            <param name="top">Top</param>
+            <param name="modificationDate">Last modification date</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of properties</returns>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Threading.CancellationToken)">
             <summary>

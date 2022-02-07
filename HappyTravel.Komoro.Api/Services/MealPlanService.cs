@@ -93,14 +93,14 @@ public class MealPlanService : IMealPlanService
     private static Result Validate(ApiModels.MealPlan mealPlan)
         => GenericValidator<ApiModels.MealPlan>.Validate(v =>
         {
-            v.RuleFor(r => r.Name).NotEmpty();
+            v.RuleFor(mp => mp.Name).NotEmpty();
         },
         mealPlan);
 
 
     private async Task<Result<DataModels.MealPlan>> Get(int mealPlanId, CancellationToken cancellationToken)
     {
-        var mealPlan = await _komoroContext.MealPlans.SingleOrDefaultAsync(r => r.Id == mealPlanId, cancellationToken);
+        var mealPlan = await _komoroContext.MealPlans.SingleOrDefaultAsync(mp => mp.Id == mealPlanId, cancellationToken);
         
         return mealPlan is not null
             ? mealPlan
