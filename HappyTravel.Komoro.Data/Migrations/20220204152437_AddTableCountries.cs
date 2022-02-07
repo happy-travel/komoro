@@ -38,14 +38,6 @@ namespace HappyTravel.Komoro.Data.Migrations
                 table: "Properties",
                 column: "CountryId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Properties_Countries_CountryId",
-                table: "Properties",
-                column: "CountryId",
-                principalTable: "Countries",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
-
             var utcNow = DateTimeOffset.UtcNow;
             var countries = "Countries";
             migrationBuilder.InsertData(countries, new string[] { "Id", "Alpha2Code", "Name", "Created", "Modified" }, new object[,]
@@ -54,6 +46,14 @@ namespace HappyTravel.Komoro.Data.Migrations
                 });
 
             migrationBuilder.Sql("update \"Properties\" set \"CountryId\" = 1");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Properties_Countries_CountryId",
+                table: "Properties",
+                column: "CountryId",
+                principalTable: "Countries",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.SetNull);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
