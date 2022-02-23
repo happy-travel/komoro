@@ -8,5 +8,5 @@ internal record GetRoomsAndRatePlansActionRQ : BaseRequest
     /// <summary>
     /// Request content
     /// </summary>
-    public RoomsAndRatePlansActionRqData Data { get; init; } = null!;
+    public GetRoomsAndRatePlansActionRqData Data { get; init; } = null!;
 }

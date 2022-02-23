@@ -9,5 +9,5 @@ internal record GetRoomsAndRatePlansActionRS : BaseResponse
     /// <summary>
     /// Response content
     /// </summary>
-    public RoomsAndRatePlansActionRsData Data { get; init; } = null!;
+    public GetRoomsAndRatePlansActionRsData Data { get; init; } = null!;
 }

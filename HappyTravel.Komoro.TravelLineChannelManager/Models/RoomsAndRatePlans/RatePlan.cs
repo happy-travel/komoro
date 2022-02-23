@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelLineChannelManager.Models;
+﻿namespace HappyTravel.Komoro.TravelLineChannelManager.Models.RoomsAndRatePlans;
 
 /// <summary>
 /// Rate plan

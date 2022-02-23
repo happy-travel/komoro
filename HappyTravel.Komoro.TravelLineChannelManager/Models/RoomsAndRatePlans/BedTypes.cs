@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace HappyTravel.Komoro.TravelLineChannelManager.Models;
+namespace HappyTravel.Komoro.TravelLineChannelManager.Models.RoomsAndRatePlans;
 
 /// <summary>
 /// Placement type

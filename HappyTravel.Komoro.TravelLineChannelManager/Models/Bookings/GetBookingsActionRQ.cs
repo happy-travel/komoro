@@ -8,5 +8,5 @@ internal record GetBookingsActionRQ : BaseRequest
     /// <summary>
     /// Request content
     /// </summary>
-    public BookingsActionRqData Data { get; init; } = null!;
+    public GetBookingsActionRqData Data { get; init; } = null!;
 }

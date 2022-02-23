@@ -3,7 +3,7 @@
 /// <summary>
 /// Response content
 /// </summary>
-internal record BookingsActionRsData
+internal record GetBookingsActionRsData
 {
     /// <summary>
     /// An array of reservations (orders, applications). If there are no reservations for the period of time, then the array is returned empty. 

@@ -3,7 +3,7 @@
 /// <summary>
 /// Get bookings action request content
 /// </summary>
-internal class BookingsActionRqData
+internal class GetBookingsActionRqData
 {
     /// <summary>
     /// Channel host ID. This channel ID informs the host and the channel manager during the connection phase of the host.

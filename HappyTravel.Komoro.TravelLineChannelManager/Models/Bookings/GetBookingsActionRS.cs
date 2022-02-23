@@ -8,7 +8,7 @@ internal record GetBookingsActionRS : BaseResponse
     /// <summary>
     /// Response content
     /// </summary>
-    public BookingsActionRsData Data { get; init; } = null!;
+    public GetBookingsActionRsData Data { get; init; } = null!;
 
     /// <summary>
     /// Warnings

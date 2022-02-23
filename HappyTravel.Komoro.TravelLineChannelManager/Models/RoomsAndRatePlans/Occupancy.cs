@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelLineChannelManager.Models;
+﻿namespace HappyTravel.Komoro.TravelLineChannelManager.Models.RoomsAndRatePlans;
 
 /// <summary>
 /// Type of accommodation in the room (single, double, etc.)
