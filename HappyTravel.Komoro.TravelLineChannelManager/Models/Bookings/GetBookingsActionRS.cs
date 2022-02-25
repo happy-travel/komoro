@@ -9,14 +9,4 @@ internal record GetBookingsActionRS : BaseResponse
     /// Response content
     /// </summary>
     public GetBookingsActionRsData Data { get; init; } = null!;
-
-    /// <summary>
-    /// Warnings
-    /// </summary>
-    public List<string> Warnings { get; init; } = null!;
-    
-    /// <summary>
-    /// Errors
-    /// </summary>
-    public List<string> Errors { get; init; } = null!;
 }

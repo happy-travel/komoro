@@ -16,7 +16,7 @@ internal record BaseRequest
     public string Password { get; init; } = string.Empty;
 
     /// <summary>
-    /// The ID of the requested action from the set. In this case: get-bookings
+    /// The ID of the requested action from the set.
     /// </summary>
     public Actions Action { get; init; }
 }

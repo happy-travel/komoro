@@ -14,8 +14,14 @@ internal enum Actions
     GetRoomsAndRatePlans = 1,
 
     /// <summary>
-    /// The request to get rate plans and room categories from the channel
+    /// The request to get bookings from the channel
     /// </summary>
     [EnumMember(Value = "get-bookings")]
-    GetBookings = 2
+    GetBookings = 2,
+
+    /// <summary>
+    /// The request to confirm bookings from the channel
+    /// </summary>
+    [EnumMember(Value = "confirm-bookings")]
+    ConfirmBookings = 3
 }
