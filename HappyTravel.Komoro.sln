@@ -13,12 +13,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Data", "HappyTravel.Komoro.Data\HappyTravel.Komoro.Data.csproj", "{807E2A78-CC1D-4508-92F5-1219F0D55A0E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.UnitTests", "HappyTravel.Komoro.UnitTests\HappyTravel.Komoro.UnitTests.csproj", "{47814FD7-137D-4EC7-8256-FA944E9AB03F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0C0979D-832C-471F-A904-09B1AC7C08E7} = {A0C0979D-832C-471F-A904-09B1AC7C08E7}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyTravel.Komoro.TravelLineChannelManager", "HappyTravel.Komoro.TravelLineChannelManager\HappyTravel.Komoro.TravelLineChannelManager.csproj", "{CDA056DD-AF9C-4EFD-8D2B-917A5CB760C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.TravelLineChannelManager", "HappyTravel.Komoro.TravelLineChannelManager\HappyTravel.Komoro.TravelLineChannelManager.csproj", "{CDA056DD-AF9C-4EFD-8D2B-917A5CB760C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyTravel.Komoro.TravelClickChannelManager", "HappyTravel.Komoro.TravelClickChannelManager\HappyTravel.Komoro.TravelClickChannelManager.csproj", "{A0C0979D-832C-471F-A904-09B1AC7C08E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.TravelClickChannelManager", "HappyTravel.Komoro.TravelClickChannelManager\HappyTravel.Komoro.TravelClickChannelManager.csproj", "{A0C0979D-832C-471F-A904-09B1AC7C08E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyTravel.Komoro.Common", "HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj", "{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Common", "HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj", "{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
