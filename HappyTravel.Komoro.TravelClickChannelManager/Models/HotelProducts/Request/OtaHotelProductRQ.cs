@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
 
 /// <summary>
 /// The Hotel Products request is used to obtain a list of all valid room type and rate plan combinations for a given hotel. This information will be
@@ -19,5 +19,5 @@ public class OtaHotelProductRQ : BaseRequest
     /// <summary>
     /// Hotel products
     /// </summary>
-    public HotelProduct[] HotelProducts { get; set; } = new HotelProduct[1];
+    public List<HotelProduct> HotelProducts { get; set; } = new(1);
 }

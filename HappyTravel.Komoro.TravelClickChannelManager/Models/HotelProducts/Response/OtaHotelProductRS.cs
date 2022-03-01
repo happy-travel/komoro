@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Response;
 
 /// <summary>
 /// The response contains a series of HotelProduct elements. Each of these contains a list of RatePlan and RoomType elements as shown below. 
@@ -10,5 +10,9 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts;
 [XmlRoot(ElementName = "OTA_HotelProductRS", Namespace = "http://www.opentravel.org/OTA/2003/05")]
 public class OtaHotelProductRS : BaseResponse
 {
+    /// <summary>
+    /// List of hotel products for a given hotel. Can be omitted if no valid products exist for this hotel.
+    /// </summary>
+    public HotelProductsRS? HotelProducts { get; set; }
 
 }

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
 
 /// <summary>
 /// OTA partner name. The OTA partner needs to provide what value they expect to be send by TravelClick.
