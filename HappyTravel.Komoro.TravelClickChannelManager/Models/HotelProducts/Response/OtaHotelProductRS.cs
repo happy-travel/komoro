@@ -13,6 +13,6 @@ public class OtaHotelProductRS : BaseResponse
     /// <summary>
     /// List of hotel products for a given hotel. Can be omitted if no valid products exist for this hotel.
     /// </summary>
-    public HotelProductsRS? HotelProducts { get; set; }
+    public List<HotelProduct>? HotelProducts { get; set; }
 
 }

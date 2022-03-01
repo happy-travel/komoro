@@ -92,9 +92,7 @@ public class TravelClickXmlSerializationTests
             TimeStamp = DateTime.Now,
             EchoToken = "001-1466531393",
             Success = new(),
-            HotelProducts = new HotelProductsRS
-            {
-                HotelCode = "HOTEL001",
+                //HotelCode = "HOTEL001",
                 HotelProducts = new List<HotelProductResponses.HotelProduct>
                 {
                     new HotelProductResponses.HotelProduct
@@ -158,7 +156,6 @@ public class TravelClickXmlSerializationTests
                         }
                     }
                 }
-            },
         };
 
         var fileName = SerializeAndSave(data);

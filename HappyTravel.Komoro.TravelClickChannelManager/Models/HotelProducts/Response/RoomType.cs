@@ -20,19 +20,19 @@ public class RoomType
     /// Integer. Maximum number of adults permitted in this room type. Optional in the case where occupancy is not relevant
     /// </summary>
     [XmlAttribute]
-    public int? MaxAdultOccupancy { get; set; }
+    public int MaxAdultOccupancy { get; set; }
 
     /// <summary>
     /// Integer. Maximum number of children permitted in this room type. Optional in the case where occupancy is not relevant OR if occupancy 
     /// is not distinguished by age.
     /// </summary>
     [XmlAttribute]
-    public int? MaxChildOccupancy { get; set; }
+    public int MaxChildOccupancy { get; set; }
 
     /// <summary>
     /// Integer. Maximum number of infants permitted in this room type. Optional in the case where occupancy is not relevant OR if occupancy 
     /// is not distinguished by age.
     /// </summary>
     [XmlAttribute]
-    public int? MaxInfantOccupancy { get; set; }
+    public int MaxInfantOccupancy { get; set; }
 }
