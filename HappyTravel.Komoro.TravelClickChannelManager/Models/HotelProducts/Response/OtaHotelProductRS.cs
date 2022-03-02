@@ -15,5 +15,5 @@ public record OtaHotelProductRS : BaseResponse
     /// </summary>
     //[XmlElement]
     //public List<HotelProduct>? HotelProducts { get; set; }
-    public HotelProducts? HotelProducts { get; init; }
+    public HotelProducts HotelProducts { get; init; } = null!;
 }

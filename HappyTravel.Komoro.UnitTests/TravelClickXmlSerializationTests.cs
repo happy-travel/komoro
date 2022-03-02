@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using Xunit;
 using HotelProductRequests = HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
 using HotelProductResponses = HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Response;
+using AvailabilityRequests = HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+using AvailabilityResponses = HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Response;
 
 namespace HappyTravel.Komoro.UnitTests;
 
@@ -87,18 +89,9 @@ public class TravelClickXmlSerializationTests
     [Fact]
     public void OtaHotelProductRSSerializationTest()
     {
-        var data = new OtaHotelProductRS
+        var hotelProducts = new HotelProducts
         {
-            Version = "1.0",
-            TimeStamp = DateTime.Now,
-            EchoToken = "001-1466531393",
-            Success = new(),
-            HotelProducts = new HotelProducts 
-            {
-                HotelCode = "HOTEL001",
-                HotelProduct = new List<HotelProductResponses.HotelProduct>
-                {
-                    new HotelProductResponses.HotelProduct
+            new HotelProductResponses.HotelProduct
                     {
                         RatePlans = new List<RatePlan>
                         {
@@ -158,8 +151,48 @@ public class TravelClickXmlSerializationTests
                             }
                         }
                     }
-                }
-            }    
+        };
+        hotelProducts.HotelCode = "HOTEL001";
+        var data = new OtaHotelProductRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new(),
+            HotelProducts = hotelProducts 
+        };
+
+        var fileName = SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelAvailNotifRQSerializationTest()
+    {
+        var data = new AvailabilityRequests.OtaHotelAvailNotifRQ
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393"
+        };
+
+        var fileName = SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelAvailNotifRSSerializationTest()
+    {
+        var data = new AvailabilityResponses.OtaHotelAvailNotifRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new()
         };
 
         var fileName = SerializeAndSave(data);
