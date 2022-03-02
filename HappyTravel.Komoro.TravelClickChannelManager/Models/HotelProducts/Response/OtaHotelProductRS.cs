@@ -13,7 +13,6 @@ public record OtaHotelProductRS : BaseResponse
     /// <summary>
     /// List of hotel products for a given hotel. Can be omitted if no valid products exist for this hotel.
     /// </summary>
-    //[XmlElement]
-    //public List<HotelProduct>? HotelProducts { get; set; }
-    public HotelProducts HotelProducts { get; init; } = null!;
+    [XmlElement]
+    public HotelProducts? HotelProducts { get; set; }
 }
