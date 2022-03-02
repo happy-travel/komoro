@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 
 /// <summary>
 /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.

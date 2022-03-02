@@ -9,21 +9,21 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Ping;
 /// available and should therefore not receive any other non-Ping requests.
 /// </summary>
 [XmlRoot(ElementName = "OTA_PingRS", Namespace = "http://www.opentravel.org/OTA/2003/05")]
-public class OtaPingRS
+public record OtaPingRS
 {
     [XmlAttribute]
-    public string Version { get; set; } = string.Empty;
+    public string Version { get; init; } = string.Empty;
 
     [XmlAttribute]
-    public DateTime TimeStamp { get; set; }
+    public DateTime TimeStamp { get; init; }
 
     /// <summary>
     /// Empty element to indicate that the request was successful. Required to indicate success, but expected to be omitted when there are errors.
     /// </summary>
-    public Success? Success { get; set; }
+    public Success? Success { get; init; }
 
     /// <summary>
     /// String echoed from original request
     /// </summary>
-    public string EchoData { get; set; } = string.Empty;
+    public string EchoData { get; init; } = string.Empty;
 }

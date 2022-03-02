@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 
 public class BookingChannel
 {

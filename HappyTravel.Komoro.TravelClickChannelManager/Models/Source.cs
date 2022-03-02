@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
+﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 
 /// <summary>
 /// Source

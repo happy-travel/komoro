@@ -10,17 +10,17 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Ping
     /// corresponding response. No authentication is required to make this request.
     /// </summary>
     [XmlRoot(ElementName = "OTA_PingRQ", Namespace = "http://www.opentravel.org/OTA/2003/05")]
-    public class OtaPingRQ
+    public record OtaPingRQ
     {
         [XmlAttribute]
-        public string Version { get; set; } = string.Empty;
+        public string Version { get; init; } = string.Empty;
 
         [XmlAttribute]
-        public DateTime TimeStamp { get; set; }
+        public DateTime TimeStamp { get; init; }
 
         /// <summary>
         /// Contains string that shall be echoed in the response.
         /// </summary>
-        public string EchoData { get; set; } = string.Empty;
+        public string EchoData { get; init; } = string.Empty;
     }
 }

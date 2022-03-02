@@ -20,7 +20,7 @@ public class RatePlan
     /// Integer. Number of occupants that corresponds with the “base rate” of this room. This can be omitted if occupancy is not relevant.
     /// </summary>
     [XmlAttribute]
-    public int? BaseOccupancy { get; set; }
+    public int BaseOccupancy { get; set; }
 
     /// <summary>
     /// ISO 4217 currency code that rate messages are expected to use when applied to products under this rate plan

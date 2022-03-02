@@ -1,4 +1,5 @@
-﻿using HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
+﻿using HappyTravel.Komoro.TravelClickChannelManager.Models;
+using HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Response;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Ping;
 using System;
@@ -92,8 +93,10 @@ public class TravelClickXmlSerializationTests
             TimeStamp = DateTime.Now,
             EchoToken = "001-1466531393",
             Success = new(),
-                //HotelCode = "HOTEL001",
-                HotelProducts = new List<HotelProductResponses.HotelProduct>
+            HotelProducts = new HotelProducts 
+            {
+                HotelCode = "HOTEL001",
+                HotelProduct = new List<HotelProductResponses.HotelProduct>
                 {
                     new HotelProductResponses.HotelProduct
                     {
@@ -156,6 +159,7 @@ public class TravelClickXmlSerializationTests
                         }
                     }
                 }
+            }    
         };
 
         var fileName = SerializeAndSave(data);
