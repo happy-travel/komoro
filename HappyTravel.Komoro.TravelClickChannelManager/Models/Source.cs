@@ -3,10 +3,10 @@
 /// <summary>
 /// Source
 /// </summary>
-public class Source
+public record Source
 {
     /// <summary>
     /// Booking channel
     /// </summary>
-    public BookingChannel BookingChannel { get; set; } = new();
+    public BookingChannel BookingChannel { get; init; } = new();
 }

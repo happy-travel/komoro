@@ -1,5 +1,5 @@
 ﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 
-public class Success
+public record Success
 {
 }

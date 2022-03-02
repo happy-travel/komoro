@@ -8,11 +8,11 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Req
 /// restriction's status should remain unchanged.
 /// </summary>
 [XmlRoot(ElementName = "OTA_HotelAvailNotifRQ", Namespace = "http://www.opentravel.org/OTA/2003/05")]
-public class OtaHotelAvailNotifRQ : BaseRequest
+public record OtaHotelAvailNotifRQ : BaseRequest
 {
     /// <summary>
     /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
     /// </summary>
     [XmlElement(ElementName = "POS")]
-    public Pos? Pos { get; set; } = new();
+    public Pos? Pos { get; init; } = new();
 }

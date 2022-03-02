@@ -2,14 +2,14 @@
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 
-public class BaseRequest
+public record BaseRequest
 {
     [XmlAttribute]
-    public string Version { get; set; } = string.Empty;
+    public string Version { get; init; } = string.Empty;
 
     [XmlAttribute]
-    public DateTime TimeStamp { get; set; }
+    public DateTime TimeStamp { get; init; }
 
     [XmlAttribute]
-    public string EchoToken { get; set; } = string.Empty;
+    public string EchoToken { get; init; } = string.Empty;
 }

@@ -5,11 +5,11 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Requ
 /// <summary>
 /// Hotel product
 /// </summary>
-public class HotelProduct
+public record HotelProduct
 {
     /// <summary>
     /// Hotel identifier used to look up products
     /// </summary>
     [XmlAttribute]
-    public string HotelCode { get; set; } = string.Empty;
+    public string HotelCode { get; init; } = string.Empty;
 }

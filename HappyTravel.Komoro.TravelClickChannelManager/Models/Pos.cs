@@ -6,10 +6,10 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models;
 /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
 /// </summary>
 [XmlRoot(ElementName = "POS")]
-public class Pos
+public record Pos
 {
     /// <summary>
     /// Source
     /// </summary>
-    public Source Source { get; set; } = new();
+    public Source Source { get; init; } = new();
 }

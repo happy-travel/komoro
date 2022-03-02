@@ -8,16 +8,16 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Requ
 /// The request contains the hotel ID for the desired hotel. There is only one hotel specified per request.
 /// </summary>
 [XmlRoot(ElementName = "OTA_HotelProductRQ", Namespace = "http://www.opentravel.org/OTA/2003/05")]
-public class OtaHotelProductRQ : BaseRequest
+public record OtaHotelProductRQ : BaseRequest
 {
     /// <summary>
     /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
     /// </summary>
     [XmlElement(ElementName = "POS")]
-    public Pos? Pos { get; set; } = new();
+    public Pos? Pos { get; init; } = new();
 
     /// <summary>
     /// Hotel products
     /// </summary>
-    public List<HotelProduct> HotelProducts { get; set; } = new(1);
+    public List<HotelProduct> HotelProducts { get; init; } = new(1);
 }
