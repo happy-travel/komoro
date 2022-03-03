@@ -204,4 +204,101 @@ public class AvailabilityXmlSerializationTests
 
         Assert.True(File.Exists(fileName));
     }
+
+
+    [Fact]
+    public void OtaHotelRatePlanNotifRQSerializationTest()
+    {
+        var data = new AvailabilityRequests.OtaHotelRatePlanNotifRQ
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Pos = new Pos
+            {
+                Source = new Source
+                {
+                    BookingChannel = new BookingChannel
+                    {
+                        Type = "7",
+                        CompanyName = new CompanyName
+                        {
+                            Name = "Partner Name",
+                            Code = "PartnerCode"
+                        }
+                    }
+                }
+            },
+            RatePlans = new AvailabilityRequests.RatePlans
+            {
+                HotelCode = "HOTEL001",
+                PatePlanList = new List<AvailabilityRequests.RatePlan>
+                {
+                    new AvailabilityRequests.RatePlan
+                    {
+                        RatePlanCode = "BAR",
+                        Start = new DateTime(2017, 1, 1),
+                        End = new DateTime(2017, 1, 15),
+                        Rates = new List<AvailabilityRequests.Rate>
+                        {
+                            new AvailabilityRequests.Rate
+                            {
+                                InvTypeCode = "DBL",
+                                CurrencyCode="USD",
+                                BaseByGuestAmts = new List<AvailabilityRequests.BaseByGuestAmt>
+                                {
+                                    new AvailabilityRequests.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 100.00m,
+                                        NumberOfGuests = 1,
+                                        AgeQualifyingCode = 10
+                                    },
+                                    new AvailabilityRequests.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 100.00m,
+                                        NumberOfGuests = 2,
+                                        AgeQualifyingCode = 10
+                                    }
+                                },
+                                AdditionalGuestAmounts = new List<AvailabilityRequests.AdditionalGuestAmount>
+                                {
+                                    new AvailabilityRequests.AdditionalGuestAmount
+                                    {
+                                        Amount = 25.00m,
+                                        AgeQualifyingCode = 10
+                                    },
+                                    new AvailabilityRequests.AdditionalGuestAmount
+                                    {
+                                        Amount = 0.00m,
+                                        AgeQualifyingCode = 8
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelRatePlanNotifRSSerializationTest()
+    {
+        var data = new AvailabilityResponses.OtaHotelRatePlanNotifRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new()
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
 }

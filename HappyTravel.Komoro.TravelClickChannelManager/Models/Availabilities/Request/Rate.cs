@@ -11,7 +11,7 @@ public record Rate
     /// Room identifier
     /// </summary>
     [XmlAttribute]
-    public string InvTypecode { get; init; } = string.Empty;
+    public string InvTypeCode { get; init; } = string.Empty;
 
     /// <summary>
     /// ISO 4217 currency code
