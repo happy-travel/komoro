@@ -11,11 +11,18 @@ public record RestrictionStatus
     /// Restriction type. "Master" and "Arrival" are supported. If set, then @Status is required.
     /// </summary>
     [XmlAttribute]
-    public string Restriction { get; init; } = string.Empty;
+    public string? Restriction { get; init; }
 
     /// <summary>
     /// Restriction status. Required when @Restriction is set. Can either be "Open" or "Close"
     /// </summary>
     [XmlAttribute]
-    public string Status { get; init; } = string.Empty;
+    public string? Status { get; init; }
+
+    /// <summary>
+    /// Cutoff/advanced purchase period. Is is an XML duration data type, but this can only currently be specified in days. For instance, to set 
+    /// a booking offset of 7 days, the value must be "P7D"
+    /// </summary>
+    [XmlAttribute]
+    public string? MinAdvancedBookingOffset { get; init; }
 }

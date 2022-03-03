@@ -14,10 +14,10 @@ public record OtaHotelProductRQ : BaseRequest
     /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
     /// </summary>
     [XmlElement(ElementName = "POS")]
-    public Pos? Pos { get; init; } = new();
+    public Pos? Pos { get; init; }
 
     /// <summary>
-    /// Hotel products
+    /// List of hotel products for a given hotel. Can be omitted if no valid products exist for this hotel.
     /// </summary>
     public List<HotelProduct> HotelProducts { get; init; } = new(1);
 }

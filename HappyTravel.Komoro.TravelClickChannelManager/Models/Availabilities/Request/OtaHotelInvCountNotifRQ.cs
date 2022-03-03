@@ -19,5 +19,5 @@ public record OtaHotelInvCountNotifRQ : BaseRequest
     /// <summary>
     /// List of inventory updates for the given hotel
     /// </summary>
-    public List<Inventory> Inventories { get; init; } = null!;
+    public Inventories Inventories { get; init; } = null!;
 }

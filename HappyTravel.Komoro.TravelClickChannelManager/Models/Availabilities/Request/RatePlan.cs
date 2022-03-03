@@ -3,10 +3,16 @@
 namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
 
 /// <summary>
-/// Specifies date range and product to which the restrictions should be applied
+/// Rate plan and date range details
 /// </summary>
-public record StatusApplicationControl
+public record RatePlan
 {
+    /// <summary>
+    /// Rate plan identifier
+    /// </summary>
+    [XmlAttribute]
+    public string RatePlanCode { get; init; } = string.Empty;
+    
     /// <summary>
     /// Start date in YYYY-MM-DD format
     /// </summary>
@@ -20,14 +26,7 @@ public record StatusApplicationControl
     public DateTime End { get; init; }
 
     /// <summary>
-    /// Room type ID of this product
+    /// Rates
     /// </summary>
-    [XmlAttribute]
-    public string InvTypeCode { get; init; } = string.Empty;
-
-    /// <summary>
-    /// Rate plan ID of this product
-    /// </summary>
-    [XmlAttribute]
-    public string RatePlanCode { get; init; } = string.Empty;
+    public List<Rate> Rates { get; init; } = null!;
 }

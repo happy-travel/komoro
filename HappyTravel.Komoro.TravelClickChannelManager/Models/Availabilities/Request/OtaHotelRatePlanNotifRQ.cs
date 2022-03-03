@@ -17,4 +17,6 @@ public record OtaHotelRatePlanNotifRQ : BaseRequest
     /// </summary>
     [XmlElement(ElementName = "POS")]
     public Pos? Pos { get; init; } = new();
+
+    public RatePlans RatePlans { get; init; } = null!;
 }

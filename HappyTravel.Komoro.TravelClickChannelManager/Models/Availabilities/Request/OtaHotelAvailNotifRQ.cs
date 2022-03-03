@@ -14,5 +14,10 @@ public record OtaHotelAvailNotifRQ : BaseRequest
     /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
     /// </summary>
     [XmlElement(ElementName = "POS")]
-    public Pos? Pos { get; init; } = new();
+    public Pos? Pos { get; init; }
+
+    /// <summary>
+    /// List of availability status messages for the given hotel
+    /// </summary>
+    public AvailStatusMessages AvailStatusMessages { get; init; } = null!;
 }

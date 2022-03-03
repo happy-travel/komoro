@@ -1,6 +1,9 @@
 ﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Response;
 
-public class HotelProduct
+/// <summary>
+/// Hotel product group
+/// </summary>
+public record HotelProduct
 {
     /// <summary>
     /// List of rate plans
