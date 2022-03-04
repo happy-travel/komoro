@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
 /// <summary>
 /// Rate plan and date range details

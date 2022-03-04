@@ -230,45 +230,45 @@ public class AvailabilityXmlSerializationTests
                     }
                 }
             },
-            RatePlans = new AvailabilityRequests.RatePlans
+            RatePlans = new Availability.RatePlans
             {
                 HotelCode = "HOTEL001",
-                PatePlanList = new List<AvailabilityRequests.RatePlan>
+                PatePlanList = new List<Availability.RatePlan>
                 {
-                    new AvailabilityRequests.RatePlan
+                    new Availability.RatePlan
                     {
                         RatePlanCode = "BAR",
                         Start = new DateTime(2017, 1, 1),
                         End = new DateTime(2017, 1, 15),
-                        Rates = new List<AvailabilityRequests.Rate>
+                        Rates = new List<Availability.Rate>
                         {
-                            new AvailabilityRequests.Rate
+                            new Availability.Rate
                             {
                                 InvTypeCode = "DBL",
                                 CurrencyCode="USD",
-                                BaseByGuestAmts = new List<AvailabilityRequests.BaseByGuestAmt>
+                                BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
                                 {
-                                    new AvailabilityRequests.BaseByGuestAmt
+                                    new Availability.BaseByGuestAmt
                                     {
                                         AmountBeforeTax = 100.00m,
                                         NumberOfGuests = 1,
                                         AgeQualifyingCode = 10
                                     },
-                                    new AvailabilityRequests.BaseByGuestAmt
+                                    new Availability.BaseByGuestAmt
                                     {
                                         AmountBeforeTax = 100.00m,
                                         NumberOfGuests = 2,
                                         AgeQualifyingCode = 10
                                     }
                                 },
-                                AdditionalGuestAmounts = new List<AvailabilityRequests.AdditionalGuestAmount>
+                                AdditionalGuestAmounts = new List<Availability.AdditionalGuestAmount>
                                 {
-                                    new AvailabilityRequests.AdditionalGuestAmount
+                                    new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 25.00m,
                                         AgeQualifyingCode = 10
                                     },
-                                    new AvailabilityRequests.AdditionalGuestAmount
+                                    new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 0.00m,
                                         AgeQualifyingCode = 8
@@ -594,6 +594,154 @@ public class AvailabilityXmlSerializationTests
                             {
                                 Count = 0,
                                 CountType = "4"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelRatePlanRQSerializationTest()
+    {
+        var data = new AvailabilityRequests.OtaHotelRatePlanRQ
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Pos = new Pos
+            {
+                Source = new Source
+                {
+                    BookingChannel = new BookingChannel
+                    {
+                        Type = "7",
+                        CompanyName = new CompanyName
+                        {
+                            Name = "Partner Name",
+                            Code = "PartnerCode"
+                        }
+                    }
+                }
+            },
+            RatePlans = new List<AvailabilityRequests.RatePlanWithCandidates>
+            {
+                new AvailabilityRequests.RatePlanWithCandidates
+                {
+                    DateRange = new AvailabilityRequests.DateRange
+                    {
+                        Start = new DateTime(2017, 1, 1),
+                        End = new DateTime(2017, 1, 3)
+                    },
+                    RatePlanCandidates = new List<AvailabilityRequests.RatePlanCandidate>
+                    {
+                        new AvailabilityRequests.RatePlanCandidate
+                        {
+                            RatePlanCode="BAR"
+                        }
+                    },
+                    HotelRef = new AvailabilityRequests.HotelRef
+                    {
+                        HotelCode="HOTEL001"
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelRatePlanRSSerializationTest()
+    {
+        var data = new AvailabilityResponses.OtaHotelRatePlanRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new(),
+            RatePlans = new Availability.RatePlans
+            {
+                HotelCode = "HOTEL001",
+                PatePlanList = new List<Availability.RatePlan>
+                {
+                    new Availability.RatePlan
+                    {
+                        RatePlanCode = "BAR",
+                        Start = new DateTime(2017, 1, 1),
+                        End = new DateTime(2017, 1, 3),
+                        Rates = new List<Availability.Rate>
+                        {
+                            new Availability.Rate
+                            {
+                                InvTypeCode = "SGL",
+                                CurrencyCode = "USD",
+                                BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
+                                {
+                                    new Availability.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 100.00m,
+                                        NumberOfGuests = 1
+                                    },
+                                    new Availability.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 100.00m,
+                                        NumberOfGuests = 2
+                                    }
+                                },
+                                AdditionalGuestAmounts = new List<Availability.AdditionalGuestAmount>
+                                {
+                                    new Availability.AdditionalGuestAmount
+                                    {
+                                        Amount = 25.00m,
+                                        AgeQualifyingCode = 10
+                                    },
+                                    new Availability.AdditionalGuestAmount
+                                    {
+                                        Amount = 0m,
+                                        AgeQualifyingCode = 8
+                                    }
+                                }
+                            },
+                            new Availability.Rate
+                            {
+                                InvTypeCode = "DBL",
+                                CurrencyCode = "USD",
+                                BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
+                                {
+                                    new Availability.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 150.00m,
+                                        NumberOfGuests = 1
+                                    },
+                                    new Availability.BaseByGuestAmt
+                                    {
+                                        AmountBeforeTax = 150.00m,
+                                        NumberOfGuests = 2
+                                    }
+                                },
+                                AdditionalGuestAmounts = new List<Availability.AdditionalGuestAmount>
+                                {
+                                    new Availability.AdditionalGuestAmount
+                                    {
+                                        Amount = 35.00m,
+                                        AgeQualifyingCode = 10
+                                    },
+                                    new Availability.AdditionalGuestAmount
+                                    {
+                                        Amount = 0m,
+                                        AgeQualifyingCode = 8
+                                    }
+                                }
                             }
                         }
                     }

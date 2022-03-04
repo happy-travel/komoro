@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
 /// <summary>
 /// List of affected rate plans for the given hotel
