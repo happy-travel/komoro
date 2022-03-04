@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations.Requests;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations;
 
 /// <summary>
 /// Room stay
@@ -31,11 +31,31 @@ public record RoomStay
     /// </summary>
     public TimeSpanRange TimeSpan { get; init; } = new();
 
+    /// <summary>
+    /// Guarantee
+    /// </summary>
+    public Guarantee? Guarantee { get; init; } = new();
+
+    /// <summary>
+    /// List of guest counts
+    /// </summary>
+    public List<GuestCount> GuestCounts { get; init; } = null!;
+
+    /// <summary>
+    /// Total price of the given room stay. This is not necessarily the total price of the entire reservation (such as when a reservation contains
+    /// multiple RoomStay elements).
+    /// </summary>
+    public Total Total { get; init; } = new();
+
+    /// <summary>
+    /// Stay comments
+    /// </summary>
+    public List<Comment>? Comments { get; init; }
 
     /// <summary>
     /// List of comments associated with this guest
     /// </summary>
-    //public List<RoomRate>? RoomRates { get; init; }
+    public List<RoomRate> RoomRates { get; init; } = null!;
 
     /// <summary>
     /// Guest RPH associated with this RoomStay

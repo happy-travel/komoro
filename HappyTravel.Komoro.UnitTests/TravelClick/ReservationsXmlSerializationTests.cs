@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.TravelClickChannelManager.Models;
+using HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations;
 using HappyTravel.Komoro.UnitTests.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -37,44 +38,44 @@ public record ReservationsXmlSerializationTests
                     }
                 }
             },
-            HotelReservations = new List<Requests.HotelReservation>
+            HotelReservations = new List<HotelReservation>
             {
-                new Requests.HotelReservation
+                new HotelReservation
                 {
                     ResStatus = "Commit",
                     CreateDateTime = new DateTime(2016, 5, 26, 11, 11, 50),
-                    ResGlobalInfo = new Requests.ResGlobalInfo
+                    ResGlobalInfo = new ResGlobalInfo
                     {
-                        HotelReservationIDs = new List<Requests.HotelReservationID>
+                        HotelReservationIDs = new List<HotelReservationID>
                         {
-                            new Requests.HotelReservationID
+                            new HotelReservationID
                             {
                                 ResID_Type = "13",
                                 ResID_Value = "Max12345"
                             }
                         }
                     },
-                    ResGuests = new List<Requests.ResGuest>
+                    ResGuests = new List<ResGuest>
                     {
-                        new Requests.ResGuest
+                        new ResGuest
                         {
                             ResGuestRPH="0",
-                            Profiles = new Requests.Profiles
+                            Profiles = new Profiles
                             {
-                                ProfileInfo = new Requests.ProfileInfo
+                                ProfileInfo = new ProfileInfo
                                 {
-                                    Profile = new Requests.Profile
+                                    Profile = new Profile
                                     {
-                                        Customer = new Requests.Customer
+                                        Customer = new Customer
                                         {
-                                            PersonName = new Requests.PersonName
+                                            PersonName = new PersonName
                                             {
                                                 GivenName = "Herbert",
                                                 Surname = "Guest"
                                             },
                                             Telephone = "15555555555",
                                             Email = "hguest@company.com",
-                                            Address = new Requests.Address
+                                            Address = new Address
                                             {
                                                 AddressLine = "1 Deep Ln",
                                                 CityName = "Innsmouth",
@@ -86,20 +87,109 @@ public record ReservationsXmlSerializationTests
                                     }
                                 }
                             },
-                            SpecialRequests = new List<Requests.SpecialRequest>
+                            SpecialRequests = new List<SpecialRequest>
                             {
-                                new Requests.SpecialRequest
+                                new SpecialRequest
                                 {
                                     Text = "Two extra towels"
                                 }
                             },
-                            Comments = new List<Requests.Comment>
+                            Comments = new List<Comment>
                             {
-                                new Requests.Comment
+                                new Comment
                                 {
                                     Text = "No comment"
                                 }
                             }
+                        }
+                    },
+                    RoomStays = new List<RoomStay>
+                    {
+                        new RoomStay
+                        {
+                            IndexNumber = 1,
+                            PromotionCode = "AAA",
+                            BasicPropertyInfo = new BasicPropertyInfo
+                            {
+                                HotelCode = "HOTEL001"
+                            },
+                            TimeSpan = new TimeSpanRange
+                            { 
+                                Start = new DateTime(2016, 12, 1),
+                                End = new DateTime(2016, 12, 3)
+                            },
+                            Guarantee = new Guarantee
+                            {
+                                GuaranteesAccepted = new GuaranteesAccepted
+                                {
+                                    PaymentCard = new PaymentCard
+                                    {
+                                        ExpireDate = "0418",
+                                        CardType = new CardType
+                                        {
+                                            Code = "VI"
+                                        },
+                                        CardNumber = new CardNumber
+                                        {
+                                            PlainText = "1234123412341234"
+                                        },
+                                        CardHolderName = "Herbert Guest",
+                                        Address = new Address
+                                        {
+                                            AddressLine = "1 Deep Ln",
+                                            CityName = "Innsmouth",
+                                            StateProv = "MA",
+                                            CountryName = "US",
+                                            PostalCode = "01966"
+                                        }
+                                    }
+                                }
+                            },
+                            GuestCounts = new List<GuestCount>
+                            {
+                                new GuestCount
+                                {
+                                    Count = 2,
+                                    AgeQualifyingCode = 10
+                                }
+                            },
+                            Total = new Total
+                            {
+                                CurrencyCode = "USD",
+                                AmountBeforeTax = 600.00m,
+                                AmountAfterTax = 642.00m
+                            },
+                            Comments = new List<Comment>
+                            {
+                                new Comment
+                                {
+                                    Text = "No comment"
+                                }
+                            },
+                            RoomRates = new List<RoomRate>
+                            {
+                                new RoomRate
+                                {
+                                    NumberOfUnits = 1,
+                                    RoomTypeCode = "DLX",
+                                    RatePlanCode = "BAR",
+                                    Rates = new List<Rate>
+                                    {
+                                        new Rate
+                                        {
+                                            RoomPricingType = "Per night",
+                                            EffectiveDate = new DateTime(2016, 12, 1),
+                                            ExpireDate = new DateTime(2016, 12, 3),
+                                            Base = new Base
+                                            {
+                                                AmountBeforeTax = 300.00m
+                                            }
+                                        }
+                                    }
+
+                                }
+                            },
+                            ResGuestRPHs = 0
                         }
                     }
                 }
@@ -120,7 +210,25 @@ public record ReservationsXmlSerializationTests
             Version = "1.0",
             TimeStamp = DateTime.Now,
             EchoToken = "001-1466531393",
-            Success = new()
+            Success = new(),
+            HotelReservations = new List<HotelReservation>
+            {
+                new HotelReservation
+                {
+                    ResStatus = "Committed",
+                    ResGlobalInfo = new ResGlobalInfo
+                    {
+                        HotelReservationIDs = new List<HotelReservationID>
+                        {
+                            new HotelReservationID
+                            {
+                                ResID_Type = "13",
+                                ResID_Value = "Max12345"
+                            }
+                        }
+                    }
+                }
+            }
         };
 
         var fileName = SerializationHelper.SerializeAndSave(data);

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations.Requests;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations;
 
 /// <summary>
 /// List of guests associated with this reservation. At least one ResGuest is expected per RoomStay in a reservation.

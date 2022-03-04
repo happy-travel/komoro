@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations.Requests;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations;
 
 /// <summary>
 /// Hotel reservation ID

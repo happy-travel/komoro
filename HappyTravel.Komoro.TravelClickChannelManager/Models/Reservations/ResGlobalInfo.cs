@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations.Requests;
+﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Reservations;
 
 /// <summary>
 /// Reservation global information
