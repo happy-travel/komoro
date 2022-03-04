@@ -459,4 +459,150 @@ public class AvailabilityXmlSerializationTests
 
         Assert.True(File.Exists(fileName));
     }
+
+
+    [Fact]
+    public void OtaHotelInvCountRQSerializationTest()
+    {
+        var data = new AvailabilityRequests.OtaHotelInvCountRQ
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Pos = new Pos
+            {
+                Source = new Source
+                {
+                    BookingChannel = new BookingChannel
+                    {
+                        Type = "7",
+                        CompanyName = new CompanyName
+                        {
+                            Name = "Partner Name",
+                            Code = "PartnerCode"
+                        }
+                    }
+                }
+            },
+            HotelInvCountRequests = new List<AvailabilityRequests.HotelInvCountRequest>
+            {
+                new AvailabilityRequests.HotelInvCountRequest
+                {
+                    DateRange = new AvailabilityRequests.DateRange
+                    {
+                        Start = new DateTime(2017, 1, 1),
+                        End = new DateTime(2017, 1, 3)
+                    },
+                    RoomTypeCandidates = new List<AvailabilityRequests.RoomTypeCandidate>
+                    {
+                        new AvailabilityRequests.RoomTypeCandidate
+                        {
+                            RoomTypeCode="SGL"
+                        }
+                    },
+                    HotelRef = new AvailabilityRequests.HotelRef
+                    {
+                        HotelCode = "HOTEL001"
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelInvCountRSSerializationTest()
+    {
+        var data = new AvailabilityResponses.OtaHotelInvCountRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new(),
+            Inventories = new Availability.Inventories
+            {
+                HotelCode = "HOTEL001",
+                InventoryList = new List<Availability.Inventory>
+                {
+                    new Availability.Inventory
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 1),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+                        },
+                        InvCounts = new List<Availability.InvCount>
+                        {
+                            new Availability.InvCount
+                            {
+                                Count = 18,
+                                CountType = "2"
+                            },
+                            new Availability.InvCount
+                            {
+                                Count = 2,
+                                CountType = "4"
+                            }
+                        }
+                    },
+                    new Availability.Inventory
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 3),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+                        },
+                        InvCounts = new List<Availability.InvCount>
+                        {
+                            new Availability.InvCount
+                            {
+                                Count = 20,
+                                CountType = "2"
+                            },
+                            new Availability.InvCount
+                            {
+                                Count = 0,
+                                CountType = "4"
+                            }
+                        }
+                    },
+                    new Availability.Inventory
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 1),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "ADVPURCHASE"
+                        },
+                        InvCounts = new List<Availability.InvCount>
+                        {
+                            new Availability.InvCount
+                            {
+                                Count = 20,
+                                CountType = "2"
+                            },
+                            new Availability.InvCount
+                            {
+                                Count = 0,
+                                CountType = "4"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
 }

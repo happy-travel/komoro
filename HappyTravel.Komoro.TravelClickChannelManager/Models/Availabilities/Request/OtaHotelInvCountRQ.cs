@@ -11,7 +11,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Req
 /// of @CountType = "4" are optional.
 /// </summary>
 [XmlRoot(ElementName = "OTA_HotelInvCountRQ", Namespace = "http://www.opentravel.org/OTA/2003/05")]
-public record OtaHotelInvCountRQ
+public record OtaHotelInvCountRQ : BaseRequest
 {
     /// <summary>
     /// Point of Sale. TravelClick will only send this information if specifically requested by OTA partner.
