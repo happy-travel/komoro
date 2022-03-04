@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
 /// <summary>
 /// Availability status message

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
+using Availability = HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 using AvailabilityRequests = HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
 using AvailabilityResponses = HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Response;
 
@@ -34,26 +35,26 @@ public class AvailabilityXmlSerializationTests
                     }
                 }
             },
-            AvailStatusMessages = new AvailabilityRequests.AvailStatusMessages
+            AvailStatusMessages = new Availability.AvailStatusMessages
             {
                 HotelCode = "HOTEL001",
-                AvailStatusMessageList = new List<AvailabilityRequests.AvailStatusMessage>
+                AvailStatusMessageList = new List<Availability.AvailStatusMessage>
                 {
-                    new AvailabilityRequests.AvailStatusMessage
+                    new Availability.AvailStatusMessage
                     {
-                        StatusApplicationControl = new AvailabilityRequests.StatusApplicationControl
+                        StatusApplicationControl = new Availability.StatusApplicationControl
                         {
                             Start = new DateTime(2017, 1, 15),
                             End = new DateTime(2017, 1, 16),
                             InvTypeCode="DBL",
                             RatePlanCode="AP"
                         },
-                        LengthsOfStay = new AvailabilityRequests.LengthsOfStay
+                        LengthsOfStay = new Availability.LengthsOfStay
                         {
                             ArrivalDateBased = true,
-                            LengthOfStayList = new List<AvailabilityRequests.LengthOfStay>
+                            LengthOfStayList = new List<Availability.LengthOfStay>
                             {
-                                new AvailabilityRequests.LengthOfStay
+                                new Availability.LengthOfStay
                                 {
                                     MinMaxMessageType = "MinLOS",
                                     TimeUnit = "Day",
@@ -62,46 +63,46 @@ public class AvailabilityXmlSerializationTests
                             }
                         }
                     },
-                    new AvailabilityRequests.AvailStatusMessage
+                    new Availability.AvailStatusMessage
                     {
-                        StatusApplicationControl = new AvailabilityRequests.StatusApplicationControl
+                        StatusApplicationControl = new Availability.StatusApplicationControl
                         {
                             Start = new DateTime(2017, 1, 15),
                             End = new DateTime(2017, 1, 16),
                             InvTypeCode="DBL",
                             RatePlanCode="AP"
                         },
-                        RestrictionStatus = new AvailabilityRequests.RestrictionStatus
+                        RestrictionStatus = new Availability.RestrictionStatus
                         { 
                             Restriction = "Master",
                             Status = "Open" 
                         }
                     },
-                    new AvailabilityRequests.AvailStatusMessage
+                    new Availability.AvailStatusMessage
                     {
-                        StatusApplicationControl = new AvailabilityRequests.StatusApplicationControl
+                        StatusApplicationControl = new Availability.StatusApplicationControl
                         {
                             Start = new DateTime(2017, 1, 15),
                             End = new DateTime(2017, 1, 16),
                             InvTypeCode = "DBL",
                             RatePlanCode = "AP"
                         },
-                        RestrictionStatus = new AvailabilityRequests.RestrictionStatus
+                        RestrictionStatus = new Availability.RestrictionStatus
                         {
                             Restriction = "Arrival",
                             Status = "Close"
                         }
                     },
-                    new AvailabilityRequests.AvailStatusMessage
+                    new Availability.AvailStatusMessage
                     {
-                        StatusApplicationControl = new AvailabilityRequests.StatusApplicationControl
+                        StatusApplicationControl = new Availability.StatusApplicationControl
                         {
                             Start = new DateTime(2017, 1, 15),
                             End = new DateTime(2017, 1, 16),
                             InvTypeCode = "DBL",
                             RatePlanCode = "AP"
                         },
-                        RestrictionStatus = new AvailabilityRequests.RestrictionStatus
+                        RestrictionStatus = new Availability.RestrictionStatus
                         {
                             MinAdvancedBookingOffset = "P7D"
                         }
@@ -156,23 +157,23 @@ public class AvailabilityXmlSerializationTests
                     }
                 }
             },
-            Inventories = new AvailabilityRequests.Inventories
+            Inventories = new Availability.Inventories
             {
                 HotelCode = "HOTEL001",
-                InventoryList = new List<AvailabilityRequests.Inventory>
+                InventoryList = new List<Availability.Inventory>
                 {
-                    new AvailabilityRequests.Inventory
+                    new Availability.Inventory
                     {
-                        StatusApplicationControl = new AvailabilityRequests.StatusApplicationControl
+                        StatusApplicationControl = new Availability.StatusApplicationControl
                         {
                             Start = new DateTime(2017, 1, 15),
                             End = new DateTime(2017, 1, 15),
                             InvTypeCode="DBL",
                             RatePlanCode="BAR"
                         },
-                        InvCounts = new List<AvailabilityRequests.InvCount>
+                        InvCounts = new List<Availability.InvCount>
                         {
-                            new AvailabilityRequests.InvCount
+                            new Availability.InvCount
                             {
                                 Count = 25,
                                 CountType = "2"
@@ -295,6 +296,163 @@ public class AvailabilityXmlSerializationTests
             TimeStamp = DateTime.Now,
             EchoToken = "001-1466531393",
             Success = new()
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelAvailGetRQSerializationTest()
+    {
+        var data = new AvailabilityRequests.OtaHotelAvailGetRQ
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Pos = new Pos
+            {
+                Source = new Source
+                {
+                    BookingChannel = new BookingChannel
+                    {
+                        Type = "7",
+                        CompanyName = new CompanyName
+                        {
+                            Name = "Partner Name",
+                            Code = "PartnerCode"
+                        }
+                    }
+                }
+            },
+            HotelAvailRequests = new List<AvailabilityRequests.HotelAvailRequest>
+            {
+                new AvailabilityRequests.HotelAvailRequest
+                {
+                    DateRange = new AvailabilityRequests.DateRange
+                    {
+                        Start = new DateTime(2017, 1, 1),
+                        End = new DateTime(2017, 1, 3)
+                    },
+                    RatePlanCandidates = new List<AvailabilityRequests.RatePlanCandidate>
+                    {
+                        new AvailabilityRequests.RatePlanCandidate
+                        {
+                            RatePlanCode = "BAR"
+                        }
+                    },
+                    RoomTypeCandidates = new List<AvailabilityRequests.RoomTypeCandidate>
+                    {
+                        new AvailabilityRequests.RoomTypeCandidate
+                        {
+                            RoomTypeCode="SGL"
+                        },
+                        new AvailabilityRequests.RoomTypeCandidate
+                        {
+                            RoomTypeCode="DBL"
+                        }
+                    },
+                    HotelRef = new AvailabilityRequests.HotelRef
+                    {
+                        HotelCode = "HOTEL001"
+                    }
+                }
+            }
+        };
+
+        var fileName = SerializationHelper.SerializeAndSave(data);
+
+        Assert.True(File.Exists(fileName));
+    }
+
+
+    [Fact]
+    public void OtaHotelAvailGetRSSerializationTest()
+    {
+        var data = new AvailabilityResponses.OtaHotelAvailGetRS
+        {
+            Version = "1.0",
+            TimeStamp = DateTime.Now,
+            EchoToken = "001-1466531393",
+            Success = new(),
+            AvailStatusMessages = new Availability.AvailStatusMessages
+            {
+                HotelCode = "HOTEL001",
+                AvailStatusMessageList = new List<Availability.AvailStatusMessage>
+                {
+                    new Availability.AvailStatusMessage
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 3),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+                        },
+                        LengthsOfStay = new Availability.LengthsOfStay
+                        {
+                            ArrivalDateBased = false,
+                            LengthOfStayList = new List<Availability.LengthOfStay>
+                            {
+                                new Availability.LengthOfStay
+                                {
+                                    MinMaxMessageType = "MinLOS",
+                                    TimeUnit = "Day",
+                                    Time = 1
+                                }
+                            }
+                        }
+                    },
+                    new Availability.AvailStatusMessage
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 3),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+                        },
+                        RestrictionStatus = new Availability.RestrictionStatus
+                        {
+                            Restriction = "Master",
+                            Status = "Open"
+                        }
+                    },
+                    new Availability.AvailStatusMessage
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 3),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+
+                        },
+                        RestrictionStatus = new Availability.RestrictionStatus
+                        {
+                            Restriction = "Arrival",
+                            Status = "Open"
+                        }
+                    },
+                    new Availability.AvailStatusMessage
+                    {
+                        StatusApplicationControl = new Availability.StatusApplicationControl
+                        {
+                            Start = new DateTime(2017, 1, 1),
+                            End = new DateTime(2017, 1, 3),
+                            InvTypeCode = "SGL",
+                            RatePlanCode = "BAR"
+
+                        },
+                        RestrictionStatus = new Availability.RestrictionStatus
+                        {
+                            MinAdvancedBookingOffset = "P0D"
+                        }
+                    }
+                }
+            }
         };
 
         var fileName = SerializationHelper.SerializeAndSave(data);

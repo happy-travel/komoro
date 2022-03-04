@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
 /// <summary>
 /// Length of stay restriction details

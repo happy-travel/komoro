@@ -1,4 +1,4 @@
-﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
+﻿namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
 /// <summary>
 /// Inventory details
@@ -13,5 +13,5 @@ public record Inventory
     /// <summary>
     /// List of inventory counts. Currently only a single InvCount element is supported for inventory update requests
     /// </summary>
-    public List<InvCount> InvCounts { get; init; } = new(1);
+    public List<InvCount> InvCounts { get; init; } = null!;
 }
