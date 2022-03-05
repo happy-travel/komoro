@@ -17,6 +17,7 @@
     <PackageReference Include="HappyTravel.StdOutLogger" Version="1.7.0" />
     <PackageReference Include="HappyTravel.Telemetry" Version="0.15.5" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj" />
     <ProjectReference Include="..\HappyTravel.Komoro.Data\HappyTravel.Komoro.Data.csproj" />
+    <ProjectReference Include="..\HappyTravel.Komoro.TravelClickChannelManager\HappyTravel.Komoro.TravelClickChannelManager.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="HappyTravel.Komoro.Api.xml">
