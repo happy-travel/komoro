@@ -7,7 +7,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/travel-click/availability-restrictions")]
-[Produces("application/json")]
+[Produces("application/xml")]
 public class AvailabilityRestrictionController : BaseController
 {
     public AvailabilityRestrictionController(IAvailabilityRestrictionService availabilityRestrictionService)

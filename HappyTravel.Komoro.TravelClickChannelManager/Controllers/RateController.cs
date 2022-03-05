@@ -7,7 +7,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/travel-click/rates")]
-[Produces("application/json")]
+[Produces("application/xml")]
 public class RateController : BaseController
 {
     public RateController(IRateService rateService)
