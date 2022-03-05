@@ -1,4 +1,5 @@
 ﻿using HappyTravel.HttpRequestLogger;
+using HappyTravel.Komoro.Common.Infrastructure;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Options;
 using HappyTravel.Komoro.TravelClickChannelManager.Services;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
         services.AddTransient<IInventoryService, InventoryService>();
         services.AddTransient<IRateService, RateService>();
+
+        services.AddTransient<IDateTimeOffsetProvider, DateTimeOffsetProvider>();
 
         return services;
     }
