@@ -1,0 +1,23 @@
+version: 2
+registries:
+  nuget-github:
+    type: nuget-feed
+    url: https://nuget.pkg.github.com/happy-travel/index.json
+    username: happy-travel
+    password: ${{ secrets.HAPPYTRAVEL_TOKEN }}
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "UTC"
+    registries:
+    - nuget-github
+    open-pull-requests-limit: 10
+    assignees:
+    - "dfsko"
+    - "mingazhev"
+    reviewers:
+    - "mingazhev"
+    - "oleg-n-k"
