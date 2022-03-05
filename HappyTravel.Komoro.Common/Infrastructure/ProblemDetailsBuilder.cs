@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace HappyTravel.Komoro.Api.Infrastructure;
+namespace HappyTravel.Komoro.Common.Infrastructure;
 
 public static class ProblemDetailsBuilder
 {

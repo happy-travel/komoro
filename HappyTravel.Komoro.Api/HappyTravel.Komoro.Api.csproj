@@ -6,7 +6,6 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.28.2" />
     <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="1.0.2" />
     <PackageReference Include="DateOnlyTimeOnly.AspNet.Swashbuckle" Version="1.0.2" />
@@ -27,6 +26,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj" />
     <ProjectReference Include="..\HappyTravel.Komoro.Data\HappyTravel.Komoro.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
