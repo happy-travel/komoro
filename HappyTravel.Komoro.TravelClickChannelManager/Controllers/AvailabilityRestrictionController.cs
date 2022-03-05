@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Controllers;
+using HappyTravel.Komoro.TravelClickChannelManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
@@ -9,4 +10,11 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [Produces("application/json")]
 public class AvailabilityRestrictionController : BaseController
 {
+    public AvailabilityRestrictionController(IAvailabilityRestrictionService availabilityRestrictionService)
+    {
+        _availabilityRestrictionService = availabilityRestrictionService;
+    }
+
+
+    private readonly IAvailabilityRestrictionService _availabilityRestrictionService;
 }

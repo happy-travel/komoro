@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Controllers;
+using HappyTravel.Komoro.TravelClickChannelManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
@@ -9,5 +10,11 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [Produces("application/json")]
 public class RateController : BaseController
 {
+    public RateController(IRateService rateService)
+    {
+        _rateService = rateService;
+    }
 
+
+    private readonly IRateService _rateService;
 }

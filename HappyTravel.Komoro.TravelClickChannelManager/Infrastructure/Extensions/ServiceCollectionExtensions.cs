@@ -1,5 +1,6 @@
 ﻿using HappyTravel.HttpRequestLogger;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Options;
+using HappyTravel.Komoro.TravelClickChannelManager.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -43,6 +44,11 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddTravelClickClientServices(this IServiceCollection services)
     {
+        services.AddTransient<IPingService, PingService>();
+        services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
+        services.AddTransient<IInventoryService, InventoryService>();
+        services.AddTransient<IRateService, RateService>();
+
         return services;
     }
 
