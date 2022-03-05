@@ -1,6 +1,8 @@
 ﻿using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Komoro.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using HappyTravel.Komoro.Common.Controllers;
 
 namespace HappyTravel.Komoro.Api.Controllers;
 
@@ -8,6 +10,7 @@ namespace HappyTravel.Komoro.Api.Controllers;
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/properties/{propertyId}/rooms")]
 [Produces("application/json")]
+[Authorize]
 public class RoomController : BaseController
 {
     public RoomController(IRoomService roomService)

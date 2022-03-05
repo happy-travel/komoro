@@ -2,6 +2,7 @@
 using HappyTravel.ErrorHandling.Extensions;
 using HappyTravel.Komoro.Api.Services;
 using HappyTravel.Komoro.Api.Services.Converters;
+using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
 
@@ -10,7 +11,8 @@ public static class ConfigureServicesExtension
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters())
-            .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters());
+            .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters())
+            .AddXmlSerializerFormatters();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(o => o.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddHealthChecks();
@@ -33,5 +35,7 @@ public static class ConfigureServicesExtension
         builder.Services.AddTransient<TravelClickPropertyConverter>();
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
+
+        builder.Services.AddTravelClickClientServices();
     }
 }

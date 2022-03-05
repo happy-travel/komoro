@@ -18,8 +18,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.UnitTest
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.TravelLineChannelManager", "HappyTravel.Komoro.TravelLineChannelManager\HappyTravel.Komoro.TravelLineChannelManager.csproj", "{CDA056DD-AF9C-4EFD-8D2B-917A5CB760C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831} = {9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.TravelClickChannelManager", "HappyTravel.Komoro.TravelClickChannelManager\HappyTravel.Komoro.TravelClickChannelManager.csproj", "{A0C0979D-832C-471F-A904-09B1AC7C08E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831} = {9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Common", "HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj", "{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}"
 EndProject

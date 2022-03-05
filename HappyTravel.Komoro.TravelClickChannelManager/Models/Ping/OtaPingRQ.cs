@@ -16,7 +16,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Ping
         public string Version { get; init; } = string.Empty;
 
         [XmlAttribute]
-        public DateTime TimeStamp { get; init; }
+        public DateTimeOffset TimeStamp { get; init; }
 
         /// <summary>
         /// Contains string that shall be echoed in the response.

@@ -15,7 +15,7 @@ public record OtaPingRS
     public string Version { get; init; } = string.Empty;
 
     [XmlAttribute]
-    public DateTime TimeStamp { get; init; }
+    public DateTimeOffset TimeStamp { get; init; }
 
     /// <summary>
     /// Empty element to indicate that the request was successful. Required to indicate success, but expected to be omitted when there are errors.
