@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Infrastructure;
+using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Ping;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
@@ -17,8 +18,18 @@ public class PingService : IPingService
         {
             Version = otaPingRQ.Version,
             TimeStamp = _dateTimeOffsetProvider.UtcNow(),
-            Success = new Models.Success(),
+            Success = new Success(),
             EchoData = otaPingRQ.EchoData
+            /*Errors = new List<Error> 
+            { 
+                new Error
+                {
+                    Type = Models.Enums.ErrorWarningTypes.Authentication,
+                    Code = Models.Enums.ErrorCodes.ServiceRestrictionSecurity,
+                    ShortText = "Service restriction - security",
+                    ErrorText = "The supplied credentials are invalid or do not have access to hotel 'HOTEL001'",
+                }
+            }*/
         };
     }
 

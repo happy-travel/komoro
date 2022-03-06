@@ -19,9 +19,6 @@ vaultClient.Login(EnvironmentVariableHelper.Get("Vault:Token", configuration)).G
 var databaseOptions = vaultClient.Get(configuration["Database:Options"]).GetAwaiter().GetResult();
 var authorityOptions = vaultClient.Get(configuration["Authority:Options"]).GetAwaiter().GetResult();
 
-//var xml = GlobalConfiguration.Configuration.Formatters.XmlFormatter;
-//xml.UseXmlSerializer = true;
-
 builder.ConfigureAppConfiguration();
 builder.ConfigureLogging();
 builder.ConfigureSentry();

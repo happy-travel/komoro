@@ -8,7 +8,7 @@ public record BaseRequest
     public string Version { get; init; } = string.Empty;
 
     [XmlAttribute]
-    public DateTime TimeStamp { get; init; }
+    public DateTimeOffset TimeStamp { get; init; }
 
     [XmlAttribute]
     public string EchoToken { get; init; } = string.Empty;
