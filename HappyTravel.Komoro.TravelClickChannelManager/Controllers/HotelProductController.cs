@@ -20,7 +20,7 @@ public class HotelProductController : BaseController
 
 
     /// <summary>
-    /// Obtain Hotel Products
+    /// Obtains Hotel Products
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(OtaHotelProductRS), StatusCodes.Status200OK)]

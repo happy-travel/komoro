@@ -2,6 +2,7 @@
 using HappyTravel.Komoro.Common.Infrastructure.Extensions;
 using HappyTravel.Komoro.Common.Services;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
+using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Enums;
 using Requests = HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Request;
@@ -40,17 +41,12 @@ internal class HotelProductService : IHotelProductService
             var ratePlans = new List<Responses.RatePlan>();
             var roomTypes = new List<Responses.RoomType>();
 
+            var hotelProductList = rooms.Select(r => r.ToHotelProduct()).ToList();
+
             hotelProducts = new Responses.HotelProducts
             {
                 HotelCode = hotelCode,
-                HotelProductList = new List<Responses.HotelProduct>
-                {
-                    new Responses.HotelProduct
-                    {
-                        RatePlans = ratePlans,
-                        RoomTypes = roomTypes
-                    }
-                }
+                HotelProductList = hotelProductList
             };
         }
             
