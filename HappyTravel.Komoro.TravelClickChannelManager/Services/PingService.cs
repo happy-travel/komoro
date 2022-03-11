@@ -20,16 +20,6 @@ public class PingService : IPingService
             TimeStamp = _dateTimeOffsetProvider.UtcNow(),
             Success = new Success(),
             EchoData = otaPingRQ.EchoData
-            /*Errors = new List<Error> 
-            { 
-                new Error
-                {
-                    Type = Models.Enums.ErrorWarningTypes.Authentication,
-                    Code = Models.Enums.ErrorCodes.ServiceRestrictionSecurity,
-                    ShortText = "Service restriction - security",
-                    ErrorText = "The supplied credentials are invalid or do not have access to hotel 'HOTEL001'",
-                }
-            }*/
         };
     }
 
