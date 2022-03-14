@@ -1,4 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Infrastructure;
+using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Ping;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
@@ -17,7 +18,7 @@ public class PingService : IPingService
         {
             Version = otaPingRQ.Version,
             TimeStamp = _dateTimeOffsetProvider.UtcNow(),
-            Success = new Models.Success(),
+            Success = new Success(),
             EchoData = otaPingRQ.EchoData
         };
     }

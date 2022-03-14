@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using HappyTravel.KomoroContracts.Statics;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Common.Services;
 
 public interface IRoomService
 {

@@ -3,6 +3,7 @@ using HappyTravel.Komoro.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using HappyTravel.Komoro.Common.Controllers;
+using HappyTravel.Komoro.Common.Services;
 
 namespace HappyTravel.Komoro.Api.Controllers;
 

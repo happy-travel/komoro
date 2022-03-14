@@ -46,6 +46,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddTravelClickClientServices(this IServiceCollection services)
     {
         services.AddTransient<IPingService, PingService>();
+        services.AddTransient<IHotelProductService, HotelProductService>();
         services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
         services.AddTransient<IInventoryService, InventoryService>();
         services.AddTransient<IRateService, RateService>();

@@ -23,6 +23,16 @@ public record OtaPingRS
     public Success? Success { get; init; }
 
     /// <summary>
+    /// Required to indicate that the request was NOT successful. Must contain one or more Error elements describing the cause
+    /// </summary>
+    public List<Error>? Errors { get; init; }
+
+    /// <summary>
+    /// Required to indicate that part of the request failed. Must contain one or more Warning elements describing the cause
+    /// </summary>
+    public List<Warning>? Warnings { get; init; }
+
+    /// <summary>
     /// String echoed from original request
     /// </summary>
     public string EchoData { get; init; } = string.Empty;
