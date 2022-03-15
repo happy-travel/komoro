@@ -41,6 +41,7 @@ public class RoomTypeService : IRoomTypeService
             var utcNow = DateTimeOffset.UtcNow;
             var roomType = new DataModels.RoomType
             {
+                Code = apiRoomType.Code,
                 Name = apiRoomType.Name,
                 Category = apiRoomType.Category,
                 Created = utcNow,
@@ -68,6 +69,7 @@ public class RoomTypeService : IRoomTypeService
 
         async Task Update(DataModels.RoomType roomType)
         {
+            roomType.Code = apiRoomType.Code;
             roomType.Name = apiRoomType.Name;
             roomType.Category = apiRoomType.Category;
             roomType.Modified = DateTimeOffset.UtcNow;
@@ -95,7 +97,9 @@ public class RoomTypeService : IRoomTypeService
     private static Result Validate(ApiModels.RoomType roomType)
         => GenericValidator<ApiModels.RoomType>.Validate(v =>
         {
+            v.RuleFor(rt => rt.Code).NotEmpty();
             v.RuleFor(rt => rt.Name).NotEmpty();
+            v.RuleFor(rt => rt.Category).NotEmpty();
         },
         roomType);
 

@@ -18,6 +18,7 @@ public class TravelClickPropertyConverter
         var property = new ApiModels.Property
         {
             Id = propertyId,
+            Code = string.Empty,
             SupplierId = TravelClickId,
             Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value.Trim() ?? string.Empty,
             Address = new Address
