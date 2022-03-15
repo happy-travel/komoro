@@ -31,7 +31,7 @@ public class RateController : BaseController
     /// <summary>
     /// Updates Rates
     /// </summary>
-    [HttpPost]
+    [HttpPost("update")]
     [ProducesResponseType(typeof(OtaHotelRatePlanNotifRS), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] OtaHotelRatePlanNotifRQ otaHotelRatePlanNotifRQ, CancellationToken cancellationToken)
         => Ok(await _rateService.Update(otaHotelRatePlanNotifRQ, cancellationToken));

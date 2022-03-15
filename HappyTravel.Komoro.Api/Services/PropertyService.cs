@@ -56,6 +56,14 @@ public class PropertyService : IPropertyService
     }
 
 
+    public async Task<int> GetId(int supplierId, string propertyCode)
+    {
+        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.SupplierId == supplierId && p.Code == propertyCode);
+
+        return property?.Id ?? 0;
+    }
+
+
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
         return await Validate(apiProperty)

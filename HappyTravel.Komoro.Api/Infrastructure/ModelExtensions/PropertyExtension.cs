@@ -10,6 +10,7 @@ public static class PropertyExtension
         return new ApiModels.SlimProperty
         {
             Id = property.Id,
+            Code = property.Code,
             SupplierId = property.SupplierId,
             Name = property.Name,
             Address = property.Address.ToApiAddress(property.Country),
@@ -30,6 +31,7 @@ public static class PropertyExtension
         return new ApiModels.Property
         {
             Id = property.Id,
+            Code = property.Code,
             SupplierId = property.SupplierId,
             Name = property.Name,
             Address = property.Address.ToApiAddress(property.Country),

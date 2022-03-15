@@ -11,9 +11,10 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
 internal class HotelProductService : IHotelProductService
 {
-    public HotelProductService(IDateTimeOffsetProvider dateTimeOffsetProvider, IRoomService roomService)
+    public HotelProductService(IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, IRoomService roomService)
     {
         _dateTimeOffsetProvider = dateTimeOffsetProvider;
+        _propertyService = propertyService;
         _roomService = roomService;
     }
 
@@ -21,11 +22,11 @@ internal class HotelProductService : IHotelProductService
     public async Task<Responses.OtaHotelProductRS> Get(Requests.OtaHotelProductRQ otaHotelProductRQ, CancellationToken cancellationToken)
     {
         var hotelCode = otaHotelProductRQ.HotelProducts.FirstOrDefault()?.HotelCode ?? string.Empty;
-        _ = int.TryParse(hotelCode, out var propertyId);
         
         var success = new Success();
         List<Error>? errors = null;
         Responses.HotelProducts? hotelProducts = null;
+        var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
         var rooms = await _roomService.Get(propertyId, cancellationToken);
         if (rooms.Count == 0)
         {
@@ -59,5 +60,6 @@ internal class HotelProductService : IHotelProductService
 
     
     private readonly IDateTimeOffsetProvider _dateTimeOffsetProvider;
+    private readonly IPropertyService _propertyService;
     private readonly IRoomService _roomService;
 }
