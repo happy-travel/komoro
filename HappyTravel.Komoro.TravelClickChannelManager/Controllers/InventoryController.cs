@@ -31,7 +31,7 @@ public class InventoryController : BaseController
     /// <summary>
     /// Updates Inventory
     /// </summary>
-    [HttpPost]
+    [HttpPost("update")]
     [ProducesResponseType(typeof(OtaHotelInvCountNotifRS), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] OtaHotelInvCountNotifRQ otaHotelInvCountNotifRQ, CancellationToken cancellationToken)
         => Ok(await _inventoryService.Update(otaHotelInvCountNotifRQ, cancellationToken));

@@ -1,6 +1,7 @@
 ﻿using Responses = HappyTravel.Komoro.TravelClickChannelManager.Models.HotelProducts.Response;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.KomoroContracts.Enums;
+using HappyTravel.Komoro.Common.Infrastructure.Extensions;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 
@@ -14,7 +15,7 @@ public static class RoomExtensions
             {
                 new Responses.RoomType
                 {
-                    RoomTypeCode = room.RoomType.Id.ToString(), // TODO: Need clarify
+                    RoomTypeCode = room.RoomType.Code,
                     RoomTypeName = room.RoomType.Name,
                     MaxAdultOccupancy = GetMaximumAdults(room.MaximumOccupancy),
                     MaxChildOccupancy = GetMaximumChildren(room.MaximumOccupancy),
@@ -48,78 +49,42 @@ public static class RoomExtensions
             var ratePlans = new List<Responses.RatePlan>();
 
             if ((room.RatePlans & RatePlans.StandardRO) == RatePlans.StandardRO)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "StandardRO",
-                    RatePlanName = "Standard Room Only",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
+                ratePlans.Add(GetRatePlan(RatePlans.StandardRO, room.StandardOccupancy.Adults));
             
             if ((room.RatePlans & RatePlans.StandardBB) == RatePlans.StandardBB)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "StandardBB",
-                    RatePlanName = "Standard Bed & Breakfast",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                }); 
-            
+                ratePlans.Add(GetRatePlan(RatePlans.StandardBB, room.StandardOccupancy.Adults));
+
             if ((room.RatePlans & RatePlans.StaySaveRO) == RatePlans.StaySaveRO)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "StaySaveRO",
-                    RatePlanName = "Stay Save Room Only",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
-            
+                ratePlans.Add(GetRatePlan(RatePlans.StaySaveRO, room.StandardOccupancy.Adults));
+
             if ((room.RatePlans & RatePlans.StaySaveBB) == RatePlans.StaySaveBB)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "StaySaveBB",
-                    RatePlanName = "Stay Save Bed & Breakfast",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
-            
+                ratePlans.Add(GetRatePlan(RatePlans.StaySaveBB, room.StandardOccupancy.Adults));
+
             if ((room.RatePlans & RatePlans.EarlyBirdRO) == RatePlans.EarlyBirdRO)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "EarlyBirdRO",
-                    RatePlanName = "Early Bird Room Only",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
-            
+                ratePlans.Add(GetRatePlan(RatePlans.EarlyBirdRO, room.StandardOccupancy.Adults));
+
             if ((room.RatePlans & RatePlans.EarlyBirdBB) == RatePlans.EarlyBirdBB)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "EarlyBirdBB",
-                    RatePlanName = "Early Bird Bed & Breakfast",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
+                ratePlans.Add(GetRatePlan(RatePlans.EarlyBirdBB, room.StandardOccupancy.Adults));
 
             if ((room.RatePlans & RatePlans.SpecialDealRO) == RatePlans.SpecialDealRO)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "SpecialDealRO",
-                    RatePlanName = "Special Deal Room Only",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
+                ratePlans.Add(GetRatePlan(RatePlans.SpecialDealRO, room.StandardOccupancy.Adults));
 
             if ((room.RatePlans & RatePlans.SpecialDealBB) == RatePlans.SpecialDealBB)
-                ratePlans.Add(new Responses.RatePlan
-                {
-                    RatePlanCode = "SpecialDealBB",
-                    RatePlanName = "Special Deal Bed & Breakfast",
-                    BaseOccupancy = room.StandardOccupancy.Adults,
-                    CurrencyCode = DefaultCurrencyCode
-                });
+                ratePlans.Add(GetRatePlan(RatePlans.SpecialDealBB, room.StandardOccupancy.Adults));
 
             return ratePlans;
+        }
+
+
+        static Responses.RatePlan GetRatePlan(RatePlans ratePlan, int numberAdults)
+        {
+            return new Responses.RatePlan
+            {
+                RatePlanCode = ratePlan.ToString(),
+                RatePlanName = ratePlan.GetDescription(),
+                BaseOccupancy = numberAdults,
+                CurrencyCode = DefaultCurrencyCode
+            };
         }
     }
 

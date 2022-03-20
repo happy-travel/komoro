@@ -31,7 +31,7 @@ public class AvailabilityRestrictionController : BaseController
     /// <summary>
     /// Updates Availability Restrictions
     /// </summary>
-    [HttpPost]
+    [HttpPost("update")]
     [ProducesResponseType(typeof(OtaHotelAvailNotifRS), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] OtaHotelAvailNotifRQ otaHotelAvailNotifRQ, CancellationToken cancellationToken)
         => Ok(await _availabilityRestrictionService.Update(otaHotelAvailNotifRQ, cancellationToken));

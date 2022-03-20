@@ -56,9 +56,17 @@ public class PropertyService : IPropertyService
     }
 
 
+    public async Task<int> GetId(int supplierId, string propertyCode)
+    {
+        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.SupplierId == supplierId && p.Code == propertyCode);
+
+        return property?.Id ?? 0;
+    }
+
+
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
-        return await Validate(apiProperty)
+        return await Validate(apiProperty, true)
             .Ensure(() => PropertyHasNoDuplicates(apiProperty), "Adding property has duplicate")
             .Tap(Add);
 
@@ -73,6 +81,7 @@ public class PropertyService : IPropertyService
             var utcNow = DateTimeOffset.UtcNow;
             var property = new DataModels.Property
             {
+                Code = apiProperty.Code,
                 SupplierId = apiProperty.SupplierId,
                 CountryId = apiProperty.Address.Country.Id,
                 Name = apiProperty.Name,
@@ -103,7 +112,7 @@ public class PropertyService : IPropertyService
 
     public async Task<Result> Modify(int propertyId, ApiModels.Property apiProperty, CancellationToken cancellationToken)
     {
-        return await Validate(apiProperty)
+        return await Validate(apiProperty, true)
             .Ensure(() => PropertyHasNoDuplicates(apiProperty), "Modifiable property has duplicate")
             .Bind(() => GetProperty(propertyId, cancellationToken))
             .Tap(Update);
@@ -116,6 +125,7 @@ public class PropertyService : IPropertyService
 
         async Task Update(DataModels.Property property)
         {
+            property.Code = apiProperty.Code;
             property.SupplierId = apiProperty.SupplierId;
             property.CountryId = apiProperty.Address.Country.Id;
             property.Name = apiProperty.Name;
@@ -238,7 +248,7 @@ public class PropertyService : IPropertyService
 
 
         static Result ValidateProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
-            => Validate(data.property);
+            => Validate(data.property, false);
 
 
         async Task<(int, List<ApiModels.Room>)> AddOrModifyProperty((ApiModels.Property property, List<ApiModels.Room> rooms) data)
@@ -251,6 +261,7 @@ public class PropertyService : IPropertyService
                 property = new DataModels.Property
                 {
                     Id = apiProperty.Id,
+                    Code = apiProperty.Code,
                     SupplierId = apiProperty.SupplierId,
                     CountryId = apiProperty.Address.Country.Id,
                     Name = apiProperty.Name,
@@ -344,9 +355,11 @@ public class PropertyService : IPropertyService
     }
 
 
-    private static Result Validate(ApiModels.Property property)
+    private static Result Validate(ApiModels.Property property, bool isCodeValidated)
         => GenericValidator<ApiModels.Property>.Validate(v =>
         {
+            if (isCodeValidated)
+                v.RuleFor(p => p.Code).NotEmpty();
             v.RuleFor(p => p.SupplierId).NotEmpty();
             v.RuleFor(p => p.Name).NotEmpty();
             v.RuleFor(p => p.Address).NotEmpty()
