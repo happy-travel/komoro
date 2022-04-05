@@ -75,7 +75,7 @@ public class AvailabilityXmlSerializationTests
                         RestrictionStatus = new Availability.RestrictionStatus
                         { 
                             Restriction = "Master",
-                            Status = "Open" 
+                            Status = "Open"
                         }
                     },
                     new Availability.AvailStatusMessage

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Api.Services.Statics;
 
 public class RoomService : IRoomService
 {

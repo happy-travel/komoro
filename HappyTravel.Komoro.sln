@@ -11,6 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Api", "H
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.Data", "HappyTravel.Komoro.Data\HappyTravel.Komoro.Data.csproj", "{807E2A78-CC1D-4508-92F5-1219F0D55A0E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9292F7C7-21F9-44A7-B6D6-E24F5CCC7831} = {9292F7C7-21F9-44A7-B6D6-E24F5CCC7831}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyTravel.Komoro.UnitTests", "HappyTravel.Komoro.UnitTests\HappyTravel.Komoro.UnitTests.csproj", "{47814FD7-137D-4EC7-8256-FA944E9AB03F}"
 	ProjectSection(ProjectDependencies) = postProject

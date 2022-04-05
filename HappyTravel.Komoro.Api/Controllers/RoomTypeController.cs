@@ -1,8 +1,8 @@
-﻿using HappyTravel.KomoroContracts.Statics;
-using HappyTravel.Komoro.Api.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿using HappyTravel.Komoro.Api.Services.Statics;
 using HappyTravel.Komoro.Common.Controllers;
+using HappyTravel.KomoroContracts.Statics;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HappyTravel.Komoro.Api.Controllers;
 

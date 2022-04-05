@@ -15,7 +15,7 @@ using HappyTravel.Komoro.Api.Infrastructure.FunctionalExtensions;
 using NetTopologySuite.Geometries;
 using HappyTravel.Komoro.Common.Services;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Api.Services.Statics;
 
 public class PropertyService : IPropertyService
 {

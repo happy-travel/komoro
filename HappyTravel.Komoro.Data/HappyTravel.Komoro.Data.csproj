@@ -25,6 +25,9 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HappyTravel.Komoro.Common\HappyTravel.Komoro.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="contextSettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
