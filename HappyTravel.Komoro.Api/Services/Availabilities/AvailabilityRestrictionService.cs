@@ -2,5 +2,6 @@
 {
     public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     {
+
     }
 }

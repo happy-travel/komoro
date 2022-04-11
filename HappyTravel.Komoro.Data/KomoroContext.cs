@@ -1,4 +1,5 @@
-﻿using HappyTravel.Komoro.Data.Models.Statics;
+﻿using HappyTravel.Komoro.Data.Models.Availabilities;
+using HappyTravel.Komoro.Data.Models.Statics;
 using Microsoft.EntityFrameworkCore;
 
 namespace HappyTravel.Komoro.Data;
@@ -99,6 +100,21 @@ public class KomoroContext : DbContext
             e.Property(rt => rt.Created).IsRequired();
             e.Property(rt => rt.Modified).IsRequired();
         });
+
+        builder.Entity<AvailabilityRestriction>(e =>
+        {
+            e.ToTable("AvailabilityRestrictions");
+            e.HasKey(ar => ar.Id);
+            e.Property(ar => ar.StartDate).IsRequired();
+            e.Property(ar => ar.EndDate).IsRequired();
+            e.HasIndex(ar => ar.PropertyId);
+            e.HasIndex(ar => ar.RoomTypeId);
+            e.Property(ar => ar.RatePlanCode).IsRequired();
+            e.Property(ar => ar.Restriction);
+            e.Property(ar => ar.Status);
+            e.Property(rt => rt.Created).IsRequired();
+            e.Property(rt => rt.Modified).IsRequired();
+        });
     }
 
 
@@ -108,4 +124,6 @@ public class KomoroContext : DbContext
     public DbSet<Property> Properties { get; set; } = null!;
     public DbSet<Room> Rooms { get; set; } = null!;
     public DbSet<RoomType> RoomTypes { get; set; } = null!;
+
+    public DbSet<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = null!;
 }
