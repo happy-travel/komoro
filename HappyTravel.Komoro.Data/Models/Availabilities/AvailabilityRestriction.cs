@@ -11,8 +11,8 @@ public class AvailabilityRestriction
     public int PropertyId { get; set; }
     public int RoomTypeId { get; set; }
     public string RatePlanCode { get; set; } = string.Empty;
-    public RestrictionTypes Restriction { get; set; }
-    public RestrictionStatuses Status { get; set; }
+    public RestrictionTypes? Restriction { get; set; }
+    public RestrictionStatuses? Status { get; set; }
     public int? MinAdvancedBookingOffset { get; init; }
     public bool? IsLengthOfStayArrivalDateBased { get; init; }
     public int? LengthOfStayMinimumDays { get; init; }

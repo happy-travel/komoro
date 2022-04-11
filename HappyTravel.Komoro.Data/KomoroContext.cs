@@ -67,6 +67,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.Modified).IsRequired();
             e.Navigation(p => p.Rooms);
             e.Navigation(p => p.CancellationPolicies);
+            e.Navigation(p => p.AvailabilityRestrictions);
             e.HasOne(p => p.Country).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 
@@ -105,15 +106,20 @@ public class KomoroContext : DbContext
         {
             e.ToTable("AvailabilityRestrictions");
             e.HasKey(ar => ar.Id);
+            e.HasIndex(ar => ar.PropertyId);
             e.Property(ar => ar.StartDate).IsRequired();
             e.Property(ar => ar.EndDate).IsRequired();
-            e.HasIndex(ar => ar.PropertyId);
             e.HasIndex(ar => ar.RoomTypeId);
             e.Property(ar => ar.RatePlanCode).IsRequired();
             e.Property(ar => ar.Restriction);
             e.Property(ar => ar.Status);
-            e.Property(rt => rt.Created).IsRequired();
-            e.Property(rt => rt.Modified).IsRequired();
+            e.Property(ar => ar.MinAdvancedBookingOffset);
+            e.Property(ar => ar.IsLengthOfStayArrivalDateBased);
+            e.Property(ar => ar.LengthOfStayMinimumDays);
+            e.Property(ar => ar.Created).IsRequired();
+            e.Property(ar => ar.Modified).IsRequired();
+            e.HasOne(ar => ar.Property).WithMany(p => p.AvailabilityRestrictions).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
     }
 

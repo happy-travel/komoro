@@ -1,4 +1,5 @@
-﻿using NetTopologySuite.Geometries;
+﻿using HappyTravel.Komoro.Data.Models.Availabilities;
+using NetTopologySuite.Geometries;
 using ApiModels = HappyTravel.KomoroContracts.Statics;
 
 namespace HappyTravel.Komoro.Data.Models.Statics;
@@ -24,5 +25,6 @@ public class Property
 
     public List<Room> Rooms { get; set; } = new();
     public List<CancellationPolicy> CancellationPolicies { get; set; } = new();
+    public List<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = new();
     public Country Country { get; set; } = null!;
 }
