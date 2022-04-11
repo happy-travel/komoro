@@ -14,7 +14,7 @@ updates:
       timezone: "UTC"
     registries:
     - nuget-github
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 25
     assignees:
     - "dfsko"
     - "AlexeyShok"
