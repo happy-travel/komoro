@@ -1,5 +1,5 @@
 ﻿using HappyTravel.Geography;
-using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
+using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Statics;
 using HappyTravel.KomoroContracts.Enums;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Enums;

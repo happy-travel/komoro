@@ -3,7 +3,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
-using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
+using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Statics;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
