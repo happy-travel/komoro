@@ -1,4 +1,5 @@
 ﻿using System;
+using HappyTravel.KomoroContracts.Availabilities;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -21,11 +22,8 @@ namespace HappyTravel.Komoro.Data.Migrations
                     PropertyId = table.Column<int>(type: "integer", nullable: false),
                     RoomTypeId = table.Column<int>(type: "integer", nullable: false),
                     RatePlanCode = table.Column<string>(type: "text", nullable: false),
-                    Restriction = table.Column<int>(type: "integer", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: true),
-                    MinAdvancedBookingOffset = table.Column<int>(type: "integer", nullable: true),
-                    IsLengthOfStayArrivalDateBased = table.Column<bool>(type: "boolean", nullable: true),
-                    LengthOfStayMinimumDays = table.Column<int>(type: "integer", nullable: true),
+                    RestrictionStatus = table.Column<RestrictionStatus>(type: "jsonb", nullable: true),
+                    LengthOfStay = table.Column<LengthOfStay>(type: "jsonb", nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },

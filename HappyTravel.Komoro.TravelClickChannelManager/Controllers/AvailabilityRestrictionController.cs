@@ -13,7 +13,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [Produces("application/xml")]
 public class AvailabilityRestrictionController : BaseController
 {
-    public AvailabilityRestrictionController(IAvailabilityRestrictionService availabilityRestrictionService)
+    public AvailabilityRestrictionController(ITravelClickAvailabilityRestrictionService availabilityRestrictionService)
     {
         _availabilityRestrictionService = availabilityRestrictionService;
     }
@@ -37,5 +37,5 @@ public class AvailabilityRestrictionController : BaseController
         => Ok(await _availabilityRestrictionService.Update(otaHotelAvailNotifRQ, cancellationToken));
 
 
-    private readonly IAvailabilityRestrictionService _availabilityRestrictionService;
+    private readonly ITravelClickAvailabilityRestrictionService _availabilityRestrictionService;
 }

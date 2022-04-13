@@ -24,6 +24,14 @@ public class RoomTypeService : IRoomTypeService
     }
 
 
+    public async Task<int> GetId(string roomTypeCode)
+    {
+        var property = await _komoroContext.RoomTypes.SingleOrDefaultAsync(rt => rt.Code == roomTypeCode);
+
+        return property?.Id ?? 0;
+    }
+
+
     public async Task<Result> Add(ApiModels.RoomType apiRoomType, CancellationToken cancellationToken)
     {
         return await Validate(apiRoomType)

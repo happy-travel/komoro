@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using HappyTravel.Komoro.Data;
 using HappyTravel.Komoro.Data.Models.Statics;
+using HappyTravel.KomoroContracts.Availabilities;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Models;
 using Microsoft.EntityFrameworkCore;
@@ -41,14 +42,8 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsLengthOfStayArrivalDateBased")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("LengthOfStayMinimumDays")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MinAdvancedBookingOffset")
-                        .HasColumnType("integer");
+                    b.Property<LengthOfStay>("LengthOfStay")
+                        .HasColumnType("jsonb");
 
                     b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
@@ -60,17 +55,14 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("Restriction")
-                        .HasColumnType("integer");
+                    b.Property<RestrictionStatus>("RestrictionStatus")
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("RoomTypeId")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

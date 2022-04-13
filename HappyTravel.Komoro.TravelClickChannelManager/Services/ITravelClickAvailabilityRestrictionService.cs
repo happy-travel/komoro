@@ -3,7 +3,7 @@ using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Respons
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
-public interface IAvailabilityRestrictionService
+public interface ITravelClickAvailabilityRestrictionService
 {
     Task<OtaHotelAvailGetRS> Get(OtaHotelAvailGetRQ otaHotelAvailGetRQ, CancellationToken cancellationToken);
     Task<OtaHotelAvailNotifRS> Update(OtaHotelAvailNotifRQ otaHotelAvailNotifRQ, CancellationToken cancellationToken);

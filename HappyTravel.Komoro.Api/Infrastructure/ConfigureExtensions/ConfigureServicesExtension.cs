@@ -3,7 +3,8 @@ using HappyTravel.ErrorHandling.Extensions;
 using HappyTravel.Komoro.Api.Services.Availabilities;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Api.Services.Statics;
-using HappyTravel.Komoro.Common.Services;
+using HappyTravel.Komoro.Common.Services.Availabilities;
+using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;

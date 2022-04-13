@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using HappyTravel.Komoro.Data;
 using HappyTravel.Komoro.Data.Models.Statics;
+using HappyTravel.KomoroContracts.Availabilities;
 using HappyTravel.KomoroContracts.Statics;
 using HappyTravel.Money.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HappyTravel.Komoro.Data.Migrations
 {
     [DbContext(typeof(KomoroContext))]
-    [Migration("20220411175309_AddTableAvailabilityRestrictions")]
+    [Migration("20220411183905_AddTableAvailabilityRestrictions")]
     partial class AddTableAvailabilityRestrictions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,14 +44,8 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsLengthOfStayArrivalDateBased")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("LengthOfStayMinimumDays")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MinAdvancedBookingOffset")
-                        .HasColumnType("integer");
+                    b.Property<LengthOfStay>("LengthOfStay")
+                        .HasColumnType("jsonb");
 
                     b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("timestamp with time zone");
@@ -62,17 +57,14 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("Restriction")
-                        .HasColumnType("integer");
+                    b.Property<RestrictionStatus>("RestrictionStatus")
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("RoomTypeId")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

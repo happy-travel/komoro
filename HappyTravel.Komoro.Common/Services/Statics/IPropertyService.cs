@@ -2,7 +2,7 @@
 using HappyTravel.KomoroContracts.Statics;
 using Microsoft.AspNetCore.Http;
 
-namespace HappyTravel.Komoro.Common.Services;
+namespace HappyTravel.Komoro.Common.Services.Statics;
 
 public interface IPropertyService
 {

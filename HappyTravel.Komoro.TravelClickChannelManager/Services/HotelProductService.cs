@@ -1,5 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Infrastructure;
-using HappyTravel.Komoro.Common.Services;
+using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 using HappyTravel.Komoro.TravelClickChannelManager.Models;

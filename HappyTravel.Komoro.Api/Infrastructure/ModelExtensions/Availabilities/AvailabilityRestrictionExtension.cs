@@ -10,19 +10,13 @@ public static class AvailabilityRestrictionExtension
         return new ApiModels.AvailabilityRestriction
         {
             Id = availabilityRestriction.Id,
-            PropertyId = availabilityRestriction.PropertyId,
+            PropertyCode = availabilityRestriction.Property.Code,
             StartDate = availabilityRestriction.StartDate,
             EndDate = availabilityRestriction.EndDate,
-            RoomTypeId = availabilityRestriction.RoomTypeId,
+            RoomTypeCode = availabilityRestriction.RoomType.Code,
             RatePlanCode = availabilityRestriction.RatePlanCode,
-            RestrictionStatus = new ApiModels.RestrictionStatus
-            {
-
-            },
-            LengthOfStay = new ApiModels.LengthOfStay
-            {
-
-            }
+            RestrictionStatus = availabilityRestriction.RestrictionStatus,
+            LengthOfStay = availabilityRestriction?.LengthOfStay
         };
     }
 }
