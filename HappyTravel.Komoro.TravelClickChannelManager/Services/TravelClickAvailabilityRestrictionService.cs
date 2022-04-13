@@ -7,6 +7,7 @@ using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Response;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Enums;
+using HappyTravel.KomoroContracts.Availabilities;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
@@ -42,7 +43,8 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         }
         else
         {
-            var availStatusMessageList = availabilityRestrictions.Select(ar => ar.ToAvailStatusMessage()).ToList();
+            var availStatusMessageList = availabilityRestrictions.Select(ar => ar.ToAvailStatusMessage())
+                .ToList();
 
             availStatusMessages = new Models.Availabilities.AvailStatusMessages
             {
@@ -69,11 +71,24 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         var hotelCode = otaHotelAvailNotifRQ.AvailStatusMessages.HotelCode ?? string.Empty;
 
         var success = new Success();
+        List<Warning>? warnings = null;
         List<Error>? errors = null;
 
-        var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
+        //var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
+        var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction())
+            .ToList();
 
-        throw new NotImplementedException();
+        await _availabilityRestrictionService.Update(Constants.TravelClickId, availabilityRestrictions);
+
+        return new OtaHotelAvailNotifRS
+        {
+            Version = otaHotelAvailNotifRQ.Version,
+            TimeStamp = _dateTimeOffsetProvider.UtcNow(),
+            EchoToken = otaHotelAvailNotifRQ.EchoToken,
+            Success = success,
+            Errors = errors,
+            Warnings = warnings
+        };
     }
 
 
