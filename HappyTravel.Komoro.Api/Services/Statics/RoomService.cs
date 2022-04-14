@@ -1,14 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
-using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
-using HappyTravel.Komoro.Common.Services;
+using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Statics;
+using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Api.Services.Statics;
 
 public class RoomService : IRoomService
 {

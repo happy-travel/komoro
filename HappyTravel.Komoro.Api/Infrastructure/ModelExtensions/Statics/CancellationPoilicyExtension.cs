@@ -1,7 +1,7 @@
 ﻿using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Statics;
 
 public static class CancellationPolicyExtension
 {

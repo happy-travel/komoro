@@ -1,7 +1,7 @@
 ﻿using FloxDc.CacheFlow;
 using HappyTravel.Komoro.Data;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Api.Services.Statics;
 
 public class AccommodationStorage : IAccommodationStorage
 {

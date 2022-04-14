@@ -1,13 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HappyTravel.Komoro.Api.Infrastructure;
-using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions;
+using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Statics;
 using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 using ApiModels = HappyTravel.KomoroContracts.Statics;
 using DataModels = HappyTravel.Komoro.Data.Models.Statics;
 
-namespace HappyTravel.Komoro.Api.Services;
+namespace HappyTravel.Komoro.Api.Services.Statics;
 
 public class RoomTypeService : IRoomTypeService
 {
@@ -21,6 +21,14 @@ public class RoomTypeService : IRoomTypeService
     {
         return await _komoroContext.RoomTypes.Select(rt => rt.ToApiRoomType())
             .ToListAsync(cancellationToken);
+    }
+
+
+    public async Task<int> GetId(string roomTypeCode)
+    {
+        var property = await _komoroContext.RoomTypes.SingleOrDefaultAsync(rt => rt.Code == roomTypeCode);
+
+        return property?.Id ?? 0;
     }
 
 

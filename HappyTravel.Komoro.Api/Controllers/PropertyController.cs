@@ -1,5 +1,5 @@
 ﻿using HappyTravel.Komoro.Common.Controllers;
-using HappyTravel.Komoro.Common.Services;
+using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.KomoroContracts.Statics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

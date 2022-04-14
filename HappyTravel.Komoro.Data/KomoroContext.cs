@@ -1,4 +1,5 @@
-﻿using HappyTravel.Komoro.Data.Models.Statics;
+﻿using HappyTravel.Komoro.Data.Models.Availabilities;
+using HappyTravel.Komoro.Data.Models.Statics;
 using Microsoft.EntityFrameworkCore;
 
 namespace HappyTravel.Komoro.Data;
@@ -66,6 +67,7 @@ public class KomoroContext : DbContext
             e.Property(p => p.Modified).IsRequired();
             e.Navigation(p => p.Rooms);
             e.Navigation(p => p.CancellationPolicies);
+            e.Navigation(p => p.AvailabilityRestrictions);
             e.HasOne(p => p.Country).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 
@@ -99,6 +101,23 @@ public class KomoroContext : DbContext
             e.Property(rt => rt.Created).IsRequired();
             e.Property(rt => rt.Modified).IsRequired();
         });
+
+        builder.Entity<AvailabilityRestriction>(e =>
+        {
+            e.ToTable("AvailabilityRestrictions");
+            e.HasKey(ar => ar.Id);
+            e.HasIndex(ar => ar.PropertyId);
+            e.Property(ar => ar.StartDate).IsRequired();
+            e.Property(ar => ar.EndDate).IsRequired();
+            e.HasIndex(ar => ar.RoomTypeId);
+            e.Property(ar => ar.RatePlanCode).IsRequired();
+            e.Property(ar => ar.RestrictionStatusDetails).HasColumnType("jsonb");
+            e.Property(ar => ar.StayDurationDetails).HasColumnType("jsonb");
+            e.Property(ar => ar.Created).IsRequired();
+            e.Property(ar => ar.Modified).IsRequired();
+            e.HasOne(ar => ar.Property).WithMany(p => p.AvailabilityRestrictions).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+        });
     }
 
 
@@ -108,4 +127,6 @@ public class KomoroContext : DbContext
     public DbSet<Property> Properties { get; set; } = null!;
     public DbSet<Room> Rooms { get; set; } = null!;
     public DbSet<RoomType> RoomTypes { get; set; } = null!;
+
+    public DbSet<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = null!;
 }
