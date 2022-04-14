@@ -14,18 +14,18 @@ public static class AvailStatusMessageExtensions
             EndDate = DateOnly.FromDateTime(availStatusMessage.StatusApplicationControl.End),
             RoomTypeCode = availStatusMessage.StatusApplicationControl.InvTypeCode,
             RatePlanCode = availStatusMessage.StatusApplicationControl.RatePlanCode,
-            RestrictionStatus = availStatusMessage.RestrictionStatus is not null
+            RestrictionStatusDetails = availStatusMessage.RestrictionStatus is not null
                 ? GetRestrictionStatus(availStatusMessage.RestrictionStatus)
                 : null,
-            LengthOfStay = availStatusMessage.LengthsOfStay is not null
-                ? GetLengthOfStay(availStatusMessage.LengthsOfStay)
+            StayDurationDetails = availStatusMessage.LengthsOfStay is not null
+                ? GetStayDurationDetails(availStatusMessage.LengthsOfStay)
                 : null
         };
 
 
-        static KomoroContracts.Availabilities.RestrictionStatus GetRestrictionStatus(Models.Availabilities.RestrictionStatus restrictionStatus)
+        static RestrictionStatusDetails GetRestrictionStatus(RestrictionStatus restrictionStatus)
         {
-            return new KomoroContracts.Availabilities.RestrictionStatus
+            return new RestrictionStatusDetails
             {
                 Restriction = restrictionStatus.Restriction is not null
                     ? GetRestriction(restrictionStatus.Restriction)
@@ -66,15 +66,15 @@ public static class AvailStatusMessageExtensions
         {
             var numberOfDays = 0;
             if (minAdvancedBookingOffset.Length >= 3)
-                _ = int.TryParse(minAdvancedBookingOffset.Substring(1, minAdvancedBookingOffset.Length - 2), out numberOfDays);
+                _ = int.TryParse(minAdvancedBookingOffset.AsSpan(1, minAdvancedBookingOffset.Length - 2), out numberOfDays);
 
             return numberOfDays;
         }
 
 
-        static KomoroContracts.Availabilities.LengthOfStay GetLengthOfStay(LengthsOfStay lengthsOfStay)
+        static StayDurationDetails GetStayDurationDetails(LengthsOfStay lengthsOfStay)
         {
-            return new KomoroContracts.Availabilities.LengthOfStay
+            return new StayDurationDetails
             {
                 IsArrivalDateBased = lengthsOfStay.ArrivalDateBased,
                 MinimumDays = lengthsOfStay.LengthOfStayList[0].Time

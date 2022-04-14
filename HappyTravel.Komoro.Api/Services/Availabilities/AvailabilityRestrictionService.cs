@@ -47,9 +47,9 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                 .ToListAsync();
             var utcNow = _dateTimeOffsetProvider.UtcNow();
 
-            if (restriction.RestrictionStatus is not null)
+            if (restriction.RestrictionStatusDetails is not null)
                 await AddOrUpdateRestrictionStatus(restriction, existingRestrictions);
-            else if (restriction.LengthOfStay is not null)
+            else if (restriction.StayDurationDetails is not null)
                 await AddOrUpdateLengthOfStay(restriction, existingRestrictions);
 
             await _komoroContext.SaveChangesAsync();
@@ -59,7 +59,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         async Task AddOrUpdateRestrictionStatus(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
         {
             var existingRestriction = existingRestrictions
-                .SingleOrDefault(r => r.RestrictionStatus.Restriction == restriction.RestrictionStatus.Restriction);
+                .SingleOrDefault(r => r.RestrictionStatusDetails.Restriction == restriction.RestrictionStatusDetails.Restriction);
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
@@ -72,8 +72,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                     PropertyId = propertyId,
                     RoomTypeId = roomTypeId,
                     RatePlanCode = restriction.RatePlanCode,
-                    RestrictionStatus = restriction.RestrictionStatus,
-                    LengthOfStay = null,
+                    RestrictionStatusDetails = restriction.RestrictionStatusDetails,
+                    StayDurationDetails = null,
                     Created = utcNow,
                     Modified = utcNow
                 };
@@ -81,7 +81,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             }
             else
             {
-                existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
+                existingRestriction.RestrictionStatusDetails = restriction.RestrictionStatusDetails;
                 existingRestriction.Modified = utcNow;
                 _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
             }
@@ -91,7 +91,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         async Task AddOrUpdateLengthOfStay(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
         {
             var existingRestriction = existingRestrictions
-                .SingleOrDefault(r => r.LengthOfStay is not null);
+                .SingleOrDefault(r => r.StayDurationDetails is not null);
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
@@ -104,8 +104,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                     PropertyId = propertyId,
                     RoomTypeId = roomTypeId,
                     RatePlanCode = restriction.RatePlanCode,
-                    RestrictionStatus = null,
-                    LengthOfStay = restriction.LengthOfStay,
+                    RestrictionStatusDetails = null,
+                    StayDurationDetails = restriction.StayDurationDetails,
                     Created = utcNow,
                     Modified = utcNow
                 };
@@ -113,7 +113,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             }
             else
             {
-                existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
+                existingRestriction.RestrictionStatusDetails = restriction.RestrictionStatusDetails;
                 existingRestriction.Modified = utcNow;
                 _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
             }

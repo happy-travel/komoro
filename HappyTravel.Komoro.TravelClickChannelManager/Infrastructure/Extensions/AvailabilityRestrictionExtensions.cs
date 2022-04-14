@@ -16,44 +16,44 @@ public static class AvailabilityRestrictionExtensions
                 InvTypeCode = availabilityRestriction.RoomTypeCode,
                 RatePlanCode = availabilityRestriction.RatePlanCode
             },
-            RestrictionStatus = availabilityRestriction.RestrictionStatus is not null 
-                ? GetRestrictionStatus(availabilityRestriction.RestrictionStatus) 
+            RestrictionStatus = availabilityRestriction.RestrictionStatusDetails is not null 
+                ? GetRestrictionStatus(availabilityRestriction.RestrictionStatusDetails) 
                 : null,
-            LengthsOfStay = availabilityRestriction.LengthOfStay is not null
-                ? GetLengthsOfStay(availabilityRestriction.LengthOfStay)
+            LengthsOfStay = availabilityRestriction.StayDurationDetails is not null
+                ? GetLengthsOfStay(availabilityRestriction.StayDurationDetails)
                 : null
         };
 
 
-        static Models.Availabilities.RestrictionStatus GetRestrictionStatus(KomoroContracts.Availabilities.RestrictionStatus restrictionStatus)
+        static RestrictionStatus GetRestrictionStatus(RestrictionStatusDetails restrictionStatusDetails)
         {
-            return new Models.Availabilities.RestrictionStatus
+            return new RestrictionStatus
             {
-                Restriction = restrictionStatus.Restriction.HasValue
-                    ? restrictionStatus.Restriction.ToString() 
+                Restriction = restrictionStatusDetails.Restriction.HasValue
+                    ? restrictionStatusDetails.Restriction.ToString() 
                     : null,
-                Status = restrictionStatus.Restriction.HasValue
-                    ? restrictionStatus.Status.ToString()
+                Status = restrictionStatusDetails.Restriction.HasValue
+                    ? restrictionStatusDetails.Status.ToString()
                     : null,
-                MinAdvancedBookingOffset = restrictionStatus.MinAdvancedBookingOffset.HasValue 
-                    ? GetMinAdvancedBookingOffset(restrictionStatus.MinAdvancedBookingOffset.Value)
+                MinAdvancedBookingOffset = restrictionStatusDetails.MinAdvancedBookingOffset.HasValue 
+                    ? GetMinAdvancedBookingOffset(restrictionStatusDetails.MinAdvancedBookingOffset.Value)
                     : null
             };
         }
 
 
-        static LengthsOfStay GetLengthsOfStay(KomoroContracts.Availabilities.LengthOfStay lengthsOfStay)
+        static LengthsOfStay GetLengthsOfStay(StayDurationDetails stayDurationDetails)
         {
             return new LengthsOfStay
             {
-                ArrivalDateBased = lengthsOfStay.IsArrivalDateBased,
-                LengthOfStayList = new List<Models.Availabilities.LengthOfStay>
+                ArrivalDateBased = stayDurationDetails.IsArrivalDateBased,
+                LengthOfStayList = new List<LengthOfStay>
                 {
-                    new Models.Availabilities.LengthOfStay
+                    new LengthOfStay
                     {
                         MinMaxMessageType = MinMaxMessageType,
                         TimeUnit = TimeUnit,
-                        Time = lengthsOfStay.MinimumDays
+                        Time = stayDurationDetails.MinimumDays
                     }
                 }
             };

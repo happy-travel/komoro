@@ -111,8 +111,8 @@ public class KomoroContext : DbContext
             e.Property(ar => ar.EndDate).IsRequired();
             e.HasIndex(ar => ar.RoomTypeId);
             e.Property(ar => ar.RatePlanCode).IsRequired();
-            e.Property(ar => ar.RestrictionStatus).HasColumnType("jsonb");
-            e.Property(ar => ar.LengthOfStay).HasColumnType("jsonb");
+            e.Property(ar => ar.RestrictionStatusDetails).HasColumnType("jsonb");
+            e.Property(ar => ar.StayDurationDetails).HasColumnType("jsonb");
             e.Property(ar => ar.Created).IsRequired();
             e.Property(ar => ar.Modified).IsRequired();
             e.HasOne(ar => ar.Property).WithMany(p => p.AvailabilityRestrictions).IsRequired().OnDelete(DeleteBehavior.Cascade);

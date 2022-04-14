@@ -15,8 +15,8 @@ public static class AvailabilityRestrictionExtension
             EndDate = availabilityRestriction.EndDate,
             RoomTypeCode = availabilityRestriction.RoomType.Code,
             RatePlanCode = availabilityRestriction.RatePlanCode,
-            RestrictionStatus = availabilityRestriction.RestrictionStatus,
-            LengthOfStay = availabilityRestriction.LengthOfStay
+            RestrictionStatusDetails = availabilityRestriction.RestrictionStatusDetails,
+            StayDurationDetails = availabilityRestriction.StayDurationDetails
         };
     }
 }

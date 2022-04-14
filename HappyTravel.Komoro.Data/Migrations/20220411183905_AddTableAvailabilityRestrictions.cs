@@ -22,8 +22,8 @@ namespace HappyTravel.Komoro.Data.Migrations
                     PropertyId = table.Column<int>(type: "integer", nullable: false),
                     RoomTypeId = table.Column<int>(type: "integer", nullable: false),
                     RatePlanCode = table.Column<string>(type: "text", nullable: false),
-                    RestrictionStatus = table.Column<RestrictionStatus>(type: "jsonb", nullable: true),
-                    LengthOfStay = table.Column<LengthOfStay>(type: "jsonb", nullable: true),
+                    RestrictionStatusDetails = table.Column<RestrictionStatusDetails>(type: "jsonb", nullable: true),
+                    StayDurationDetails = table.Column<StayDurationDetails>(type: "jsonb", nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },

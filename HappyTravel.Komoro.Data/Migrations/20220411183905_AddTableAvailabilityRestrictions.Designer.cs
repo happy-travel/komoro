@@ -44,7 +44,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<LengthOfStay>("LengthOfStay")
+                    b.Property<StayDurationDetails>("StayDurationDetails")
                         .HasColumnType("jsonb");
 
                     b.Property<DateTimeOffset>("Modified")
@@ -57,7 +57,7 @@ namespace HappyTravel.Komoro.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<RestrictionStatus>("RestrictionStatus")
+                    b.Property<RestrictionStatusDetails>("RestrictionStatusDetails")
                         .HasColumnType("jsonb");
 
                     b.Property<int>("RoomTypeId")
