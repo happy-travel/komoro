@@ -51,8 +51,8 @@ public static class AvailabilityRestrictionExtensions
                 {
                     new Models.Availabilities.LengthOfStay
                     {
-                        MinMaxMessageType = "MinLOS",
-                        TimeUnit = "Day",
+                        MinMaxMessageType = MinMaxMessageType,
+                        TimeUnit = TimeUnit,
                         Time = lengthsOfStay.MinimumDays
                     }
                 }
@@ -65,4 +65,8 @@ public static class AvailabilityRestrictionExtensions
             return $"P{minAdvancedBookingOffset}D";
         }
     }
+
+
+    private const string MinMaxMessageType = "MinLOS";
+    private const string TimeUnit = "Day";
 }

@@ -44,8 +44,8 @@ public static class AvailStatusMessageExtensions
         {
             return restriction switch
             {
-                "Master" => RestrictionTypes.Master,
-                "Arrival" => RestrictionTypes.Arrival,
+                MasterRestriction => RestrictionTypes.Master,
+                ArrivalRestriction => RestrictionTypes.Arrival,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -55,8 +55,8 @@ public static class AvailStatusMessageExtensions
         {
             return status switch
             {
-                "Open" => RestrictionStatuses.Open,
-                "Close" => RestrictionStatuses.Close,
+                OpenStatus => RestrictionStatuses.Open,
+                CloseStatus => RestrictionStatuses.Close,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -81,4 +81,10 @@ public static class AvailStatusMessageExtensions
             };
         }
     }
+
+
+    private const string MasterRestriction = "Master";
+    private const string ArrivalRestriction = "Arrival";
+    private const string OpenStatus = "Open";
+    private const string CloseStatus = "Close";
 }
