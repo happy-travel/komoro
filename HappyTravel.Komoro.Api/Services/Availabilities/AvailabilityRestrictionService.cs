@@ -48,64 +48,75 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var utcNow = _dateTimeOffsetProvider.UtcNow();
 
             if (restriction.RestrictionStatus is not null)
-            {
-                var existingRestriction = existingRestrictions
-                    .SingleOrDefault(r => r.RestrictionStatus.Restriction == restriction.RestrictionStatus.Restriction);
-                if (existingRestriction is null)
-                {
-                    var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
-                    var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
-                    var newRestriction = new DataModels.AvailabilityRestriction
-                    {
-                        StartDate = restriction.StartDate,
-                        EndDate = restriction.EndDate,
-                        PropertyId = propertyId,
-                        RoomTypeId = roomTypeId,
-                        RatePlanCode = restriction.RatePlanCode,
-                        RestrictionStatus = restriction.RestrictionStatus,
-                        LengthOfStay = null,
-                        Created = utcNow,
-                        Modified = utcNow
-                    };
-                    _komoroContext.AvailabilityRestrictions.Add(newRestriction);
-                }
-                else
-                {
-                    existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
-                    existingRestriction.Modified = utcNow;
-                    _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
-                }
-            }
+                await AddOrUpdateRestrictionStatus(restriction, existingRestrictions);
             else if (restriction.LengthOfStay is not null)
-            {
-                var existingRestriction = existingRestrictions
-                    .SingleOrDefault(r => r.LengthOfStay is not null);
-                if (existingRestriction is null)
-                {
-                    var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
-                    var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
-                    var newRestriction = new DataModels.AvailabilityRestriction
-                    {
-                        StartDate = restriction.StartDate,
-                        EndDate = restriction.EndDate,
-                        PropertyId = propertyId,
-                        RoomTypeId = roomTypeId,
-                        RatePlanCode = restriction.RatePlanCode,
-                        RestrictionStatus = null,
-                        LengthOfStay = restriction.LengthOfStay,
-                        Created = utcNow,
-                        Modified = utcNow
-                    };
-                    _komoroContext.AvailabilityRestrictions.Add(newRestriction);
-                }
-                else
-                {
-                    existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
-                    existingRestriction.Modified = utcNow;
-                    _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
-                }
-            }
+                await AddOrUpdateLengthOfStay(restriction, existingRestrictions);
+
             await _komoroContext.SaveChangesAsync();
+        }
+        
+        
+        async Task AddOrUpdateRestrictionStatus(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
+        {
+            var existingRestriction = existingRestrictions
+                .SingleOrDefault(r => r.RestrictionStatus.Restriction == restriction.RestrictionStatus.Restriction);
+            var utcNow = _dateTimeOffsetProvider.UtcNow();
+            if (existingRestriction is null)
+            {
+                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
+                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
+                var newRestriction = new DataModels.AvailabilityRestriction
+                {
+                    StartDate = restriction.StartDate,
+                    EndDate = restriction.EndDate,
+                    PropertyId = propertyId,
+                    RoomTypeId = roomTypeId,
+                    RatePlanCode = restriction.RatePlanCode,
+                    RestrictionStatus = restriction.RestrictionStatus,
+                    LengthOfStay = null,
+                    Created = utcNow,
+                    Modified = utcNow
+                };
+                _komoroContext.AvailabilityRestrictions.Add(newRestriction);
+            }
+            else
+            {
+                existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
+                existingRestriction.Modified = utcNow;
+                _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
+            }
+        }
+
+
+        async Task AddOrUpdateLengthOfStay(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
+        {
+            var existingRestriction = existingRestrictions
+                .SingleOrDefault(r => r.LengthOfStay is not null);
+            var utcNow = _dateTimeOffsetProvider.UtcNow();
+            if (existingRestriction is null)
+            {
+                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
+                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
+                var newRestriction = new DataModels.AvailabilityRestriction
+                {
+                    StartDate = restriction.StartDate,
+                    EndDate = restriction.EndDate,
+                    PropertyId = propertyId,
+                    RoomTypeId = roomTypeId,
+                    RatePlanCode = restriction.RatePlanCode,
+                    RestrictionStatus = null,
+                    LengthOfStay = restriction.LengthOfStay,
+                    Created = utcNow,
+                    Modified = utcNow
+                };
+                _komoroContext.AvailabilityRestrictions.Add(newRestriction);
+            }
+            else
+            {
+                existingRestriction.RestrictionStatus = restriction.RestrictionStatus;
+                existingRestriction.Modified = utcNow;
+                _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
+            }
         }
     }
 
