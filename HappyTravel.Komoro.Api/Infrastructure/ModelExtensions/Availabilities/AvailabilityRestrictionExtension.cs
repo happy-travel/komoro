@@ -16,7 +16,7 @@ public static class AvailabilityRestrictionExtension
             RoomTypeCode = availabilityRestriction.RoomType.Code,
             RatePlanCode = availabilityRestriction.RatePlanCode,
             RestrictionStatus = availabilityRestriction.RestrictionStatus,
-            LengthOfStay = availabilityRestriction?.LengthOfStay
+            LengthOfStay = availabilityRestriction.LengthOfStay
         };
     }
 }
