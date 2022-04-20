@@ -9,7 +9,6 @@ public static class AvailabilityRestrictionExtension
     {
         return new ApiModels.AvailabilityRestriction
         {
-            Id = availabilityRestriction.Id,
             PropertyCode = availabilityRestriction.Property.Code,
             StartDate = availabilityRestriction.StartDate,
             EndDate = availabilityRestriction.EndDate,

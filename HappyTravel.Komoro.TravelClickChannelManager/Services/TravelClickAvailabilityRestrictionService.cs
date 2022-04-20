@@ -23,19 +23,34 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
     public async Task<OtaHotelAvailGetRS> Get(OtaHotelAvailGetRQ otaHotelAvailGetRQ, CancellationToken cancellationToken)
     {
-        var hotelCode = otaHotelAvailGetRQ.HotelAvailRequests.FirstOrDefault()?.HotelRef?.HotelCode ?? string.Empty;
+        var request = otaHotelAvailGetRQ.HotelAvailRequests.First();
+        var hotelCode = request.HotelRef.HotelCode;
 
-        Success? success = new();
+        Success? success = null;
         List<Warning>? warnings = null;
         List<Error>? errors = null;
-        Models.Availabilities.AvailStatusMessages? availStatusMessages = new();
+        Models.Availabilities.AvailStatusMessages? availStatusMessages = null;
         //var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
 
-        var availabilityRestrictions = await _availabilityRestrictionService.Get(Constants.TravelClickId, hotelCode);
-
-        if (false)  // TODO: Need add errors
+        var availabilityRestrictionRequest = new AvailabilityRestrictionRequest
         {
-            success = null;
+            SupplierId = Constants.TravelClickId,
+            PropertyCode = hotelCode,
+            StartDate = DateOnly.FromDateTime(request.DateRange.Start),
+            EndDate = DateOnly.FromDateTime(request.DateRange.End),
+            RatePlanCodes = request.RatePlanCandidates.Select(rpc => rpc.RatePlanCode).ToList(),
+            RoomTypeCodes = request.RoomTypeCandidates.Select(rpc => rpc.RoomTypeCode).ToList()
+        };
+
+        var (availabilityRestrictions, errorDetails) = await _availabilityRestrictionService.Get(availabilityRestrictionRequest);
+
+        if (errorDetails is not null)
+        {
+            errors = errorDetails.Select(ed => ed.ToError()).ToList();
+        }
+
+        if (propertyId == 0)
+        {
             errors = new List<Error>
             {
                 ErrorHelper.GetError(ErrorWarningTypes.Authentication, ErrorCodes.InvalidHotel)
@@ -43,6 +58,9 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         }
         else
         {
+            success = new();
+
+
             var availStatusMessageList = availabilityRestrictions.Select(ar => ar.ToAvailStatusMessage())
                 .ToList();
 

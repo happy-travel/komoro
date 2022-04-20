@@ -4,6 +4,8 @@ using HappyTravel.Komoro.Common.Infrastructure;
 using HappyTravel.Komoro.Common.Services.Availabilities;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.Data;
+using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
+using HappyTravel.KomoroContracts;
 using HappyTravel.KomoroContracts.Availabilities;
 using Microsoft.EntityFrameworkCore;
 using DataModels = HappyTravel.Komoro.Data.Models.Availabilities;
@@ -21,14 +23,26 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     }
 
 
-    public async Task<List<AvailabilityRestriction>> Get(int supplierId, string propertyCode)
+    public async Task<(List<AvailabilityRestriction>, List<ErrorDetails>)> Get(AvailabilityRestrictionRequest request)
     {
-        return await _komoroContext.AvailabilityRestrictions
+        var propertyId = await _propertyService.GetId(request.SupplierId, request.PropertyCode);
+        if (propertyId == 0)
+            return (null, new List<ErrorDetails> { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
+
+        var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions
             .Include(ar => ar.Property)
             .Include(ar => ar.RoomType)
-            .Where(ar => ar.Property.Code == propertyCode)
+            .Where(ar => ar.Property.Code == request.PropertyCode 
+                && ((ar.StartDate <= request.StartDate && ar.EndDate >= request.EndDate) 
+                    || (ar.StartDate >= request.StartDate && ar.EndDate <= request.EndDate)
+                    || (ar.StartDate >= request.StartDate && ar.StartDate <= request.EndDate)
+                    || (ar.EndDate >= request.StartDate && ar.EndDate <= request.EndDate)))
             .Select(ar => ar.ToApiAvailabilityRestriction())
             .ToListAsync();
+
+        var errorDetails = new List<ErrorDetails>();
+
+        return (availabilityRestrictions, errorDetails);
     }
 
 
