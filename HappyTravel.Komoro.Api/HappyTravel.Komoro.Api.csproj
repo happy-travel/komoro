@@ -38,11 +38,6 @@
   <ItemGroup>
     <Folder Include="Infrastructure\Logging\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Infrastructure\ConfigureExtensions\ConfigureSwaggerExtension.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
