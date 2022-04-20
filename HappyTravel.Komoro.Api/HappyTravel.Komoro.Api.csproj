@@ -32,11 +32,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="HappyTravel.Komoro.Api.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\Logging\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Infrastructure\ConfigureExtensions\ConfigureSwaggerExtension.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
