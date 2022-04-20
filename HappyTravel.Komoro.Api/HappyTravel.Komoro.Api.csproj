@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="HappyTravel.Komoro.Api.xml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
