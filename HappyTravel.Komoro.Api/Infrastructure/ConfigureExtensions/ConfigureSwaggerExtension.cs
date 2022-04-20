@@ -14,6 +14,7 @@ public static class ConfigureSwaggerExtension
             var xmlCommentsFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlCommentsFilePath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFileName);
             options.IncludeXmlComments(xmlCommentsFilePath);
+            options.CustomSchemaIds(type => type.ToString());
         });
     }
 }
