@@ -29,8 +29,7 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         Success? success = null;
         List<Warning>? warnings = null;
         List<Error>? errors = null;
-        Models.Availabilities.AvailStatusMessages? availStatusMessages = null;
-        //var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
+        Models.Availabilities.AvailStatusMessages? availStatusMessages = new();
 
         var availabilityRestrictionRequest = new AvailabilityRestrictionRequest
         {
@@ -48,19 +47,9 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         {
             errors = errorDetails.Select(ed => ed.ToError()).ToList();
         }
-
-        if (propertyId == 0)
-        {
-            errors = new List<Error>
-            {
-                ErrorHelper.GetError(ErrorWarningTypes.Authentication, ErrorCodes.InvalidHotel)
-            };
-        }
         else
         {
             success = new();
-
-
             var availStatusMessageList = availabilityRestrictions.Select(ar => ar.ToAvailStatusMessage())
                 .ToList();
 

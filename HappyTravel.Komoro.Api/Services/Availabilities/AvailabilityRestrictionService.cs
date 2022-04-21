@@ -27,7 +27,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     {
         var propertyId = await _propertyService.GetId(request.SupplierId, request.PropertyCode);
         if (propertyId == 0)
-            return (null, new List<ErrorDetails> { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
+            return (new(), new List<ErrorDetails> 
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
 
         var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions
             .Include(ar => ar.Property)
