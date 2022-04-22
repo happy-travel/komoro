@@ -2,5 +2,5 @@
 
 public class Constants
 {
-    public const int TravelClickId = 14;
+    public const string TravelClickCode = "travelClick";
 }

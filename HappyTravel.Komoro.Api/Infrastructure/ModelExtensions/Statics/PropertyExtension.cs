@@ -11,7 +11,7 @@ public static class PropertyExtension
         {
             Id = property.Id,
             Code = property.Code,
-            SupplierId = property.SupplierId,
+            SupplierCode = property.SupplierCode,
             Name = property.Name,
             Address = property.Address.ToApiAddress(property.Country),
             Coordinates = new Geography.GeoPoint(property.Coordinates),
@@ -32,7 +32,7 @@ public static class PropertyExtension
         {
             Id = property.Id,
             Code = property.Code,
-            SupplierId = property.SupplierId,
+            SupplierCode = property.SupplierCode,
             Name = property.Name,
             Address = property.Address.ToApiAddress(property.Country),
             Coordinates = new Geography.GeoPoint(property.Coordinates),

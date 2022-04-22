@@ -6,16 +6,16 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
 
 public static class ErrorHelper
 {
-    public static Error GetError(ErrorWarningTypes errorWarningType, ErrorCodes errorCode, string? ObjectCode)
+    public static Error GetError(ErrorWarningTypes errorWarningType, ErrorCodes errorCode, string? EntityCode)
     {
         return new Error
         {
             Type = errorWarningType,
             Code = errorCode,
             ShortText = errorCode.GetEnumMember(),
-            ErrorText = string.IsNullOrEmpty(ObjectCode) 
+            ErrorText = string.IsNullOrEmpty(EntityCode) 
                 ? errorCode.GetDescription() 
-                : $"{errorCode.GetDescription()}: {ObjectCode}"
+                : $"{errorCode.GetDescription()}: {EntityCode}"
         };
     }
 }

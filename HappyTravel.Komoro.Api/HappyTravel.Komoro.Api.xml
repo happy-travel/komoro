@@ -95,11 +95,11 @@
             <param name="mealPlanId">Meal plan id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
-        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.Int32,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Gets a list of properties by supplier id
             </summary>
-            <param name="supplierId">Supplier id</param>
+            <param name="supplierCode">Supplier code</param>
             <param name="skip">Skip</param>
             <param name="top">Top</param>
             <param name="modificationDate">Last modification date</param>

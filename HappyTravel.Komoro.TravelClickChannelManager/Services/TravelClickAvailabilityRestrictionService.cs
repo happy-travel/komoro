@@ -29,7 +29,7 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
         var availabilityRestrictionRequest = new AvailabilityRestrictionRequest
         {
-            SupplierId = Constants.TravelClickId,
+            SupplierCode = Constants.TravelClickCode,
             PropertyCode = hotelCode,
             StartDate = DateOnly.FromDateTime(request.DateRange.Start),
             EndDate = DateOnly.FromDateTime(request.DateRange.End),
@@ -81,7 +81,7 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction())
             .ToList();
 
-        var errorDetails = await _availabilityRestrictionService.Update(Constants.TravelClickId, availabilityRestrictions);
+        var errorDetails = await _availabilityRestrictionService.Update(Constants.TravelClickCode, availabilityRestrictions);
         if (errorDetails.Any())
         {
             errors = errorDetails.Select(ed => ed.ToError())

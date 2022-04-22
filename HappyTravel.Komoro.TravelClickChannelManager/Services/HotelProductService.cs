@@ -26,7 +26,7 @@ internal class HotelProductService : IHotelProductService
         var success = new Success();
         List<Error>? errors = null;
         Responses.HotelProducts? hotelProducts = null;
-        var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
+        var propertyId = await _propertyService.GetId(Constants.TravelClickCode, hotelCode);
         var rooms = await _roomService.Get(propertyId, cancellationToken);
         if (rooms.Count == 0)
         {

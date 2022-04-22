@@ -26,9 +26,9 @@ public class PropertyService : IPropertyService
     }
 
 
-    public async Task<List<ApiModels.SlimProperty>> Get(int supplierId, int skip, int top, DateTime? modificationDate, CancellationToken cancellationToken)
+    public async Task<List<ApiModels.SlimProperty>> Get(string supplierCode, int skip, int top, DateTime? modificationDate, CancellationToken cancellationToken)
         => await _komoroContext.Properties.Include(p => p.Country)
-            .Where(p => p.SupplierId == supplierId && p.Modified >= (modificationDate ?? DateTime.MinValue))
+            .Where(p => p.SupplierCode == supplierCode && p.Modified >= (modificationDate ?? DateTime.MinValue))
             .OrderBy(p => p.Id)
             .Skip(skip)
             .Take(top)
@@ -56,16 +56,16 @@ public class PropertyService : IPropertyService
     }
 
 
-    public async Task<int> GetId(int supplierId, string propertyCode)
+    public async Task<int> GetId(string supplierCode, string propertyCode)
     {
-        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.SupplierId == supplierId && p.Code == propertyCode);
+        var property = await _komoroContext.Properties.SingleOrDefaultAsync(p => p.SupplierCode == supplierCode && p.Code == propertyCode);
 
         return property?.Id ?? 0;
     }
     
 
-    public async Task<bool> IsExist(int supplierId, string propertyCode)
-        => await _komoroContext.Properties.AnyAsync(p => p.SupplierId == supplierId && p.Code == propertyCode);
+    public async Task<bool> IsExist(string supplierCode, string propertyCode)
+        => await _komoroContext.Properties.AnyAsync(p => p.SupplierCode == supplierCode && p.Code == propertyCode);
 
 
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
@@ -86,7 +86,7 @@ public class PropertyService : IPropertyService
             var property = new DataModels.Property
             {
                 Code = apiProperty.Code,
-                SupplierId = apiProperty.SupplierId,
+                SupplierCode = apiProperty.SupplierCode,
                 CountryId = apiProperty.Address.Country.Id,
                 Name = apiProperty.Name,
                 Address = new DataModels.Address 
@@ -130,7 +130,7 @@ public class PropertyService : IPropertyService
         async Task Update(DataModels.Property property)
         {
             property.Code = apiProperty.Code;
-            property.SupplierId = apiProperty.SupplierId;
+            property.SupplierCode = apiProperty.SupplierCode;
             property.CountryId = apiProperty.Address.Country.Id;
             property.Name = apiProperty.Name;
             property.Address = new DataModels.Address
@@ -266,7 +266,7 @@ public class PropertyService : IPropertyService
                 {
                     Id = apiProperty.Id,
                     Code = apiProperty.Code,
-                    SupplierId = apiProperty.SupplierId,
+                    SupplierCode = apiProperty.SupplierCode,
                     CountryId = apiProperty.Address.Country.Id,
                     Name = apiProperty.Name,
                     Address = new DataModels.Address
@@ -291,7 +291,7 @@ public class PropertyService : IPropertyService
             }
             else
             {
-                property.SupplierId = apiProperty.SupplierId;
+                property.SupplierCode = apiProperty.SupplierCode;
                 property.CountryId = apiProperty.Address.Country.Id;
                 property.Name = apiProperty.Name;
                 property.Address = new DataModels.Address
@@ -364,7 +364,7 @@ public class PropertyService : IPropertyService
         {
             if (isCodeValidated)
                 v.RuleFor(p => p.Code).NotEmpty();
-            v.RuleFor(p => p.SupplierId).NotEmpty();
+            v.RuleFor(p => p.SupplierCode).NotEmpty();
             v.RuleFor(p => p.Name).NotEmpty();
             v.RuleFor(p => p.Address).NotEmpty()
                 .ChildRules(iv => iv.RuleFor(a => a.Street).NotEmpty())
