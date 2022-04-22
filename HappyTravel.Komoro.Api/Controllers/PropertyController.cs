@@ -20,7 +20,7 @@ public class PropertyController : BaseController
 
 
     /// <summary>
-    /// Gets a list of properties by supplier id
+    /// Gets a list of properties by supplier code
     /// </summary>
     /// <param name="supplierCode">Supplier code</param>
     /// <param name="skip">Skip</param>
