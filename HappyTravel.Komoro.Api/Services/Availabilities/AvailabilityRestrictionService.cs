@@ -85,11 +85,12 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var existingRestrictions = await _komoroContext.AvailabilityRestrictions
                 .Include(ar => ar.Property)
                 .Include(ar => ar.RoomType)
-                .Where(ar => ar.Property.Code == restriction.PropertyCode
-                    && ar.StartDate == restriction.StartDate 
-                    && ar.EndDate == restriction.EndDate 
+                .Where(ar => ar.Property.SupplierId == supplierId 
+                    && ar.Property.Code == restriction.PropertyCode
+                    && ar.RatePlanCode == restriction.RatePlanCode
                     && ar.RoomType.Code == restriction.RoomTypeCode
-                    && ar.RatePlanCode == restriction.RatePlanCode)
+                    && ar.StartDate == restriction.StartDate 
+                    && ar.EndDate == restriction.EndDate)
                 .ToListAsync();
             var utcNow = _dateTimeOffsetProvider.UtcNow();
 
