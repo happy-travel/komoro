@@ -33,7 +33,7 @@ internal class HotelProductService : IHotelProductService
             success = null;
             errors = new List<Error>
             {
-                ErrorHelper.GetError(ErrorWarningTypes.Authentication, ErrorCodes.InvalidHotel)
+                ErrorHelper.GetError(ErrorWarningTypes.Authentication, ErrorCodes.InvalidHotel, hotelCode)
             };
         }
         else
