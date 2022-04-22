@@ -32,7 +32,7 @@ public class RoomTypeService : IRoomTypeService
     }
     
     
-    public async Task<bool> IfExist(string roomTypeCode)
+    public async Task<bool> IsExist(string roomTypeCode)
         => await _komoroContext.RoomTypes.AnyAsync(p => p.Code == roomTypeCode);
 
 

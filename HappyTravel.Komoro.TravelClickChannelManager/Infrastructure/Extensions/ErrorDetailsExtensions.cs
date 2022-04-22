@@ -13,7 +13,7 @@ public static class ErrorDetailsExtensions
             KomoroContracts.Enums.ErrorCodes.InvalidProperty => ErrorWarningTypes.Authentication,
             KomoroContracts.Enums.ErrorCodes.InvalidRoomType => ErrorWarningTypes.BusinessRule,
             KomoroContracts.Enums.ErrorCodes.InvalidRatePlan => ErrorWarningTypes.BusinessRule,
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException("Received error code does not have an appropriate error message type in the channel manager")
         };
 
         var errorCode = errorDetails.ErrorCode switch
@@ -21,7 +21,7 @@ public static class ErrorDetailsExtensions
             KomoroContracts.Enums.ErrorCodes.InvalidProperty => ErrorCodes.InvalidHotel,
             KomoroContracts.Enums.ErrorCodes.InvalidRatePlan => ErrorCodes.InvalidRateCode,
             KomoroContracts.Enums.ErrorCodes.InvalidRoomType => ErrorCodes.InvalidRoomType,
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException("Received error code does not have an appropriate error code in the channel manager")
         };
 
         return ErrorHelper.GetError(errorWarningType, errorCode, errorDetails.ObjectCode);

@@ -25,19 +25,19 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
     public async Task<(List<AvailabilityRestriction>, List<ErrorDetails>)> Get(AvailabilityRestrictionRequest request)
     {
-        if (!await _propertyService.IfExist(request.SupplierId, request.PropertyCode))
+        if (!await _propertyService.IsExist(request.SupplierId, request.PropertyCode))
             return (new(0), new List<ErrorDetails> 
                 { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
 
         var errorDetailsList = new List<ErrorDetails>();        
         foreach (var roomTypeCode in request.RoomTypeCodes)
         {
-            if (!await _roomTypeService.IfExist(roomTypeCode))
+            if (!await _roomTypeService.IsExist(roomTypeCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = roomTypeCode });
         }
         foreach (var ratePlanCode in request.RatePlanCodes)
         {
-            if (!await _roomTypeService.IfExist(ratePlanCode))
+            if (!await _roomTypeService.IsExist(ratePlanCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = ratePlanCode });
         }
         if (errorDetailsList.Count > 0)
@@ -63,18 +63,18 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
     public async Task<List<ErrorDetails>> Update(int supplierId, List<AvailabilityRestriction> availabilityRestrictions)
     {
-        var propertyCode = availabilityRestrictions.First().PropertyCode;
-        if (!await _propertyService.IfExist(supplierId, propertyCode))
+        var propertyCode = availabilityRestrictions.First().PropertyCode;   // All availability offers are always requested from one property
+        if (!await _propertyService.IsExist(supplierId, propertyCode))
             return (new List<ErrorDetails>
                 { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = propertyCode } });
 
         var errorDetailsList = new List<ErrorDetails>();
         foreach (var availabilityRestriction in availabilityRestrictions)
         {
-            if (!await _roomTypeService.IfExist(availabilityRestriction.RoomTypeCode))
+            if (!await _roomTypeService.IsExist(availabilityRestriction.RoomTypeCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = availabilityRestriction.RoomTypeCode });
             
-            if (!await _roomTypeService.IfExist(availabilityRestriction.RatePlanCode))
+            if (!await _roomTypeService.IsExist(availabilityRestriction.RatePlanCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = availabilityRestriction.RatePlanCode });
         }
         if (errorDetailsList.Count > 0)
