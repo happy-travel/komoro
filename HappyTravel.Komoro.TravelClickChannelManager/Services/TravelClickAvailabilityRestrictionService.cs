@@ -19,7 +19,7 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
     public async Task<OtaHotelAvailGetRS> Get(OtaHotelAvailGetRQ otaHotelAvailGetRQ, CancellationToken cancellationToken)
     {
-        var request = otaHotelAvailGetRQ.HotelAvailRequests.First();
+        var request = otaHotelAvailGetRQ.HotelAvailRequests.Single();
         var hotelCode = request.HotelRef.HotelCode;
 
         Success? success = null;
