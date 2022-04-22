@@ -20,7 +20,7 @@ public class PropertyController : BaseController
 
 
     /// <summary>
-    /// Gets a list of properties by supplier id
+    /// Gets a list of properties by supplier code
     /// </summary>
     /// <param name="supplierCode">Supplier code</param>
     /// <param name="skip">Skip</param>
@@ -28,7 +28,7 @@ public class PropertyController : BaseController
     /// <param name="modificationDate">Last modification date</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>List of properties</returns>
-    [HttpGet("suppliers/{supplierCode:string}")]
+    [HttpGet("suppliers/{supplierCode}")]
     [ProducesResponseType(typeof(List<SlimProperty>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get([FromRoute] string supplierCode, [FromQuery] int skip = 0, [FromQuery] int top = 100,
         [FromQuery(Name = "modification-date")] DateTime? modificationDate = null, CancellationToken cancellationToken = default)
