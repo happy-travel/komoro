@@ -62,6 +62,10 @@ public class PropertyService : IPropertyService
 
         return property?.Id ?? 0;
     }
+    
+
+    public async Task<bool> IfExist(int supplierId, string propertyCode)
+        => await _komoroContext.Properties.AnyAsync(p => p.SupplierId == supplierId && p.Code == propertyCode);
 
 
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)

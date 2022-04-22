@@ -30,6 +30,10 @@ public class RoomTypeService : IRoomTypeService
 
         return property?.Id ?? 0;
     }
+    
+    
+    public async Task<bool> IfExist(string roomTypeCode)
+        => await _komoroContext.RoomTypes.AnyAsync(p => p.Code == roomTypeCode);
 
 
     public async Task<Result> Add(ApiModels.RoomType apiRoomType, CancellationToken cancellationToken)

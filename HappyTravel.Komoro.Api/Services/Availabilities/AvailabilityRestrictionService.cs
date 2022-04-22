@@ -25,10 +25,23 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
     public async Task<(List<AvailabilityRestriction>, List<ErrorDetails>)> Get(AvailabilityRestrictionRequest request)
     {
-        var propertyId = await _propertyService.GetId(request.SupplierId, request.PropertyCode);
-        if (propertyId == 0)
-            return (new(), new List<ErrorDetails> 
+        if (!await _propertyService.IfExist(request.SupplierId, request.PropertyCode))
+            return (new(0), new List<ErrorDetails> 
                 { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
+
+        var errorDetailsList = new List<ErrorDetails>();        
+        foreach (var roomTypeCode in request.RoomTypeCodes)
+        {
+            if (!await _roomTypeService.IfExist(roomTypeCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = roomTypeCode });
+        }
+        foreach (var ratePlanCode in request.RatePlanCodes)
+        {
+            if (!await _roomTypeService.IfExist(ratePlanCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = ratePlanCode });
+        }
+        if (errorDetailsList.Count > 0)
+            return (new(0), errorDetailsList);
 
         var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions
             .Include(ar => ar.Property)
@@ -41,14 +54,29 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             .Select(ar => ar.ToApiAvailabilityRestriction())
             .ToListAsync();
 
-        var errorDetails = new List<ErrorDetails>();
-
-        return (availabilityRestrictions, errorDetails);
+        return (availabilityRestrictions, errorDetailsList);
     }
 
 
-    public async Task Update(int supplierId, List<AvailabilityRestriction> availabilityRestrictions)
+    public async Task<List<ErrorDetails>> Update(int supplierId, List<AvailabilityRestriction> availabilityRestrictions)
     {
+        var propertyCode = availabilityRestrictions.First().PropertyCode;
+        if (!await _propertyService.IfExist(supplierId, propertyCode))
+            return (new List<ErrorDetails>
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = propertyCode } });
+
+        var errorDetailsList = new List<ErrorDetails>();
+        foreach (var availabilityRestriction in availabilityRestrictions)
+        {
+            if (!await _roomTypeService.IfExist(availabilityRestriction.RoomTypeCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = availabilityRestriction.RoomTypeCode });
+            
+            if (!await _roomTypeService.IfExist(availabilityRestriction.RatePlanCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = availabilityRestriction.RatePlanCode });
+        }
+        if (errorDetailsList.Count > 0)
+            return (errorDetailsList);
+
         foreach (var restriction in availabilityRestrictions)
         {
             var existingRestrictions = await _komoroContext.AvailabilityRestrictions
@@ -69,8 +97,10 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
             await _komoroContext.SaveChangesAsync();
         }
-        
-        
+
+        return errorDetailsList;
+
+
         async Task AddOrUpdateRestrictionStatus(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
         {
             var existingRestriction = existingRestrictions

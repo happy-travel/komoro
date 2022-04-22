@@ -1,22 +1,18 @@
 ﻿using HappyTravel.Komoro.Common.Infrastructure;
 using HappyTravel.Komoro.Common.Services.Availabilities;
-using HappyTravel.Komoro.Common.Services.Statics;
-using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Response;
-using HappyTravel.Komoro.TravelClickChannelManager.Models.Enums;
 using HappyTravel.KomoroContracts.Availabilities;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
 public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilityRestrictionService
 {
-    public TravelClickAvailabilityRestrictionService(IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, IAvailabilityRestrictionService availabilityRestrictionService)
+    public TravelClickAvailabilityRestrictionService(IDateTimeOffsetProvider dateTimeOffsetProvider, IAvailabilityRestrictionService availabilityRestrictionService)
     {
         _dateTimeOffsetProvider = dateTimeOffsetProvider;
-        _propertyService = propertyService;
         _availabilityRestrictionService = availabilityRestrictionService;
     }
 
@@ -43,9 +39,10 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
         var (availabilityRestrictions, errorDetails) = await _availabilityRestrictionService.Get(availabilityRestrictionRequest);
 
-        if (errorDetails is not null)
+        if (errorDetails.Any())
         {
-            errors = errorDetails.Select(ed => ed.ToError()).ToList();
+            errors = errorDetails.Select(ed => ed.ToError())
+                .ToList();
         }
         else
         {
@@ -77,15 +74,23 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
     {
         var hotelCode = otaHotelAvailNotifRQ.AvailStatusMessages.HotelCode ?? string.Empty;
 
-        var success = new Success();
+        Success? success = null;
         List<Warning>? warnings = null;
         List<Error>? errors = null;
 
-        //var propertyId = await _propertyService.GetId(Constants.TravelClickId, hotelCode);
         var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction())
             .ToList();
 
-        await _availabilityRestrictionService.Update(Constants.TravelClickId, availabilityRestrictions);
+        var errorDetails = await _availabilityRestrictionService.Update(Constants.TravelClickId, availabilityRestrictions);
+        if (errorDetails.Any())
+        {
+            errors = errorDetails.Select(ed => ed.ToError())
+                .ToList();
+        }
+        else
+        {
+            success = new();
+        }
 
         return new OtaHotelAvailNotifRS
         {
@@ -100,6 +105,5 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
 
     private readonly IDateTimeOffsetProvider _dateTimeOffsetProvider;
-    private readonly IPropertyService _propertyService;
     private readonly IAvailabilityRestrictionService _availabilityRestrictionService;
 }
