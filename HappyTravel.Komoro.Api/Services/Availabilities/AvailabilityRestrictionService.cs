@@ -46,7 +46,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions
             .Include(ar => ar.Property)
             .Include(ar => ar.RoomType)
-            .Where(ar => ar.Property.Code == request.PropertyCode 
+            .Where(ar => ar.Property.SupplierId == request.SupplierId
+                && ar.Property.Code == request.PropertyCode 
                 && request.RatePlanCodes.Contains(ar.RatePlanCode)
                 && request.RoomTypeCodes.Contains(ar.RoomType.Code)
                 && ((ar.StartDate <= request.StartDate && ar.EndDate >= request.EndDate) 
