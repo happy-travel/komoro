@@ -24,6 +24,6 @@ public static class ErrorDetailsExtensions
             _ => throw new NotImplementedException("Received error code does not have an appropriate error code in the channel manager")
         };
 
-        return ErrorHelper.GetError(errorWarningType, errorCode, errorDetails.ObjectCode);
+        return ErrorHelper.GetError(errorWarningType, errorCode, errorDetails.EntityCode);
     }
 }

@@ -52,7 +52,7 @@ public class KomoroContext : DbContext
             e.ToTable("Properties");
             e.HasKey(p => p.Id);
             e.HasIndex(p => p.Code);
-            e.HasIndex(p => p.SupplierId);
+            e.HasIndex(p => p.SupplierCode);
             e.Property(p => p.Name).IsRequired();
             e.Property(p => p.Address).IsRequired().HasColumnType("jsonb");
             e.Property(p => p.Coordinates).IsRequired();

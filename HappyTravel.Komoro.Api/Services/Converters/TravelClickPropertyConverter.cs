@@ -19,7 +19,7 @@ public class TravelClickPropertyConverter
         {
             Id = propertyId,
             Code = string.Empty,
-            SupplierId = TravelClickId,
+            SupplierCode = TravelClickCode,
             Name = propertyItems.SingleOrDefault(pi => pi.Key == "Property Name")?.Value.Trim() ?? string.Empty,
             Address = new Address
             {
@@ -223,5 +223,5 @@ public class TravelClickPropertyConverter
     }
 
 
-    private const int TravelClickId = 14;
+    private const string TravelClickCode = "travelClick";
 }

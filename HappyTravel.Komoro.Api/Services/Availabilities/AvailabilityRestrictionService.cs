@@ -25,20 +25,20 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
     public async Task<(List<AvailabilityRestriction>, List<ErrorDetails>)> Get(AvailabilityRestrictionRequest request)
     {
-        if (!await _propertyService.IsExist(request.SupplierId, request.PropertyCode))
+        if (!await _propertyService.IsExist(request.SupplierCode, request.PropertyCode))
             return (new(0), new List<ErrorDetails> 
-                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = request.PropertyCode } });
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, EntityCode = request.PropertyCode } });
 
         var errorDetailsList = new List<ErrorDetails>();        
         foreach (var roomTypeCode in request.RoomTypeCodes)
         {
             if (!await _roomTypeService.IsExist(roomTypeCode))
-                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = roomTypeCode });
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = roomTypeCode });
         }
         foreach (var ratePlanCode in request.RatePlanCodes)
         {
             if (!await _roomTypeService.IsExist(ratePlanCode))
-                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = ratePlanCode });
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = ratePlanCode });
         }
         if (errorDetailsList.Count > 0)
             return (new(0), errorDetailsList);
@@ -46,7 +46,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions
             .Include(ar => ar.Property)
             .Include(ar => ar.RoomType)
-            .Where(ar => ar.Property.SupplierId == request.SupplierId
+            .Where(ar => ar.Property.SupplierCode == request.SupplierCode
                 && ar.Property.Code == request.PropertyCode 
                 && request.RatePlanCodes.Contains(ar.RatePlanCode)
                 && request.RoomTypeCodes.Contains(ar.RoomType.Code)
@@ -61,21 +61,21 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     }
 
 
-    public async Task<List<ErrorDetails>> Update(int supplierId, List<AvailabilityRestriction> availabilityRestrictions)
+    public async Task<List<ErrorDetails>> Update(string supplierCode, List<AvailabilityRestriction> availabilityRestrictions)
     {
         var propertyCode = availabilityRestrictions.First().PropertyCode;   // All availability offers are always requested from one property
-        if (!await _propertyService.IsExist(supplierId, propertyCode))
+        if (!await _propertyService.IsExist(supplierCode, propertyCode))
             return (new List<ErrorDetails>
-                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, ObjectCode = propertyCode } });
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, EntityCode = propertyCode } });
 
         var errorDetailsList = new List<ErrorDetails>();
         foreach (var availabilityRestriction in availabilityRestrictions)
         {
             if (!await _roomTypeService.IsExist(availabilityRestriction.RoomTypeCode))
-                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, ObjectCode = availabilityRestriction.RoomTypeCode });
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = availabilityRestriction.RoomTypeCode });
             
             if (!await _roomTypeService.IsExist(availabilityRestriction.RatePlanCode))
-                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, ObjectCode = availabilityRestriction.RatePlanCode });
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = availabilityRestriction.RatePlanCode });
         }
         if (errorDetailsList.Count > 0)
             return (errorDetailsList);
@@ -85,7 +85,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var existingRestrictions = await _komoroContext.AvailabilityRestrictions
                 .Include(ar => ar.Property)
                 .Include(ar => ar.RoomType)
-                .Where(ar => ar.Property.SupplierId == supplierId 
+                .Where(ar => ar.Property.SupplierCode == supplierCode 
                     && ar.Property.Code == restriction.PropertyCode
                     && ar.RatePlanCode == restriction.RatePlanCode
                     && ar.RoomType.Code == restriction.RoomTypeCode
@@ -112,7 +112,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
-                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);
+                var propertyId = await _propertyService.GetId(supplierCode, restriction.PropertyCode);
                 var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);
                 var newRestriction = new DataModels.AvailabilityRestriction
                 {
@@ -144,7 +144,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
-                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);
+                var propertyId = await _propertyService.GetId(supplierCode, restriction.PropertyCode);
                 var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);
                 var newRestriction = new DataModels.AvailabilityRestriction
                 {

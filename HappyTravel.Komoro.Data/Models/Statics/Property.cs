@@ -8,7 +8,7 @@ public class Property
 {
     public int Id { get; set; }
     public string Code { get; set; } = string.Empty;
-    public int SupplierId { get; set; }
+    public string SupplierCode { get; set; } = string.Empty;
     public int CountryId { get; set; }
     public string Name { get; set; } = string.Empty;
     public Address Address { get; set; } = null!;
