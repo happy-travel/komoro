@@ -47,6 +47,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             .Include(ar => ar.Property)
             .Include(ar => ar.RoomType)
             .Where(ar => ar.Property.Code == request.PropertyCode 
+                && request.RatePlanCodes.Contains(ar.RatePlanCode)
+                && request.RoomTypeCodes.Contains(ar.RoomType.Code)
                 && ((ar.StartDate <= request.StartDate && ar.EndDate >= request.EndDate) 
                     || (ar.StartDate >= request.StartDate && ar.EndDate <= request.EndDate)
                     || (ar.StartDate >= request.StartDate && ar.StartDate <= request.EndDate)
@@ -108,8 +110,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
-                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
-                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
+                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);
+                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);
                 var newRestriction = new DataModels.AvailabilityRestriction
                 {
                     StartDate = restriction.StartDate,
@@ -140,8 +142,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
-                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);    // Need to add check propertyId !=0
-                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);                // Need to add check roomTypeId !=0
+                var propertyId = await _propertyService.GetId(supplierId, restriction.PropertyCode);
+                var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);
                 var newRestriction = new DataModels.AvailabilityRestriction
                 {
                     StartDate = restriction.StartDate,
