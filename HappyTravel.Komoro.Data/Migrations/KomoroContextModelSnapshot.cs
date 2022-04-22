@@ -174,7 +174,7 @@ namespace HappyTravel.Komoro.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Address>("Address")
+                    b.Property<Models.Statics.Address>("Address")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
