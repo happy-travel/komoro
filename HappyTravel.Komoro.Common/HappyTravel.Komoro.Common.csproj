@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.29.1" />
-    <PackageReference Include="HappyTravel.KomoroContracts" Version="0.2.0" />
+    <PackageReference Include="HappyTravel.KomoroContracts" Version="0.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
 
