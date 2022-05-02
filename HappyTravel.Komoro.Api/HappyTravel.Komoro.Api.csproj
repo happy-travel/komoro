@@ -10,7 +10,7 @@
     <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="1.0.3" />
     <PackageReference Include="DateOnlyTimeOnly.AspNet.Swashbuckle" Version="1.0.3" />
     <PackageReference Include="FloxDc.CacheFlow" Version="1.10.0" />
-    <PackageReference Include="FluentValidation" Version="10.4.0" />
+    <PackageReference Include="FluentValidation" Version="11.0.0" />
     <PackageReference Include="HappyTravel.ConsulKeyValueClient.ConfigurationProvider" Version="1.6.3" />
     <PackageReference Include="HappyTravel.ErrorHandling" Version="1.2.3" />
     <PackageReference Include="HappyTravel.Geography" Version="1.6.2" />
