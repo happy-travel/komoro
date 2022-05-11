@@ -1,9 +1,9 @@
 ﻿using HappyTravel.Komoro.Api.Infrastructure.Environment;
 using HappyTravel.Telemetry.Extensions;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureTracingExtension
+public static class TracingExtensions
 {
     public static void ConfigureTracing(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
     {

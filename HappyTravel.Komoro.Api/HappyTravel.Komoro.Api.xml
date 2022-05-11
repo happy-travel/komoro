@@ -97,7 +97,7 @@
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Gets a list of properties by supplier id
+            Gets a list of properties by supplier code
             </summary>
             <param name="supplierCode">Supplier code</param>
             <param name="skip">Skip</param>

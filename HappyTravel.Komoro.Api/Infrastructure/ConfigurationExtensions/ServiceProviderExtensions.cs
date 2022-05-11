@@ -1,6 +1,6 @@
-﻿namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+﻿namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureServiceProviderExtension
+public static class ServiceProviderExtensions
 {
     public static void ConfigureServiceProvider(this WebApplicationBuilder builder)
     {

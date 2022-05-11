@@ -1,8 +1,8 @@
 ﻿using IdentityServer4.AccessTokenValidation;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureAuthenticationExtension
+public static class AuthenticationExtensions
 {
     public static void ConfigureAuthentication(this WebApplicationBuilder builder, Dictionary<string, string> authorityOptions)
     {

@@ -1,5 +1,5 @@
 using HappyTravel.ErrorHandling.Extensions;
-using HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+using HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 using HappyTravel.Komoro.Api.Infrastructure.Environment;
 using HappyTravel.VaultClient;
 

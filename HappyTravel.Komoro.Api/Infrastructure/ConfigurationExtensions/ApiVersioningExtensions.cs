@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureApiVersioningExtension
+public static class ApiVersioningExtensions
 {
     public static void ConfigureApiVersioning(this IServiceCollection services)
     {
