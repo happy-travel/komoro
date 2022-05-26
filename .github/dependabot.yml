@@ -17,8 +17,7 @@ updates:
     open-pull-requests-limit: 25
     assignees:
     - "dfsko"
-    - "AlexeyShok"
     reviewers:
     - "oleg-n-k"
     - "AlexeyShok"
-    - "kirillta"
+
