@@ -39,6 +39,7 @@ public static class ConfigureServicesExtension
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
 
+        builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
 
         builder.Services.AddTravelClickClientServices();

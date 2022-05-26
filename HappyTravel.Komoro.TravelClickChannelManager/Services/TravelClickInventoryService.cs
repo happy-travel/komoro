@@ -4,7 +4,7 @@ using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Respons
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
-public class InventoryService : IInventoryService
+public class TravelClickInventoryService : ITravelClickInventoryService
 {
     public Task<OtaHotelInvCountRS> Get(OtaHotelInvCountRQ otaHotelInvCountRQ, CancellationToken cancellationToken)
     {
