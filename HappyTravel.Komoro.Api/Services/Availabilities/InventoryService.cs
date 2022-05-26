@@ -12,7 +12,7 @@ public class InventoryService : IInventoryService
     }
 
 
-    public async Task<List<ErrorDetails>> Update(string supplierCode, Inventory inventory)
+    public async Task<List<ErrorDetails>> Update(Inventory inventory)
     {
         throw new NotImplementedException();
     }
