@@ -148,4 +148,5 @@ public class KomoroContext : DbContext
     public DbSet<RoomType> RoomTypes { get; set; } = null!;
 
     public DbSet<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = null!;
+    public DbSet<Inventory> Inventories { get; set; } = null!;
 }

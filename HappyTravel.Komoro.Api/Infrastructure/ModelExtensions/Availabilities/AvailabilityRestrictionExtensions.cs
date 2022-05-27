@@ -3,7 +3,7 @@ using DataModels = HappyTravel.Komoro.Data.Models.Availabilities;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Availabilities;
 
-public static class AvailabilityRestrictionExtension
+public static class AvailabilityRestrictionExtensions
 {
     public static ApiModels.AvailabilityRestriction ToApiAvailabilityRestriction(this DataModels.AvailabilityRestriction availabilityRestriction)
     {

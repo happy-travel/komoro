@@ -1,10 +1,12 @@
-﻿using HappyTravel.Komoro.Api.Services.Statics;
+﻿using HappyTravel.Komoro.Api.Infrastructure.ModelExtensions.Availabilities;
+using HappyTravel.Komoro.Api.Services.Statics;
 using HappyTravel.Komoro.Common.Infrastructure;
 using HappyTravel.Komoro.Common.Services.Availabilities;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.Data;
 using HappyTravel.KomoroContracts;
 using HappyTravel.KomoroContracts.Availabilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace HappyTravel.Komoro.Api.Services.Availabilities;
 
@@ -21,7 +23,40 @@ public class InventoryService : IInventoryService
 
     public async Task<(Inventory, List<ErrorDetails>)> Get(InventoryRequest request)
     {
-        throw new NotImplementedException();
+        if (!await _propertyService.IsExist(request.SupplierCode, request.PropertyCode))
+            return (new(), new List<ErrorDetails>
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, EntityCode = request.PropertyCode } });
+
+        var errorDetailsList = new List<ErrorDetails>();
+        foreach (var roomTypeCode in request.RoomTypeCodes)
+        {
+            if (!await _roomTypeService.IsExist(roomTypeCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = roomTypeCode });
+        }
+        if (errorDetailsList.Count > 0)
+            return (new(), errorDetailsList);
+
+        var inventoryDetails = await _komoroContext.Inventories
+            .Include(i => i.Property)
+            .Include(i => i.RoomType)
+            .Where(i => i.Property.SupplierCode == request.SupplierCode
+                && i.Property.Code == request.PropertyCode
+                && request.RoomTypeCodes.Contains(i.RoomType.Code)
+                && ((i.StartDate <= request.StartDate && i.EndDate >= request.EndDate)
+                    || (i.StartDate >= request.StartDate && i.EndDate <= request.EndDate)
+                    || (i.StartDate >= request.StartDate && i.StartDate <= request.EndDate)
+                    || (i.EndDate >= request.StartDate && i.EndDate <= request.EndDate)))
+            .Select(i => i.ToApiInventoryDetails())
+            .ToListAsync();
+
+        var inventory = new Inventory
+        {
+            SupplierCode = request.SupplierCode,
+            PropertyCode = request.PropertyCode,
+            InventoryDetails = inventoryDetails
+        };
+
+        return (inventory, errorDetailsList);
     }
 
 
