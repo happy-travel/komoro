@@ -4,7 +4,6 @@ using HappyTravel.Komoro.Common.Infrastructure;
 using HappyTravel.Komoro.Common.Services.Availabilities;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.Data;
-using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure;
 using HappyTravel.KomoroContracts;
 using HappyTravel.KomoroContracts.Availabilities;
 using Microsoft.EntityFrameworkCore;

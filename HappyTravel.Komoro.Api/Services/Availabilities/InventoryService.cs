@@ -7,6 +7,7 @@ using HappyTravel.Komoro.Data;
 using HappyTravel.KomoroContracts;
 using HappyTravel.KomoroContracts.Availabilities;
 using Microsoft.EntityFrameworkCore;
+using DataModels = HappyTravel.Komoro.Data.Models.Availabilities;
 
 namespace HappyTravel.Komoro.Api.Services.Availabilities;
 
@@ -62,7 +63,66 @@ public class InventoryService : IInventoryService
 
     public async Task<List<ErrorDetails>> Update(Inventory inventory)
     {
-        throw new NotImplementedException();
+        var supplierCode = inventory.SupplierCode;
+        var propertyCode = inventory.PropertyCode;
+        if (!await _propertyService.IsExist(supplierCode, propertyCode))
+            return (new List<ErrorDetails>
+                { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, EntityCode = propertyCode } });
+
+        var errorDetailsList = new List<ErrorDetails>();
+        foreach (var inventoryDetails in inventory.InventoryDetails)
+        {
+            if (!await _roomTypeService.IsExist(inventoryDetails.RoomTypeCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = inventoryDetails.RoomTypeCode });
+
+            if (!await _roomTypeService.IsExist(inventoryDetails.RatePlanCode))
+                errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = inventoryDetails.RatePlanCode });
+        }
+        if (errorDetailsList.Count > 0)
+            return (errorDetailsList);
+
+        foreach (var inventoryDetails in inventory.InventoryDetails)
+        {
+            var existingInventory = await _komoroContext.Inventories
+                .Include(ar => ar.Property)
+                .Include(ar => ar.RoomType)
+                .SingleOrDefaultAsync(ar => ar.Property.SupplierCode == supplierCode
+                    && ar.Property.Code == propertyCode
+                    && ar.RatePlanCode == inventoryDetails.RatePlanCode
+                    && ar.RoomType.Code == inventoryDetails.RoomTypeCode
+                    && ar.StartDate == inventoryDetails.StartDate
+                    && ar.EndDate == inventoryDetails.EndDate);
+            var utcNow = _dateTimeOffsetProvider.UtcNow();
+
+            if (existingInventory is null)
+            {
+                var propertyId = await _propertyService.GetId(supplierCode, propertyCode);
+                var roomTypeId = await _roomTypeService.GetId(inventoryDetails.RoomTypeCode);
+                var newInventory = new DataModels.Inventory
+                {
+                    StartDate = inventoryDetails.StartDate,
+                    EndDate = inventoryDetails.EndDate,
+                    PropertyId = propertyId,
+                    RoomTypeId = roomTypeId,
+                    RatePlanCode = inventoryDetails.RatePlanCode,
+                    NumberOfAvailableRooms = inventoryDetails.NumberOfAvailableRooms,
+                    NumberOfBookedRooms = inventoryDetails.NumberOfBookedRooms,
+                    Created = utcNow,
+                    Modified = utcNow
+                };
+                _komoroContext.Inventories.Add(newInventory);
+            }
+            else
+            {
+                existingInventory.NumberOfAvailableRooms = inventoryDetails.NumberOfAvailableRooms;
+                existingInventory.NumberOfBookedRooms = inventoryDetails.NumberOfBookedRooms;
+                existingInventory.Modified = utcNow;
+                _komoroContext.Inventories.Update(existingInventory);
+            }
+            await _komoroContext.SaveChangesAsync();
+        }
+
+        return errorDetailsList;
     }
 
 
