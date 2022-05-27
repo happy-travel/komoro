@@ -12,6 +12,7 @@ public class KomoroContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        // Statics
         builder.Entity<CancellationPolicy>(e =>
         {
             e.ToTable("CancellationPolicies");
@@ -102,6 +103,7 @@ public class KomoroContext : DbContext
             e.Property(rt => rt.Modified).IsRequired();
         });
 
+        // Availability
         builder.Entity<AvailabilityRestriction>(e =>
         {
             e.ToTable("AvailabilityRestrictions");
@@ -116,6 +118,23 @@ public class KomoroContext : DbContext
             e.Property(ar => ar.Created).IsRequired();
             e.Property(ar => ar.Modified).IsRequired();
             e.HasOne(ar => ar.Property).WithMany(p => p.AvailabilityRestrictions).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<Inventory>(e =>
+        {
+            e.ToTable("Inventories");
+            e.HasKey(ar => ar.Id);
+            e.HasIndex(ar => ar.PropertyId);
+            e.Property(ar => ar.StartDate).IsRequired();
+            e.Property(ar => ar.EndDate).IsRequired();
+            e.HasIndex(ar => ar.RoomTypeId);
+            e.Property(ar => ar.RatePlanCode).IsRequired();
+            e.Property(ar => ar.NumberOfAvailableRooms).IsRequired();
+            e.Property(ar => ar.NumberOfBookedRooms);
+            e.Property(ar => ar.Created).IsRequired();
+            e.Property(ar => ar.Modified).IsRequired();
+            e.HasOne(ar => ar.Property).WithMany(p => p.Inventories).IsRequired().OnDelete(DeleteBehavior.Cascade);
             e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
     }
