@@ -13,7 +13,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [Produces("application/xml")]
 public class InventoryController : BaseController
 {
-    public InventoryController(IInventoryService inventoryService)
+    public InventoryController(ITravelClickInventoryService inventoryService)
     {
         _inventoryService = inventoryService;
     }
@@ -37,5 +37,5 @@ public class InventoryController : BaseController
         => Ok(await _inventoryService.Update(otaHotelInvCountNotifRQ, cancellationToken));
 
 
-    private readonly IInventoryService _inventoryService;
+    private readonly ITravelClickInventoryService _inventoryService;
 }

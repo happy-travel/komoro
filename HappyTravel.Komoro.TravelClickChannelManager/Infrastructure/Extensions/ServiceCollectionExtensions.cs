@@ -47,8 +47,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IPingService, PingService>();
         services.AddTransient<IHotelProductService, HotelProductService>();
+        services.AddTransient<ITravelClickInventoryService, TravelClickInventoryService>();
         services.AddTransient<ITravelClickAvailabilityRestrictionService, TravelClickAvailabilityRestrictionService>();
-        services.AddTransient<IInventoryService, InventoryService>();
         services.AddTransient<IRateService, RateService>();
 
         services.AddTransient<IDateTimeOffsetProvider, DateTimeOffsetProvider>();

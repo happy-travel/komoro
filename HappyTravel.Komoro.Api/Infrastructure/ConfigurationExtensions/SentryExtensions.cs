@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureSentryExtension
+public static class SentryExtensions
 {
     public static void ConfigureSentry(this WebApplicationBuilder builder)
     {

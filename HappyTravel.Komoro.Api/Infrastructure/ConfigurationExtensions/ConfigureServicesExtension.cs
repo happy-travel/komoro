@@ -7,7 +7,7 @@ using HappyTravel.Komoro.Common.Services.Availabilities;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
 public static class ConfigureServicesExtension
 {
@@ -39,6 +39,7 @@ public static class ConfigureServicesExtension
 
         builder.Services.AddTransient<IAccommodationStorage, AccommodationStorage>();
 
+        builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
 
         builder.Services.AddTravelClickClientServices();

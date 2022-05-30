@@ -2,9 +2,9 @@
 using HappyTravel.StdOutLogger.Infrastructure;
 using HappyTravel.Komoro.Api.Infrastructure.Environment;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureLoggingExtension
+public static class LoggingExtensions
 {
     public static void ConfigureLogging(this WebApplicationBuilder builder)
     {

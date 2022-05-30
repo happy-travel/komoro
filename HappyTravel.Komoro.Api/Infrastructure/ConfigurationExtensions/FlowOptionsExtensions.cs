@@ -1,8 +1,8 @@
 ﻿using FloxDc.CacheFlow;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureFlowOptionsExtension
+public static class FlowOptionsExtensions
 {
     public static void ConfigureFlowOptions(this IServiceCollection services)
     {

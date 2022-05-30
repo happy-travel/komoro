@@ -1,9 +1,9 @@
 ﻿using HappyTravel.ConsulKeyValueClient.ConfigurationProvider.Extensions;
 using HappyTravel.Komoro.Api.Infrastructure.Environment;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureAppConfigurationExtension
+public static class AppConfigurationExtensions
 {
     public static void ConfigureAppConfiguration(this WebApplicationBuilder builder)
     {

@@ -8,36 +8,35 @@ using HappyTravel.KomoroContracts.Availabilities;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Services;
 
-public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilityRestrictionService
+public class TravelClickInventoryService : ITravelClickInventoryService
 {
-    public TravelClickAvailabilityRestrictionService(IDateTimeOffsetProvider dateTimeOffsetProvider, IAvailabilityRestrictionService availabilityRestrictionService)
+    public TravelClickInventoryService(IDateTimeOffsetProvider dateTimeOffsetProvider, IInventoryService inventoryService)
     {
         _dateTimeOffsetProvider = dateTimeOffsetProvider;
-        _availabilityRestrictionService = availabilityRestrictionService;
+        _inventoryService = inventoryService;
     }
 
 
-    public async Task<OtaHotelAvailGetRS> Get(OtaHotelAvailGetRQ otaHotelAvailGetRQ, CancellationToken cancellationToken)
+    public async Task<OtaHotelInvCountRS> Get(OtaHotelInvCountRQ otaHotelInvCountRQ, CancellationToken cancellationToken)
     {
-        var request = otaHotelAvailGetRQ.HotelAvailRequests.Single();
+        var request = otaHotelInvCountRQ.HotelInvCountRequests.Single();
         var hotelCode = request.HotelRef.HotelCode;
 
         Success? success = null;
         List<Warning>? warnings = null;
         List<Error>? errors = null;
-        Models.Availabilities.AvailStatusMessages? availStatusMessages = new();
+        Models.Availabilities.Inventories inventories = new();
 
-        var availabilityRestrictionRequest = new AvailabilityRestrictionRequest
+        var inventoryRequest = new InventoryRequest
         {
             SupplierCode = Constants.TravelClickCode,
             PropertyCode = hotelCode,
             StartDate = DateOnly.FromDateTime(request.DateRange.Start),
             EndDate = DateOnly.FromDateTime(request.DateRange.End),
-            RatePlanCodes = request.RatePlanCandidates.Select(rpc => rpc.RatePlanCode).ToList(),
             RoomTypeCodes = request.RoomTypeCandidates.Select(rpc => rpc.RoomTypeCode).ToList()
         };
 
-        var (availabilityRestrictions, errorDetails) = await _availabilityRestrictionService.Get(availabilityRestrictionRequest);
+        var (inventory, errorDetails) = await _inventoryService.Get(inventoryRequest);
 
         if (errorDetails.Any())
         {
@@ -47,41 +46,45 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         else
         {
             success = new();
-            var availStatusMessageList = availabilityRestrictions.Select(ar => ar.ToAvailStatusMessage())
+            var inventoryList = inventory.InventoryDetails.Select(id => id.ToInventory())
                 .ToList();
 
-            availStatusMessages = new Models.Availabilities.AvailStatusMessages
+            inventories = new Models.Availabilities.Inventories
             {
                 HotelCode = hotelCode,
-                AvailStatusMessageList = availStatusMessageList
+                InventoryList = inventoryList
             };
         }
 
-        return new OtaHotelAvailGetRS
+        return new OtaHotelInvCountRS
         {
-            Version = otaHotelAvailGetRQ.Version,
+            Version = otaHotelInvCountRQ.Version,
             TimeStamp = _dateTimeOffsetProvider.UtcNow(),
-            EchoToken = otaHotelAvailGetRQ.EchoToken,
+            EchoToken = otaHotelInvCountRQ.EchoToken,
             Success = success,
             Errors = errors,
             Warnings = warnings,
-            AvailStatusMessages = availStatusMessages
+            Inventories = inventories
         };
     }
 
 
-    public async Task<OtaHotelAvailNotifRS> Update(OtaHotelAvailNotifRQ otaHotelAvailNotifRQ, CancellationToken cancellationToken)
+    public async Task<OtaHotelInvCountNotifRS> Update(OtaHotelInvCountNotifRQ otaHotelInvCountNotifRQ, CancellationToken cancellationToken)
     {
-        var hotelCode = otaHotelAvailNotifRQ.AvailStatusMessages.HotelCode ?? string.Empty;
+        var hotelCode = otaHotelInvCountNotifRQ.Inventories.HotelCode ?? string.Empty;
 
         Success? success = null;
         List<Warning>? warnings = null;
         List<Error>? errors = null;
 
-        var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction())
-            .ToList();
+        var inventory = new Inventory
+        {
+            SupplierCode = Constants.TravelClickCode,
+            PropertyCode = hotelCode,
+            InventoryDetails = otaHotelInvCountNotifRQ.Inventories.InventoryList.Select(i => i.ToInventoryDetails()).ToList()
+        };
 
-        var errorDetails = await _availabilityRestrictionService.Update(Constants.TravelClickCode, availabilityRestrictions);
+        var errorDetails = await _inventoryService.Update(inventory);
         if (errorDetails.Any())
         {
             errors = errorDetails.Select(ed => ed.ToError())
@@ -92,11 +95,11 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
             success = new();
         }
 
-        return new OtaHotelAvailNotifRS
+        return new OtaHotelInvCountNotifRS
         {
-            Version = otaHotelAvailNotifRQ.Version,
+            Version = otaHotelInvCountNotifRQ.Version,
             TimeStamp = _dateTimeOffsetProvider.UtcNow(),
-            EchoToken = otaHotelAvailNotifRQ.EchoToken,
+            EchoToken = otaHotelInvCountNotifRQ.EchoToken,
             Success = success,
             Errors = errors,
             Warnings = warnings
@@ -105,5 +108,5 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
 
 
     private readonly IDateTimeOffsetProvider _dateTimeOffsetProvider;
-    private readonly IAvailabilityRestrictionService _availabilityRestrictionService;
+    private readonly IInventoryService _inventoryService;
 }

@@ -1,9 +1,9 @@
 ﻿using HappyTravel.Komoro.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace HappyTravel.Komoro.Api.Infrastructure.ConfigureExtensions;
+namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureDatabaseExtension
+public static class DatabaseExtensions
 {
     public static IServiceCollection ConfigureDatabaseOptions(this WebApplicationBuilder builder, Dictionary<string, string> databaseOptions)
         => builder.Services.AddDbContextPool<KomoroContext>(options =>
