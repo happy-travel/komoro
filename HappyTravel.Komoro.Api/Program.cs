@@ -1,6 +1,7 @@
 using HappyTravel.ErrorHandling.Extensions;
 using HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 using HappyTravel.Komoro.Api.Infrastructure.Environment;
+using HappyTravel.Komoro.Api.Infrastructure.Options;
 using HappyTravel.VaultClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +18,7 @@ using var vaultClient = new VaultClient(new VaultOptions
 vaultClient.Login(EnvironmentVariableHelper.Get("Vault:Token", configuration)).GetAwaiter().GetResult();
 
 var databaseOptions = vaultClient.Get(configuration["Database:Options"]).GetAwaiter().GetResult();
-var authorityOptions = vaultClient.Get(configuration["Authority:Options"]).GetAwaiter().GetResult();
+var authorityOptions = configuration.GetSection("Authority").Get<AuthorityOptions>();
 
 builder.ConfigureAppConfiguration();
 builder.ConfigureLogging();
