@@ -1,7 +1,13 @@
 replicaCount: 1
 
+podAnnotations:
+  linkerd.io/inject: enabled
+
+deployment:
+  annotations:
+    sidecar.jaegertracing.io/inject: jaeger-dev
+
 jaeger:
-  sidecar: jaeger-dev
   collector_host: dns:///jaeger-dev-collector-headless.observability:14250
 
 image:
@@ -14,12 +20,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: false
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
   name:
 
 podSecurityContext: {}
@@ -36,6 +38,12 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  grpc:
+    port: 5101
+  metrics:
+    port: 60001
+  healthchecks:
+    port: 60000
 
 ingress:
   enabled: true
@@ -50,7 +58,8 @@ ingress:
   hosts:
     - host: komoro-dev.happytravel.com
       paths:
-        - /
+        - path: /
+          pathType: ImplementationSpecific
   tls:
    - secretName: happytravel-tls
      hosts:
@@ -58,11 +67,11 @@ ingress:
 
 resources:
   limits:
-    cpu: 200
+    cpu: 1
     memory: 2Gi
   requests:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 25m
+    memory: 256Mi
 
 nodeSelector: {}
 
@@ -70,21 +79,27 @@ tolerations: []
 
 affinity: {}
 
-metrics:
+autoscaling:
   enabled: false
-  serviceMonitor:
-    enabled: false
-  podMonitor:
-    enabled: false
-  podport: http
-  podpath: /metrics
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
+metrics:
+  enabled: true
+  podMonitor:
+    enabled: true
 
 env:
   ASPNETCORE_URLS: http://*:80
   ASPNETCORE_ENVIRONMENT: "Development"
   HTDC_VAULT_ENDPOINT: "https://vault.dev.happytravel.com/v1/"
-  HTDC_KOMORO_SENTRY_ENDPOINT: "https://b419fd24d56a4b7e85a117c3864a697a@sentry1.happytravel.com/62"
+  HTDC_KOMORO_SENTRY_ENDPOINT: "https://b419fd24d56a4b7e85a117c3864a697a@sentry.happytravel.com/62"
   JAEGER_AGENT_HOST: "localhost"
   JAEGER_AGENT_PORT: "6831"
+  HTDC_WEBAPI_PORT: "80"
+  HTDC_GRPC_PORT: "5101"
+  HTDC_HEALTH_PORT: "60000"
+  HTDC_METRICS_PORT: "60001"
   CONSUL_HTTP_ADDR: "https://consul-dev.happytravel.com/"
