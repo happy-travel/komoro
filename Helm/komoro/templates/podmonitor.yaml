@@ -3,11 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: {{ .Chart.Name }}
-  {{- if .Values.metrics.serviceMonitor.namespace }}
-  namespace: {{ .Values.metrics.serviceMonitor.namespace }}
-  {{- else }}
-  namespace: {{ .Release.Namespace | quote }}
-  {{- end }}
   labels:
     {{- include "komoro.labels" . | nindent 4 }}
   {{- with .Values.serviceAccount.annotations }}
@@ -16,15 +11,12 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}  
-  
+      - {{ .Release.Namespace }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Chart.Name }}
-      app.kubernetes.io/instance: {{ .Chart.Name }}-{{ .Release.Namespace }}
-      
+      app.kubernetes.io/instance: {{ .Release.Name }}
   podMetricsEndpoints:
-  - path: {{ .Values.metrics.podpath}}
-    port: {{ .Values.metrics.podport}}
-  
+  - path: /metrics
+    port: http-metrics
 {{- end }}
