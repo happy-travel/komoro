@@ -17,5 +17,5 @@ public record AdditionalGuestAmount
     /// Integer. Code indicating the age this additional amount applies to. "10" for Adults and "8" for Children. Optional if age is not relevant.
     /// </summary>
     [XmlAttribute]
-    public int AgeQualifyingCode { get; init; }
+    public string? AgeQualifyingCode { get; init; }
 }

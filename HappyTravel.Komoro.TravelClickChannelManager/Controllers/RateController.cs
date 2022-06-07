@@ -13,7 +13,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [Produces("application/xml")]
 public class RateController : BaseController
 {
-    public RateController(IRateService rateService)
+    public RateController(ITravelClickRateService rateService)
     {
         _rateService = rateService;
     }
@@ -37,5 +37,5 @@ public class RateController : BaseController
         => Ok(await _rateService.Update(otaHotelRatePlanNotifRQ, cancellationToken));
 
 
-    private readonly IRateService _rateService;
+    private readonly ITravelClickRateService _rateService;
 }

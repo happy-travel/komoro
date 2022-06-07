@@ -29,5 +29,5 @@ public record BaseByGuestAmt
     /// Integer. Code indicating the age of the guests. Only "10" for Adults is supported.
     /// </summary>
     [XmlAttribute]
-    public int AgeQualifyingCode { get; init; }
+    public string? AgeQualifyingCode { get; init; }
 }
