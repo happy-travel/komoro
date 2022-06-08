@@ -13,7 +13,8 @@ namespace HappyTravel.Komoro.Api.Services.Availabilities;
 
 public class InventoryService : IInventoryService
 {
-    public InventoryService(KomoroContext komoroContext, IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, IRoomTypeService roomTypeService)
+    public InventoryService(KomoroContext komoroContext, IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, 
+        IRoomTypeService roomTypeService)
     {
         _komoroContext = komoroContext;
         _dateTimeOffsetProvider = dateTimeOffsetProvider;

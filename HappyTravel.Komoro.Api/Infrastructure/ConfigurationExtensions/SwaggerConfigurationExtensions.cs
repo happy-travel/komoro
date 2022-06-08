@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureSwaggerExtension
+public static class SwaggerConfigurationExtensions
 {
     public static void ConfigureSwagger(this IServiceCollection services)
     {

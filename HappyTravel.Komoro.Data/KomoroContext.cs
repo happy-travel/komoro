@@ -137,6 +137,23 @@ public class KomoroContext : DbContext
             e.HasOne(ar => ar.Property).WithMany(p => p.Inventories).IsRequired().OnDelete(DeleteBehavior.Cascade);
             e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
+
+        builder.Entity<Rate>(e =>
+        {
+            e.ToTable("Rates");
+            e.HasKey(ar => ar.Id);
+            e.HasIndex(ar => ar.PropertyId);
+            e.Property(ar => ar.StartDate).IsRequired();
+            e.Property(ar => ar.EndDate).IsRequired();
+            e.HasIndex(ar => ar.RoomTypeId);
+            e.Property(ar => ar.RatePlanCode).IsRequired();
+            e.Property(ar => ar.BaseRates).HasColumnType("jsonb");
+            e.Property(ar => ar.AdditionalRates).HasColumnType("jsonb");
+            e.Property(ar => ar.Created).IsRequired();
+            e.Property(ar => ar.Modified).IsRequired();
+            e.HasOne(ar => ar.Property).WithMany(p => p.Rates).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+        });
     }
 
 
@@ -149,4 +166,5 @@ public class KomoroContext : DbContext
 
     public DbSet<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = null!;
     public DbSet<Inventory> Inventories { get; set; } = null!;
+    public DbSet<Rate> Rates { get; set; } = null!;
 }

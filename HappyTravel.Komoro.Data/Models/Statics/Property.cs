@@ -27,5 +27,6 @@ public class Property
     public List<CancellationPolicy> CancellationPolicies { get; set; } = new();
     public List<AvailabilityRestriction> AvailabilityRestrictions { get; set; } = new();
     public List<Inventory> Inventories { get; set; } = new();
+    public List<Rate> Rates { get; set; } = new();
     public Country Country { get; set; } = null!;
 }
