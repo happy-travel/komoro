@@ -87,9 +87,9 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 metrics:
-  enabled: true
+  enabled: false
   podMonitor:
-    enabled: true
+    enabled: false
 
 env:
   ASPNETCORE_URLS: http://*:80
