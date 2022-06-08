@@ -41,6 +41,9 @@ if (!app.Environment.IsProduction())
     });
 }
 
+app.UseCors(builder => builder.AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 app.UseProblemDetailsErrorHandler(app.Environment, app.Logger);
 app.UseHttpsRedirection();
 app.UseRouting();
