@@ -4,7 +4,7 @@
     "Komoro": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_ENVIRONMENT": "Local",
         "HTDC_KOMORO_SENTRY_ENDPOINT": "https://b419fd24d56a4b7e85a117c3864a697a@sentry1.happytravel.com/62"
       },
       "applicationUrl": "http://localhost:5991"
