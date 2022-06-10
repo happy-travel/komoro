@@ -18,6 +18,7 @@ public static class ServiceConfigurationExtensions
             .AddXmlSerializerFormatters();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(o => o.UseDateOnlyTimeOnlyStringConverters());
+        builder.Services.AddCors();
         builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetailsErrorHandling();
         builder.Services.AddResponseCompression();
