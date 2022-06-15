@@ -124,35 +124,36 @@ public class KomoroContext : DbContext
         builder.Entity<Inventory>(e =>
         {
             e.ToTable("Inventories");
-            e.HasKey(ar => ar.Id);
-            e.HasIndex(ar => ar.PropertyId);
-            e.Property(ar => ar.StartDate).IsRequired();
-            e.Property(ar => ar.EndDate).IsRequired();
-            e.HasIndex(ar => ar.RoomTypeId);
-            e.Property(ar => ar.RatePlanCode).IsRequired();
-            e.Property(ar => ar.NumberOfAvailableRooms).IsRequired();
-            e.Property(ar => ar.NumberOfBookedRooms);
-            e.Property(ar => ar.Created).IsRequired();
-            e.Property(ar => ar.Modified).IsRequired();
-            e.HasOne(ar => ar.Property).WithMany(p => p.Inventories).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+            e.HasKey(i => i.Id);
+            e.HasIndex(i => i.PropertyId);
+            e.Property(i => i.StartDate).IsRequired();
+            e.Property(i => i.EndDate).IsRequired();
+            e.HasIndex(i => i.RoomTypeId);
+            e.Property(i => i.RatePlanCode).IsRequired();
+            e.Property(i => i.NumberOfAvailableRooms).IsRequired();
+            e.Property(i => i.NumberOfBookedRooms);
+            e.Property(i => i.Created).IsRequired();
+            e.Property(i => i.Modified).IsRequired();
+            e.HasOne(i => i.Property).WithMany(p => p.Inventories).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(i => i.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<Rate>(e =>
         {
             e.ToTable("Rates");
-            e.HasKey(ar => ar.Id);
-            e.HasIndex(ar => ar.PropertyId);
-            e.Property(ar => ar.StartDate).IsRequired();
-            e.Property(ar => ar.EndDate).IsRequired();
-            e.HasIndex(ar => ar.RoomTypeId);
-            e.Property(ar => ar.RatePlanCode).IsRequired();
-            e.Property(ar => ar.BaseRates).HasColumnType("jsonb");
-            e.Property(ar => ar.AdditionalRates).HasColumnType("jsonb");
-            e.Property(ar => ar.Created).IsRequired();
-            e.Property(ar => ar.Modified).IsRequired();
-            e.HasOne(ar => ar.Property).WithMany(p => p.Rates).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(ar => ar.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
+            e.HasKey(r => r.Id);
+            e.HasIndex(r => r.PropertyId);
+            e.Property(r => r.StartDate).IsRequired();
+            e.Property(r => r.EndDate).IsRequired();
+            e.HasIndex(r => r.RoomTypeId);
+            e.Property(r => r.RatePlanCode).IsRequired();
+            e.Property(r => r.Currency).IsRequired();
+            e.Property(r => r.BaseRates).HasColumnType("jsonb");
+            e.Property(r => r.AdditionalRates).HasColumnType("jsonb");
+            e.Property(r => r.Created).IsRequired();
+            e.Property(r => r.Modified).IsRequired();
+            e.HasOne(r => r.Property).WithMany(p => p.Rates).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(r => r.RoomType).WithMany().IsRequired().OnDelete(DeleteBehavior.SetNull);
         });
     }
 
