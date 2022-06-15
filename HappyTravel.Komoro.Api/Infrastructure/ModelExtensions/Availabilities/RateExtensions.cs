@@ -16,7 +16,7 @@ public static class RateExtensions
             {
                 new ApiModels.RateDetails
                 {
-                    RoomTypeCode = 
+                    RoomTypeCode = ""   // Need clarify
                 }
             }
         };

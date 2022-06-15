@@ -14,12 +14,13 @@ namespace HappyTravel.Komoro.Api.Services.Availabilities;
 public class InventoryService : IInventoryService
 {
     public InventoryService(KomoroContext komoroContext, IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, 
-        IRoomTypeService roomTypeService)
+        IRoomTypeService roomTypeService, IRatePlanService ratePlanService)
     {
         _komoroContext = komoroContext;
         _dateTimeOffsetProvider = dateTimeOffsetProvider;
         _propertyService = propertyService;
         _roomTypeService = roomTypeService;
+        _ratePlanService = ratePlanService;
     }
 
 
@@ -76,7 +77,7 @@ public class InventoryService : IInventoryService
             if (!await _roomTypeService.IsExist(inventoryDetails.RoomTypeCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = inventoryDetails.RoomTypeCode });
 
-            if (!await _roomTypeService.IsExist(inventoryDetails.RatePlanCode))
+            if (!_ratePlanService.IsExist(inventoryDetails.RatePlanCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = inventoryDetails.RatePlanCode });
         }
         if (errorDetailsList.Count > 0)
@@ -131,4 +132,5 @@ public class InventoryService : IInventoryService
     private readonly IDateTimeOffsetProvider _dateTimeOffsetProvider;
     private readonly IPropertyService _propertyService;
     private readonly IRoomTypeService _roomTypeService;
+    private readonly IRatePlanService _ratePlanService;
 }

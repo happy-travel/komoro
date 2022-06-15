@@ -69,9 +69,41 @@ public class TravelClickRateService : ITravelClickRateService
     }
 
 
-    public Task<OtaHotelRatePlanNotifRS> Update(OtaHotelRatePlanNotifRQ otaHotelRatePlanNotifRQ, CancellationToken cancellationToken)
+    public async Task<OtaHotelRatePlanNotifRS> Update(OtaHotelRatePlanNotifRQ otaHotelRatePlanNotifRQ, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var hotelCode = otaHotelRatePlanNotifRQ.RatePlans.HotelCode ?? string.Empty;
+
+        Success? success = null;
+        List<Warning>? warnings = null;
+        List<Error>? errors = null;
+
+        var rate = new Rate
+        {
+            SupplierCode = Constants.TravelClickCode,
+            PropertyCode = hotelCode,
+            RatePlans = otaHotelRatePlanNotifRQ.RatePlans.PatePlanList.Select(rp => rp.ToContractRatePlan()).ToList()
+        };
+
+        var errorDetails = await _rateService.Update(rate);
+        if (errorDetails.Any())
+        {
+            errors = errorDetails.Select(ed => ed.ToError())
+                .ToList();
+        }
+        else
+        {
+            success = new();
+        }
+
+        return new OtaHotelRatePlanNotifRS
+        {
+            Version = otaHotelRatePlanNotifRQ.Version,
+            TimeStamp = _dateTimeOffsetProvider.UtcNow(),
+            EchoToken = otaHotelRatePlanNotifRQ.EchoToken,
+            Success = success,
+            Errors = errors,
+            Warnings = warnings
+        };
     }
 
 

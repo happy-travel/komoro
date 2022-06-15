@@ -2,5 +2,5 @@
 
 public interface IRatePlanService
 {
-    Task<bool> IsExist(string ratePlanCode);
+    bool IsExist(string ratePlanCode);
 }
