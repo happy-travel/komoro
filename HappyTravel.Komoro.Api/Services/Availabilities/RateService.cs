@@ -39,18 +39,30 @@ public class RateService : IRateService
         if (errorDetailsList.Count > 0)
             return (new(), errorDetailsList);
 
-        var ratePlans = await _komoroContext.Rates
-            .Include(i => i.Property)
-            .Include(i => i.RoomType)
-            .Where(i => i.Property.SupplierCode == request.SupplierCode
-                && i.Property.Code == request.PropertyCode
-                && request.RatePlanCodes.Contains(i.RoomType.Code)
-                && ((i.StartDate <= request.StartDate && i.EndDate >= request.EndDate)
-                    || (i.StartDate >= request.StartDate && i.EndDate <= request.EndDate)
-                    || (i.StartDate >= request.StartDate && i.StartDate <= request.EndDate)
-                    || (i.EndDate >= request.StartDate && i.EndDate <= request.EndDate)))
-            .Select(i => i.ToApiRatePlan())
-            .ToListAsync();
+        var ratePlans = new List<RatePlan>();
+        foreach (var ratePlanCode in request.RatePlanCodes)
+        {
+            var rateDetails = await _komoroContext.Rates
+                .Include(i => i.Property)
+                .Include(i => i.RoomType)
+                .Where(i => i.Property.SupplierCode == request.SupplierCode
+                    && i.Property.Code == request.PropertyCode
+                    && request.RatePlanCodes.Contains(i.RoomType.Code)
+                    && ((i.StartDate <= request.StartDate && i.EndDate >= request.EndDate)
+                        || (i.StartDate >= request.StartDate && i.EndDate <= request.EndDate)
+                        || (i.StartDate >= request.StartDate && i.StartDate <= request.EndDate)
+                        || (i.EndDate >= request.StartDate && i.EndDate <= request.EndDate)))
+                .Select(i => i.ToApiRateDetails())
+                .ToListAsync();
+            var ratePlan = new RatePlan
+            {
+                RatePlanCode = ratePlanCode,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                RateDetails = rateDetails
+            };
+            ratePlans.Add(ratePlan);
+        }
 
         var rate = new Rate
         {
