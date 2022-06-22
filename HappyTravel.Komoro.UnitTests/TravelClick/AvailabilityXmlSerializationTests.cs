@@ -1,5 +1,6 @@
 ﻿using HappyTravel.Komoro.TravelClickChannelManager.Models;
 using HappyTravel.Komoro.UnitTests.Infrastructure;
+using HappyTravel.Money.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -245,20 +246,20 @@ public class AvailabilityXmlSerializationTests
                             new Availability.Rate
                             {
                                 InvTypeCode = "DBL",
-                                CurrencyCode="USD",
+                                CurrencyCode = Currencies.USD,
                                 BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
                                 {
                                     new Availability.BaseByGuestAmt
                                     {
                                         AmountBeforeTax = 100.00m,
                                         NumberOfGuests = 1,
-                                        AgeQualifyingCode = 10
+                                        AgeQualifyingCode = "10"
                                     },
                                     new Availability.BaseByGuestAmt
                                     {
                                         AmountBeforeTax = 100.00m,
                                         NumberOfGuests = 2,
-                                        AgeQualifyingCode = 10
+                                        AgeQualifyingCode = "10"
                                     }
                                 },
                                 AdditionalGuestAmounts = new List<Availability.AdditionalGuestAmount>
@@ -266,12 +267,12 @@ public class AvailabilityXmlSerializationTests
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 25.00m,
-                                        AgeQualifyingCode = 10
+                                        AgeQualifyingCode = "10"
                                     },
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 0.00m,
-                                        AgeQualifyingCode = 8
+                                        AgeQualifyingCode = "8"
                                     }
                                 }
                             }
@@ -684,7 +685,7 @@ public class AvailabilityXmlSerializationTests
                             new Availability.Rate
                             {
                                 InvTypeCode = "SGL",
-                                CurrencyCode = "USD",
+                                CurrencyCode = Currencies.USD,
                                 BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
                                 {
                                     new Availability.BaseByGuestAmt
@@ -703,19 +704,19 @@ public class AvailabilityXmlSerializationTests
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 25.00m,
-                                        AgeQualifyingCode = 10
+                                        AgeQualifyingCode = "10"
                                     },
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 0m,
-                                        AgeQualifyingCode = 8
+                                        AgeQualifyingCode = "8"
                                     }
                                 }
                             },
                             new Availability.Rate
                             {
                                 InvTypeCode = "DBL",
-                                CurrencyCode = "USD",
+                                CurrencyCode = Currencies.USD,
                                 BaseByGuestAmts = new List<Availability.BaseByGuestAmt>
                                 {
                                     new Availability.BaseByGuestAmt
@@ -734,12 +735,12 @@ public class AvailabilityXmlSerializationTests
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 35.00m,
-                                        AgeQualifyingCode = 10
+                                        AgeQualifyingCode = "10"
                                     },
                                     new Availability.AdditionalGuestAmount
                                     {
                                         Amount = 0m,
-                                        AgeQualifyingCode = 8
+                                        AgeQualifyingCode = "8"
                                     }
                                 }
                             }

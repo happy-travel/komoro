@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using HappyTravel.Money.Enums;
+using System.Xml.Serialization;
 
 namespace HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities;
 
@@ -17,7 +18,7 @@ public record Rate
     /// ISO 4217 currency code
     /// </summary>
     [XmlAttribute]
-    public string CurrencyCode { get; init; } = string.Empty;
+    public Currencies CurrencyCode { get; init; }
 
     /// <summary>
     /// List of base rates

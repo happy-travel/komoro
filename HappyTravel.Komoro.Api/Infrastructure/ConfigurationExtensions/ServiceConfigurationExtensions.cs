@@ -9,7 +9,7 @@ using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
-public static class ConfigureServicesExtension
+public static class ServiceConfigurationExtensions
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
@@ -35,6 +35,7 @@ public static class ConfigureServicesExtension
         builder.Services.AddTransient<IPropertyService, PropertyService>();
         builder.Services.AddTransient<IRoomService, RoomService>();
         builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
+        builder.Services.AddTransient<IRatePlanService, RatePlanService>();
 
         builder.Services.AddTransient<TravelClickPropertyConverter>();
 

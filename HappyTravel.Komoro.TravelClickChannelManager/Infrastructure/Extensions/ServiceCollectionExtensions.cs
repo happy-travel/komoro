@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IHotelProductService, HotelProductService>();
         services.AddTransient<ITravelClickInventoryService, TravelClickInventoryService>();
         services.AddTransient<ITravelClickAvailabilityRestrictionService, TravelClickAvailabilityRestrictionService>();
-        services.AddTransient<IRateService, RateService>();
+        services.AddTransient<ITravelClickRateService, TravelClickRateService>();
 
         services.AddTransient<IDateTimeOffsetProvider, DateTimeOffsetProvider>();
 

@@ -13,12 +13,14 @@ namespace HappyTravel.Komoro.Api.Services.Availabilities;
 
 public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 {
-    public AvailabilityRestrictionService(KomoroContext komoroContext, IDateTimeOffsetProvider dateTimeOffsetProvider, IPropertyService propertyService, IRoomTypeService roomTypeService)
+    public AvailabilityRestrictionService(KomoroContext komoroContext, IDateTimeOffsetProvider dateTimeOffsetProvider, 
+        IPropertyService propertyService, IRoomTypeService roomTypeService, IRatePlanService ratePlanService)
     {
         _komoroContext = komoroContext;
         _dateTimeOffsetProvider = dateTimeOffsetProvider;
         _propertyService = propertyService;
         _roomTypeService = roomTypeService;
+        _ratePlanService = ratePlanService;
     }
 
 
@@ -36,7 +38,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         }
         foreach (var ratePlanCode in request.RatePlanCodes)
         {
-            if (!await _roomTypeService.IsExist(ratePlanCode))
+            if (!_ratePlanService.IsExist(ratePlanCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = ratePlanCode });
         }
         if (errorDetailsList.Count > 0)
@@ -73,7 +75,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
             if (!await _roomTypeService.IsExist(availabilityRestriction.RoomTypeCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRoomType, EntityCode = availabilityRestriction.RoomTypeCode });
             
-            if (!await _roomTypeService.IsExist(availabilityRestriction.RatePlanCode))
+            if (!_ratePlanService.IsExist(availabilityRestriction.RatePlanCode))
                 errorDetailsList.Add(new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidRatePlan, EntityCode = availabilityRestriction.RatePlanCode });
         }
         if (errorDetailsList.Count > 0)
@@ -173,4 +175,5 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     private readonly IDateTimeOffsetProvider _dateTimeOffsetProvider;
     private readonly IPropertyService _propertyService;
     private readonly IRoomTypeService _roomTypeService;
+    private readonly IRatePlanService _ratePlanService;
 }
