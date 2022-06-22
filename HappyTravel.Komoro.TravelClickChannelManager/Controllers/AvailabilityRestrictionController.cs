@@ -1,7 +1,9 @@
-﻿using HappyTravel.Komoro.Common.Controllers;
+﻿using AspNetCore.Authentication.Basic;
+using HappyTravel.Komoro.Common.Controllers;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Request;
 using HappyTravel.Komoro.TravelClickChannelManager.Models.Availabilities.Response;
 using HappyTravel.Komoro.TravelClickChannelManager.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +13,7 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Controllers;
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/travel-click/availability-restrictions")]
 [Produces("application/xml")]
+[Authorize(AuthenticationSchemes = BasicDefaults.AuthenticationScheme)]
 public class AvailabilityRestrictionController : BaseController
 {
     public AvailabilityRestrictionController(ITravelClickAvailabilityRestrictionService availabilityRestrictionService)

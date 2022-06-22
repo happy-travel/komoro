@@ -1,5 +1,6 @@
 ﻿using FloxDc.CacheFlow.Extensions;
 using HappyTravel.ErrorHandling.Extensions;
+using HappyTravel.Komoro.Api.Infrastructure.Conventions;
 using HappyTravel.Komoro.Api.Services.Availabilities;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Api.Services.Statics;
@@ -13,11 +14,15 @@ public static class ServiceConfigurationExtensions
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddMvcCore(options =>
+        {
+            options.Conventions.Add(new ApiExplorerGroupConvention());
+        });
+
         builder.Services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters())
             .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters())
             .AddXmlSerializerFormatters();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(o => o.UseDateOnlyTimeOnlyStringConverters());
         builder.Services.AddCors();
         builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetailsErrorHandling();
@@ -43,6 +48,7 @@ public static class ServiceConfigurationExtensions
 
         builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IAvailabilityRestrictionService, AvailabilityRestrictionService>();
+        builder.Services.AddTransient<IRateService, RateService>();
 
         builder.Services.AddTravelClickClientServices();
     }

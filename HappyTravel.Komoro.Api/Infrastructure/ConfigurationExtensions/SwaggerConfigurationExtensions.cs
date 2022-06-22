@@ -9,7 +9,10 @@ public static class SwaggerConfigurationExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1.0", new OpenApiInfo {Title = "HappyTravel.com Komoro API", Version = "v1.0"});
+            options.UseDateOnlyTimeOnlyStringConverters();
+            options.SwaggerDoc("komoro", new OpenApiInfo {Title = "HappyTravel.com Komoro API for admin app", Version = "v1.0"});
+            options.SwaggerDoc("travel-click", new OpenApiInfo { Title = "HappyTravel.com Komoro API for TravelClick channel", Version = "v1.0" });
+            options.SwaggerDoc("travel-line", new OpenApiInfo { Title = "HappyTravel.com Komoro API for TravelLine channel", Version = "v1.0" });
 
             var xmlCommentsFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlCommentsFilePath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFileName);
