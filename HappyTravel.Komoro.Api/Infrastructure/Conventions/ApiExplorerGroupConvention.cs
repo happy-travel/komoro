@@ -17,10 +17,10 @@ public class ApiExplorerGroupConvention : IControllerModelConvention
                 controller.ApiExplorer.GroupName = "komoro";
                 return;
             case "TravelClickChannelManager":
-                controller.ApiExplorer.GroupName = "travelClick";
+                controller.ApiExplorer.GroupName = "travel-click";
                 return;
             case "TravelLineChannelManager":
-                controller.ApiExplorer.GroupName = "travelLine";
+                controller.ApiExplorer.GroupName = "travel-line";
                 return;
         }
     }

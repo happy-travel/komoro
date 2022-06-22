@@ -1,6 +1,7 @@
 ﻿using HappyTravel.Komoro.Api.Services.Statics;
 using HappyTravel.Komoro.Common.Controllers;
 using HappyTravel.KomoroContracts.Statics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,8 @@ namespace HappyTravel.Komoro.Api.Controllers;
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/meal-plans")]
 [Produces("application/json")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
 public class MealPlanController : BaseController
 {
     public MealPlanController(IMealPlanService mealPlanService)

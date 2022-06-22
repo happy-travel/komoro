@@ -1,4 +1,6 @@
-﻿using HappyTravel.Komoro.Api.Infrastructure.Options;
+﻿using AspNetCore.Authentication.Basic;
+using HappyTravel.Komoro.Api.Infrastructure.Options;
+using HappyTravel.Komoro.TravelClickChannelManager.Services;
 using IdentityServer4.AccessTokenValidation;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
@@ -14,6 +16,10 @@ public static class AuthenticationExtensions
                 options.Audience = authorityOptions.Audience;
                 options.RequireHttpsMetadata = true;
                 options.AutomaticRefreshInterval = authorityOptions.AutomaticRefreshInterval;
+            })
+            .AddBasic<BasicUserAuthenticationService>(options =>
+            {
+                options.Realm = "TravelClick";
             });
     }
 }

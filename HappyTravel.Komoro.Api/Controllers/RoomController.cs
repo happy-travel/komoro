@@ -1,6 +1,7 @@
 ﻿using HappyTravel.Komoro.Common.Controllers;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.KomoroContracts.Statics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,8 @@ namespace HappyTravel.Komoro.Api.Controllers;
 [ApiVersion("1.0")]
 [Route("api/{v:apiVersion}/properties/{propertyId}/rooms")]
 [Produces("application/json")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
 public class RoomController : BaseController
 {
     public RoomController(IRoomService roomService)
