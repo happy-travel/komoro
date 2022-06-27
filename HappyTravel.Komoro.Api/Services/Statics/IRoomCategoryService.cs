@@ -1,7 +1,6 @@
 ﻿namespace HappyTravel.Komoro.Api.Services.Statics;
 
-public interface IRatePlanService
+public interface IRoomCategoryService
 {
     List<string> Get();
-    bool IsExist(string ratePlanCode);
 }

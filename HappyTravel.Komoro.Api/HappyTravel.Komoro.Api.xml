@@ -95,6 +95,12 @@
             <param name="mealPlanId">Meal plan id</param>
             <param name="cancellationToken">Cancellation token</param>
         </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.NoShowPolicyController.Get">
+            <summary>
+            Gets a list of all no show policy names
+            </summary>
+            <returns>List of no show policy names</returns>
+        </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.PropertyController.Get(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Gets a list of properties by supplier code
@@ -157,6 +163,12 @@
             Gets a list of all rate plan names
             </summary>
             <returns>List of rate plan names</returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.RoomCategoryController.Get">
+            <summary>
+            Gets a list of all room category names
+            </summary>
+            <returns>List of room category names</returns>
         </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.RoomController.Get(System.Int32,System.Threading.CancellationToken)">
             <summary>
