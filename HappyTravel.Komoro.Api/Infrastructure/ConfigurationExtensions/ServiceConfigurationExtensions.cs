@@ -7,6 +7,7 @@ using HappyTravel.Komoro.Api.Services.Statics;
 using HappyTravel.Komoro.Common.Services.Availabilities;
 using HappyTravel.Komoro.Common.Services.Statics;
 using HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions;
+using System.Text.Json.Serialization;
 
 namespace HappyTravel.Komoro.Api.Infrastructure.ConfigurationExtensions;
 
@@ -20,7 +21,11 @@ public static class ServiceConfigurationExtensions
         });
 
         builder.Services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters())
-            .AddJsonOptions(options => options.UseDateOnlyTimeOnlyStringConverters())
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.UseDateOnlyTimeOnlyStringConverters();
+            })
             .AddXmlSerializerFormatters();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddCors();
