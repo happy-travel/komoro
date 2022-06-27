@@ -41,6 +41,8 @@ public static class ServiceConfigurationExtensions
         builder.Services.AddTransient<IRoomService, RoomService>();
         builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
         builder.Services.AddTransient<IRatePlanService, RatePlanService>();
+        builder.Services.AddTransient<IRoomCategoryService, RoomCategoryService>();
+        builder.Services.AddTransient<INoShowPolicyService, NoShowPolicyService>();
 
         builder.Services.AddTransient<TravelClickPropertyConverter>();
 
