@@ -2,5 +2,6 @@
 
 public interface IRatePlanService
 {
+    public List<string> Get();
     bool IsExist(string ratePlanCode);
 }
