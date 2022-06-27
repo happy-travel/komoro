@@ -95,7 +95,7 @@ public class CountryService : ICountryService
     private static Result Validate(ApiModels.Country country)
         => GenericValidator<ApiModels.Country>.Validate(v =>
         {
-            v.RuleFor(c => c.Alpha2Code).NotEmpty().MinimumLength(2).MaximumLength(2);
+            v.RuleFor(c => c.Alpha2Code).NotEmpty().MinimumLength(2).MaximumLength(2).Matches("^[A-Z]+$");
             v.RuleFor(c => c.Name).NotEmpty();
         },
         country);
