@@ -13,9 +13,5 @@ public class RatePlanService : IRatePlanService
 
 
     public bool IsExist(string ratePlanCode)
-    {
-        var ratePlans = (RatePlans[])Enum.GetValues(typeof(RatePlans));
-
-        return ratePlans.Select(rp => rp.ToString()).Any(rpc => rpc == ratePlanCode);
-    }
+        => Get().Any(rpc => rpc == ratePlanCode);
 }
