@@ -65,7 +65,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
     public async Task<List<ErrorDetails>> Update(string supplierCode, List<AvailabilityRestriction> availabilityRestrictions)
     {
         var propertyCode = availabilityRestrictions.First().PropertyCode;   // All availability offers are always requested from one property
-        if (!await _propertyService.IsExist(supplierCode, propertyCode))
+        var propertyId = await _propertyService.GetId(supplierCode, propertyCode);
+        if (propertyId is 0)
             return (new List<ErrorDetails>
                 { new ErrorDetails { ErrorCode = KomoroContracts.Enums.ErrorCodes.InvalidProperty, EntityCode = propertyCode } });
 
@@ -83,13 +84,12 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
 
         foreach (var restriction in availabilityRestrictions)
         {
+            var roomTypeId = await _roomTypeService.GetId(restriction.RoomTypeCode);
             var existingRestrictions = await _komoroContext.AvailabilityRestrictions
-                .Include(ar => ar.Property)
-                .Include(ar => ar.RoomType)
                 .Where(ar => ar.Property.SupplierCode == supplierCode 
-                    && ar.Property.Code == restriction.PropertyCode
+                    && ar.PropertyId == propertyId
                     && ar.RatePlanCode == restriction.RatePlanCode
-                    && ar.RoomType.Code == restriction.RoomTypeCode
+                    && ar.RoomTypeId == roomTypeId
                     && ar.StartDate == restriction.StartDate 
                     && ar.EndDate == restriction.EndDate)
                 .ToListAsync();
@@ -99,8 +99,6 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                 await AddOrUpdateRestrictionStatus(restriction, existingRestrictions);
             else if (restriction.StayDurationDetails is not null)
                 await AddOrUpdateLengthOfStay(restriction, existingRestrictions);
-
-            await _komoroContext.SaveChangesAsync();
         }
 
         return errorDetailsList;
@@ -109,7 +107,8 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
         async Task AddOrUpdateRestrictionStatus(AvailabilityRestriction restriction, List<DataModels.AvailabilityRestriction> existingRestrictions)
         {
             var existingRestriction = existingRestrictions
-                .SingleOrDefault(r => r.RestrictionStatusDetails.Restriction == restriction.RestrictionStatusDetails.Restriction);
+                .SingleOrDefault(r => r.RestrictionStatusDetails?.Restriction == restriction.RestrictionStatusDetails.Restriction 
+                    && r.RestrictionStatusDetails?.MinAdvancedBookingOffset.HasValue == restriction.RestrictionStatusDetails.MinAdvancedBookingOffset.HasValue);
             var utcNow = _dateTimeOffsetProvider.UtcNow();
             if (existingRestriction is null)
             {
@@ -135,6 +134,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                 existingRestriction.Modified = utcNow;
                 _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
             }
+            await _komoroContext.SaveChangesAsync();
         }
 
 
@@ -167,6 +167,7 @@ public class AvailabilityRestrictionService : IAvailabilityRestrictionService
                 existingRestriction.Modified = utcNow;
                 _komoroContext.AvailabilityRestrictions.Update(existingRestriction);
             }
+            await _komoroContext.SaveChangesAsync();
         }
     }
 

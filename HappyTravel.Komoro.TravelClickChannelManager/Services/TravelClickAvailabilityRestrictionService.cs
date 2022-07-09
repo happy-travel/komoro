@@ -78,7 +78,7 @@ public class TravelClickAvailabilityRestrictionService : ITravelClickAvailabilit
         List<Warning>? warnings = null;
         List<Error>? errors = null;
 
-        var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction())
+        var availabilityRestrictions = otaHotelAvailNotifRQ.AvailStatusMessages.AvailStatusMessageList.Select(asm => asm.ToAvailabilityRestriction(Constants.TravelClickCode, hotelCode))
             .ToList();
 
         var errorDetails = await _availabilityRestrictionService.Update(Constants.TravelClickCode, availabilityRestrictions);

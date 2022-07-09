@@ -65,7 +65,8 @@ public class PropertyService : IPropertyService
     
 
     public async Task<bool> IsExist(string supplierCode, string propertyCode)
-        => await _komoroContext.Properties.AnyAsync(p => p.SupplierCode == supplierCode && p.Code == propertyCode);
+        => await _komoroContext.Properties.AsNoTracking()
+            .AnyAsync(p => p.SupplierCode == supplierCode && p.Code == propertyCode);
 
 
     public async Task<Result> Add(ApiModels.Property apiProperty, CancellationToken cancellationToken)
