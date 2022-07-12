@@ -19,7 +19,7 @@ public class TravelClickRateService : ITravelClickRateService
 
     public async Task<OtaHotelRatePlanRS> Get(OtaHotelRatePlanRQ otaHotelRatePlanRQ, CancellationToken cancellationToken)
     {
-        var request = otaHotelRatePlanRQ.RatePlans.Single();
+        var request = otaHotelRatePlanRQ.RatePlans.SingleOrDefault();
         var hotelCode = request.HotelRef.HotelCode;
 
         Success? success = null;

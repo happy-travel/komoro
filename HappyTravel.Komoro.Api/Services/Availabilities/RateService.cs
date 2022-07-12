@@ -43,16 +43,16 @@ public class RateService : IRateService
         foreach (var ratePlanCode in request.RatePlanCodes)
         {
             var rateDetails = await _komoroContext.Rates
-                .Include(i => i.Property)
-                .Include(i => i.RoomType)
-                .Where(i => i.Property.SupplierCode == request.SupplierCode
-                    && i.Property.Code == request.PropertyCode
-                    && request.RatePlanCodes.Contains(i.RoomType.Code)
-                    && ((i.StartDate <= request.StartDate && i.EndDate >= request.EndDate)
-                        || (i.StartDate >= request.StartDate && i.EndDate <= request.EndDate)
-                        || (i.StartDate >= request.StartDate && i.StartDate <= request.EndDate)
-                        || (i.EndDate >= request.StartDate && i.EndDate <= request.EndDate)))
-                .Select(i => i.ToApiRateDetails())
+                .Include(r => r.Property)
+                .Include(r => r.RoomType)
+                .Where(r => r.Property.SupplierCode == request.SupplierCode
+                    && r.Property.Code == request.PropertyCode
+                    && request.RatePlanCodes.Contains(r.RoomType.Code)
+                    && ((r.StartDate <= request.StartDate && r.EndDate >= request.EndDate)
+                        || (r.StartDate >= request.StartDate && r.EndDate <= request.EndDate)
+                        || (r.StartDate >= request.StartDate && r.StartDate <= request.EndDate)
+                        || (r.EndDate >= request.StartDate && r.EndDate <= request.EndDate)))
+                .Select(r => r.ToApiRateDetails())
                 .ToListAsync();
             var ratePlan = new RatePlan
             {
