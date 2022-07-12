@@ -44,7 +44,7 @@ public class RoomTypeService : IRoomTypeService
 
 
         async Task<bool> RoomTypeHasNoDuplicates(ApiModels.RoomType roomType)
-            => !await _komoroContext.RoomTypes.Where(rt => rt.Name == roomType.Name)
+            => !await _komoroContext.RoomTypes.Where(rt => rt.Name == roomType.Name || rt.Code == roomType.Code)    // TODO: Maybe need to add suuplier code to room types
                 .AnyAsync(cancellationToken);
 
 
@@ -75,7 +75,7 @@ public class RoomTypeService : IRoomTypeService
 
 
         async Task<bool> RoomTypeHasNoDuplicates(ApiModels.RoomType roomType)
-            => !await _komoroContext.RoomTypes.Where(rt => rt.Name == roomType.Name && rt.Id != roomTypeId)
+            => !await _komoroContext.RoomTypes.Where(rt => (rt.Name == roomType.Name || rt.Code == roomType.Code) && rt.Id != roomTypeId)   // TODO: Maybe need to add suuplier code to room types
                 .AnyAsync(cancellationToken);
 
 

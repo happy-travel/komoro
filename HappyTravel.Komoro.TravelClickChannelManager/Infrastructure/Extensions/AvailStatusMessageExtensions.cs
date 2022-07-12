@@ -6,10 +6,12 @@ namespace HappyTravel.Komoro.TravelClickChannelManager.Infrastructure.Extensions
 
 public static class AvailStatusMessageExtensions
 {
-    public static AvailabilityRestriction ToAvailabilityRestriction(this AvailStatusMessage availStatusMessage)
+    public static AvailabilityRestriction ToAvailabilityRestriction(this AvailStatusMessage availStatusMessage, string supplierCode, string propertyCode)
     {
         return new AvailabilityRestriction
         {
+            SupplierCode = supplierCode,
+            PropertyCode = propertyCode,
             StartDate = DateOnly.FromDateTime(availStatusMessage.StatusApplicationControl.Start),
             EndDate = DateOnly.FromDateTime(availStatusMessage.StatusApplicationControl.End),
             RoomTypeCode = availStatusMessage.StatusApplicationControl.InvTypeCode,
