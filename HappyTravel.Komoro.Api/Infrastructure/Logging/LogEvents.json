@@ -1,0 +1,135 @@
+[
+  {
+    "id": 3011,
+    "name": "BookingRequestStarted",
+    "template": "Booking request started",
+    "level": "Information"
+  },
+  {
+    "id": 3012,
+    "name": "BookingRequestCompleted",
+    "template": "Booking request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3013,
+    "name": "BookingRequestFailed",
+    "template": "Booking request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3014,
+    "name": "CancelBookingRequestStarted",
+    "template": "Cancel booking request started",
+    "level": "Information"
+  },
+  {
+    "id": 3015,
+    "name": "CancelBookingRequestCompleted",
+    "template": "Cancel booking request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3016,
+    "name": "CancelBookingRequestFailed",
+    "template": "Cancel booking request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3017,
+    "name": "BookingStatusRequestStarted",
+    "template": "Booking status request started",
+    "level": "Information"
+  },
+  {
+    "id": 3018,
+    "name": "BookingStatusRequestCompleted",
+    "template": "Booking status request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3019,
+    "name": "BookingStatusRequestFailed",
+    "template": "Booking status request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3020,
+    "name": "SearchRequestStarted",
+    "template": "Search request started",
+    "level": "Information"
+  },
+  {
+    "id": 3021,
+    "name": "SearchRequestCompleted",
+    "template": "Search request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3022,
+    "name": "SearchRequestFailed",
+    "template": "Search request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3023,
+    "name": "AccommodationRequestStarted",
+    "template": "Accommodation request started",
+    "level": "Information"
+  },
+  {
+    "id": 3024,
+    "name": "AccommodationRequestCompleted",
+    "template": "Accommodation request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3025,
+    "name": "AccommodationRequestFailed",
+    "template": "Accommodation request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3026,
+    "name": "RoomRequestStarted",
+    "template": "Room request started",
+    "level": "Information"
+  },
+  {
+    "id": 3027,
+    "name": "RoomRequestCompleted",
+    "template": "Room request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3028,
+    "name": "RoomRequestFailed",
+    "template": "Room request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  },
+  {
+    "id": 3032,
+    "name": "DeadlineRequestStarted",
+    "template": "Deadline request started",
+    "level": "Information"
+  },
+  {
+    "id": 3033,
+    "name": "DeadlineRequestCompleted",
+    "template": "Deadline request completed",
+    "level": "Information"
+  },
+  {
+    "id": 3034,
+    "name": "DeadlineRequestFailed",
+    "template": "Deadline request failed with error `{Error}`",
+    "level": "Warning",
+    "argumentTypes": [ "string" ]
+  }
+]

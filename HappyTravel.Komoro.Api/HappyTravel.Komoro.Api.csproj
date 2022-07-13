@@ -12,6 +12,7 @@
     <PackageReference Include="FloxDc.CacheFlow" Version="1.10.0" />
     <PackageReference Include="FluentValidation" Version="11.1.0" />
     <PackageReference Include="HappyTravel.ConsulKeyValueClient.ConfigurationProvider" Version="1.6.3" />
+    <PackageReference Include="HappyTravel.EdoContracts" Version="2.7.1" />
     <PackageReference Include="HappyTravel.ErrorHandling" Version="1.2.3" />
     <PackageReference Include="HappyTravel.Geography" Version="1.6.4" />
     <PackageReference Include="HappyTravel.StdOutLogger" Version="1.7.1" />
@@ -35,9 +36,6 @@
     <None Update="HappyTravel.Komoro.Api.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\Logging\" />
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

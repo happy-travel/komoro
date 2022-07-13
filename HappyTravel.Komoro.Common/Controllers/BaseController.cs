@@ -1,11 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
 using HappyTravel.Komoro.Common.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HappyTravel.Komoro.Common.Controllers;
 
 public class BaseController : ControllerBase
 {
+    protected IActionResult BadRequestWithProblemDetails(string details)
+    => BadRequest(new ProblemDetails
+    {
+        Detail = details,
+        Status = StatusCodes.Status400BadRequest
+    });
+
+
     protected IActionResult NoContentOrBadRequest(Result model)
     {
         var (_, isFailure, error) = model;

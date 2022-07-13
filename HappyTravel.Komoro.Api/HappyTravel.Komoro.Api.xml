@@ -4,6 +4,45 @@
         <name>HappyTravel.Komoro.Api</name>
     </assembly>
     <members>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AvailabilityController.Get(System.String,HappyTravel.EdoContracts.Accommodations.AvailabilityRequest,System.Threading.CancellationToken)">
+            <summary>
+            Searches for accommodations with available room contract sets. The 1st search step.
+            </summary>
+            <param name="supplierCode">Supplier code</param>
+            <param name="request">Availability search request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AvailabilityController.Get(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Searches for specific accommodation with available room contract sets. The 2nd search step. 
+            </summary>
+            <param name="supplierCode">Supplier code</param>
+            <param name="accommodationId">Supplier accommodation id</param>
+            <param name="availabilityId">Availability Id</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AvailabilityController.Get(System.String,System.String,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Searches exact accommodation with specific room contract sets.
+            </summary>
+            <param name="supplierCode">Supplier code</param>
+            <param name="availabilityId">Availability Id</param>
+            <param name="roomContractSetId">Id of selected room contract set</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HappyTravel.Komoro.Api.Controllers.AvailabilityController.GetDeadline(System.String,System.String,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves deadline data
+            </summary>
+            <param name="supplierCode">Supplier code</param>
+            <param name="availabilityId"></param>
+            <param name="roomContractSetId"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:HappyTravel.Komoro.Api.Controllers.CancellationPolicyController.Get(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets a list of cancellation policies for the specified property
