@@ -4,7 +4,6 @@ using HappyTravel.EdoContracts.Accommodations.Internals;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Data;
 using HappyTravel.Komoro.Data.Models.Availabilities;
-using HappyTravel.KomoroContracts.Statics;
 using Microsoft.EntityFrameworkCore;
 
 namespace HappyTravel.Komoro.Api.Services.Availabilities;
@@ -59,7 +58,10 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
                     .ToListAsync(cancellationToken);
 
                 var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions.Include(i => i.Property)
-                    .Where(ar => ar.Property.SupplierCode == supplierCode && ar.Property.Code == propertyCode)
+                    .Where(ar => ar.Property.SupplierCode == supplierCode && ar.Property.Code == propertyCode
+                        && (ar.StartDate <= checkInDate && ar.EndDate >= checkOutDate)
+                        || (ar.StartDate <= checkInDate && ar.EndDate < checkOutDate)
+                        || (ar.StartDate > checkInDate && ar.EndDate >= checkOutDate))
                     .ToListAsync(cancellationToken);
 
                 var roomContracts = inventories.Select(i 
