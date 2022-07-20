@@ -87,7 +87,7 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
 
             var accommodationAvailability = new SlimAccommodationAvailability(accommodationId: propertyCode,
                 roomContractSets : roomContractSets,
-                availabilityId: "");    // Need clarify
+                availabilityId: GenerateAvailabilityId());
             accommodationAvailabilities.Add(accommodationAvailability);
 
 
@@ -98,7 +98,7 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
             }
         }
 
-        var availability = new Availability(availabilityId: "", // Need clarify
+        var availability = new Availability(availabilityId: GenerateAvailabilityId(),
             numberOfNights: (request.CheckOutDate - request.CheckInDate).Days, 
             checkInDate: request.CheckInDate, 
             checkOutDate: request.CheckOutDate, 
@@ -171,6 +171,9 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
     {
         return new EdoContracts.General.Rate(); // Need clarify
     }
+
+
+    private static string GenerateAvailabilityId() => Guid.NewGuid().ToString("N");
 
 
     private readonly TimeSpan availabilityLifetime = TimeSpan.FromMinutes(30);
