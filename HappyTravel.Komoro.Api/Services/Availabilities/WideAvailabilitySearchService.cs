@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using HappyTravel.EdoContracts.Accommodations;
 using HappyTravel.EdoContracts.Accommodations.Internals;
+using HappyTravel.EdoContracts.General.Enums;
 using HappyTravel.Komoro.Api.Services.Converters;
 using HappyTravel.Komoro.Data;
 using HappyTravel.Komoro.Data.Models.Availabilities;
@@ -57,7 +58,7 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
                         && r.EndDate >= checkOutDate)   // TODO: Need to clarify after receiving data from the supplier
                     .ToListAsync(cancellationToken);
 
-                var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions.Include(i => i.Property)
+                var availabilityRestrictions = await _komoroContext.AvailabilityRestrictions.Include(i => i.Property)   // TODO: Need clarify
                     .Where(ar => ar.Property.SupplierCode == supplierCode && ar.Property.Code == propertyCode
                         && (ar.StartDate <= checkInDate && ar.EndDate >= checkOutDate)
                         || (ar.StartDate <= checkInDate && ar.EndDate < checkOutDate)
@@ -117,7 +118,7 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
                 ? request.CheckInDate.AddDays(-firstCancellationPolicy.Deadline)
                 : null;
             var policies = cancellationPolicies
-                .Select(cp => new EdoContracts.Accommodations.Internals.CancellationPolicy(fromDate: request.CheckInDate.AddDays(-cp.Deadline), 
+                .Select(cp => new CancellationPolicy(fromDate: request.CheckInDate.AddDays(-cp.Deadline), 
                     percentage: cp.Percentage, 
                     remark: null))
                 .ToList();
@@ -169,7 +170,14 @@ public class WideAvailabilitySearchService : IWideAvailabilitySearchService
 
     private static EdoContracts.General.Rate GetRate(List<RoomContract> roomContracts)
     {
-        return new EdoContracts.General.Rate(); // Need clarify
+        var finalPriceAmount = roomContracts.Sum(rc => rc.Rate.FinalPrice.Amount);
+        var currency = roomContracts.First().Rate.Currency;
+
+        return new EdoContracts.General.Rate(finalPrice: new Money.Models.MoneyAmount(finalPriceAmount, currency), 
+            gross: new Money.Models.MoneyAmount(), 
+            discounts: null, 
+            type: PriceTypes.RoomContractSet, 
+            description: null);
     }
 
 

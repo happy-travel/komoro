@@ -18,10 +18,10 @@ namespace HappyTravel.Komoro.Api.Services.Converters
 
             return new RoomContract(boardBasis: GetBoardBasis(inventory.RatePlanCode),
                 mealPlan: room.MealPlan.Name,
-                contractTypeCode: 0,    // Need clarify
+                contractTypeCode: 0,    // Legacy property, not used in komoro
                 isAvailableImmediately: true,
                 isDynamic: false,
-                contractDescription: "",    // Need clarify
+                contractDescription: room.RoomType.Name,    // Need clarify
                 remarks: new List<KeyValuePair<string, string>>(),
                 dailyRoomRates: dailyRoomRates,
                 rate: GetRate(dailyRoomRates),
