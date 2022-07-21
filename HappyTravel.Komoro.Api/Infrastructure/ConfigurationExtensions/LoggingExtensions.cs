@@ -23,4 +23,13 @@ public static class LoggingExtensions
             builder.Logging.AddSentry();
         }
     }
+
+
+    public static IDisposable AddScopedValue<T>(this ILogger<T> logger, string key, object value)
+    {
+        return logger.BeginScope(new Dictionary<string, object>
+            {
+                { key, value }
+            });
+    }
 }
