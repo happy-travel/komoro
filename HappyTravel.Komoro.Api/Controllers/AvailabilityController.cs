@@ -12,7 +12,7 @@ namespace HappyTravel.Komoro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/{v:apiVersion}/accommodations")]
+    [Route("api/{v:apiVersion}/suppliers/{supplierCode}/accommodations")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AvailabilityController : BaseController
@@ -37,7 +37,7 @@ namespace HappyTravel.Komoro.Api.Controllers
         /// <param name="request">Availability search request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns></returns>
-        [HttpPost("availabilities/suppliers/{supplierCode}")]
+        [HttpPost("availabilities")]
         [ProducesResponseType(typeof(Availability), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromRoute] string supplierCode, [FromBody] AvailabilityRequest request, CancellationToken cancellationToken)
@@ -67,7 +67,7 @@ namespace HappyTravel.Komoro.Api.Controllers
         /// <param name="availabilityId">Availability Id</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns></returns>
-        [HttpPost("{accommodationId}/availabilities/{availabilityId}/suppliers/{supplierCode}")]
+        [HttpPost("{accommodationId}/availabilities/{availabilityId}")]
         [ProducesResponseType(typeof(AccommodationAvailability), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromRoute] string supplierCode, [FromRoute] string accommodationId, [FromRoute] string availabilityId, CancellationToken cancellationToken)
@@ -95,7 +95,7 @@ namespace HappyTravel.Komoro.Api.Controllers
         /// <param name="roomContractSetId">Id of selected room contract set</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("availabilities/{availabilityId}/room-contract-sets/{roomContractSetId}/suppliers/{supplierCode}")]
+        [HttpPost("availabilities/{availabilityId}/room-contract-sets/{roomContractSetId}")]
         [ProducesResponseType(typeof(RoomContractSetAvailability), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromRoute] string supplierCode, [FromRoute] string availabilityId, 
@@ -123,7 +123,7 @@ namespace HappyTravel.Komoro.Api.Controllers
         /// <param name="roomContractSetId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("availabilities/{availabilityId}/room-contract-sets/{roomContractSetId}/deadline/suppliers/{supplierCode}")]
+        [HttpGet("availabilities/{availabilityId}/room-contract-sets/{roomContractSetId}/deadline")]
         [ProducesResponseType(typeof(Deadline), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDeadline([FromRoute] string supplierCode, [FromRoute] string availabilityId, 
