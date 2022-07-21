@@ -12,7 +12,7 @@ namespace HappyTravel.Komoro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/{v:apiVersion}/suppliers/{supplierCode}/accommodations")]
+    [Route("api/{v:apiVersion}/accommodations/suppliers/{supplierCode}")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AvailabilityController : BaseController
